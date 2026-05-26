@@ -1,6 +1,7 @@
 import React from "react";
 import "./header.css";
 import logo from "../assets/images/logo2.png";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
@@ -18,9 +19,11 @@ const Header = () => {
 
           {/* BUTTONS */}
           <div className="header-buttons">
-            <button className="deposit-btn">
-              🏦 Deposit
-            </button>
+            <Link to="/deposit">
+              <button className="deposit-btn">
+                🏦 Deposit
+              </button>
+            </Link>
 
             <button className="withdraw-btn">
               🏛 Withdraw

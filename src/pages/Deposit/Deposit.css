@@ -1,0 +1,287 @@
+/* Deposit.css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.deposit-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #efefef;
+  display: flex;
+  flex-direction: column;
+}
+
+.deposit-page .main-layout {
+  flex: 1;
+}
+
+.deposit-content {
+  flex: 1;
+  padding: 10px;
+  background: #efefef;
+  overflow-x: auto;
+}
+
+/* SIDEBAR */
+
+.left-sidebar {
+  width: 220px;
+  background: #2e3136;
+  color: white;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+.sidebar-logo {
+  text-align: center;
+  padding: 10px;
+}
+
+.sidebar-logo img {
+  width: 50px;
+}
+
+.menu-section {
+  margin-top: 10px;
+}
+
+.menu-title {
+  background: #008fc7;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.menu-item {
+  padding: 7px 12px;
+  border-bottom: 1px solid #444;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.menu-item:hover {
+  background: #1f2125;
+}
+
+.active {
+  background: #1f2125;
+}
+
+/* CONTENT */
+
+.deposit-content {
+  flex: 1;
+  padding: 10px;
+}
+
+.deposit-header {
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 3px;
+}
+
+.deposit-title {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background: #00bfff;
+  border-radius: 50%;
+}
+
+/* RULES */
+
+.rules-box {
+  background: #efefef;
+  border: 1px dashed #999;
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+/* BODY */
+
+.deposit-body {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.left-box {
+  flex: 1;
+}
+
+.account-box {
+  height: 340px;
+  background: #bfc4ca;
+  border-radius: 5px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 50px;
+  color: red;
+  font-size: 13px;
+}
+
+.right-box {
+  width: 45%;
+}
+
+.payment-box {
+  background: white;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.no-account {
+  height: 100px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+  font-size: 12px;
+}
+
+.tabs {
+  display: flex;
+  margin-top: 10px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #999;
+  background: #eee;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.active-tab {
+  background: #002f47 !important;
+  color: white;
+}
+
+.form-group {
+  margin-top: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #c8d0d8;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.amount-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.amount-buttons button {
+  padding: 10px;
+  background: #3d82c7;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.checkbox {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+}
+
+.submit-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #00131d;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* TABLE */
+
+.table-section {
+  background: white;
+  margin-top: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #ddd;
+}
+
+th {
+  padding: 10px;
+  font-size: 12px;
+  text-align: left;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+}
+
+.no-data img {
+  width: 60px;
+  opacity: 0.5;
+}
+
+.no-data p {
+  margin-top: 10px;
+  color: #888;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+  .deposit-body {
+    flex-direction: column;
+  }
+
+  .right-box {
+    width: 100%;
+  }
+
+  .left-sidebar {
+    display: none;
+  }
+}

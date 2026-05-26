@@ -1,8 +1,9 @@
 import React from "react";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import Footer from "../components/Footer";
 import "./home.css";
-
+import img1 from "../assets/images/20_20_poker.webp"; import img2 from "../assets/images/29b.webp"; import img3 from "../assets/images/6pp.webp"; import img4 from "../assets/images/Aviator.png"; import img5 from "../assets/images/dt_mac88.webp"; import img6 from "../assets/images/dt2.webp"; import img7 from "../assets/images/poker_1_day.webp"; import img8 from "../assets/images/roulette_mac88.webp"; import img9 from "../assets/images/sicbo_mac88.webp"; import img10 from "../assets/images/LOBBY.png";
 const Home = () => {
 
   const matches = [
@@ -25,16 +26,7 @@ const Home = () => {
     "Warwickshire W v The Blaze W",
   ];
 
-  const casinoCards = [
-    "https://i.imgur.com/qQZ6G6x.jpeg",
-    "https://i.imgur.com/1uV7KXj.jpeg",
-    "https://i.imgur.com/r9nXW1T.jpeg",
-    "https://i.imgur.com/D7djv8G.jpeg",
-    "https://i.imgur.com/7m8d0W6.jpeg",
-    "https://i.imgur.com/o9M9GQf.jpeg",
-    "https://i.imgur.com/vw0M5Xh.jpeg",
-    "https://i.imgur.com/9vJYxjN.jpeg",
-  ];
+  const casinoCards = [img1, img2, img3, img4, img5, img6, img7, img8, img9, img10];
 
   return (
     <div className="home-page">
@@ -137,6 +129,8 @@ const Home = () => {
         </div>
 
       </div>
+
+      <Footer />
 
     </div>
   );

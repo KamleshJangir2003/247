@@ -5,6 +5,7 @@ import Register from "./pages/Register";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Home from "./pages/Home";
+import Deposit from "./pages/Deposit/Deposit";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/home" element={<Home />} />
 
         {/* Extra Pages */}
+        <Route path="/deposit" element={<Deposit />} />
+
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
 
