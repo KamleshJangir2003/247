@@ -23,7 +23,7 @@
 .slider-img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   display:block;
 }
 
@@ -92,7 +92,7 @@
 
 .latest-title{
   color:#d8c7a1;
-  font-size:28px;
+  font-size:16px;
   font-weight:900;
   padding-left:10px;
   margin-bottom:10px;
@@ -135,7 +135,7 @@
   inset:0;
   background:rgba(0,0,0,0.6);
   color:#fff;
-  font-size:18px;
+  font-size:13px;
   font-weight:700;
   display:flex;
   align-items:center;
@@ -158,7 +158,7 @@
 
 .live-title{
   color:#d8c7a1;
-  font-size:28px;
+  font-size:16px;
   font-weight:900;
   padding:10px;
   text-transform:uppercase;
@@ -195,7 +195,7 @@
   inset:0;
   background:rgba(0,0,0,0.6);
   color:#fff;
-  font-size:18px;
+  font-size:13px;
   font-weight:700;
   display:flex;
   align-items:center;
@@ -219,7 +219,7 @@
 
 .winner-title{
   color:#d8c7a1;
-  font-size:28px;
+  font-size:16px;
   font-weight:900;
   padding:0 10px 15px;
   text-transform:uppercase;
@@ -277,14 +277,14 @@
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:8px;
+  margin-bottom:6px;
   color:#fff;
-  font-size:15px;
+  font-size:12px;
   gap:10px;
 }
 
 .winner-row span{font-weight:700;color:#f1f1f1;}
-.winner-row strong{font-weight:600;color:#fff;font-size:14px;}
+.winner-row strong{font-weight:600;color:#fff;font-size:11px;}
 
 /* ================= TABLET ================= */
 
@@ -312,7 +312,7 @@
 
   .latest-title,
   .live-title,
-  .winner-title{font-size:18px;}
+  .winner-title{font-size:14px;}
 
   .latest-card{
     min-width:140px;

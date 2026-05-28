@@ -45,8 +45,8 @@
 .login-btn,
 .demo-btn{
     border:none;
-    padding:12px 20px;
-    font-size:20px;
+    padding:8px 16px;
+    font-size:13px;
     cursor:pointer;
     font-weight:500;
     transition:0.3s;
@@ -83,10 +83,10 @@
 .upcoming-box{
     background:#0c8d5c;
     color:#fff;
-    font-size:20px;
+    font-size:13px;
     font-weight:700;
-    padding:12px 20px;
-    min-width:150px;
+    padding:10px 16px;
+    min-width:110px;
     text-align:center;
     position:relative;
 }
@@ -121,7 +121,7 @@
 
 .match-item{
     color:#d7d7d7;
-    font-size:22px;
+    font-size:13px;
     white-space:nowrap;
     display:flex;
     flex-direction:column;
@@ -129,7 +129,7 @@
 }
 
 .match-item span{
-    font-size:15px;
+    font-size:11px;
     color:#bdbdbd;
     margin-top:4px;
 }
