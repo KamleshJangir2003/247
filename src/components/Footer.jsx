@@ -1,94 +1,128 @@
 // src/components/Footer.jsx
 
 import React from "react";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaTelegramPlane,
+  FaYoutube,
+  FaWhatsapp,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 import "./footer.css";
 
 const Footer = () => {
   return (
-    <>
+    <footer className="footer">
 
-      {/* TOP SUPPORT BAR */}
-      <div className="support-bar">
+      {/* TOP AREA */}
+      <div className="footer-top">
 
-        <div className="support-center">
+        {/* SUPPORT */}
+        <div className="support-section">
+          <h2>24X7 Support</h2>
+          <p>WhatsApp -</p>
+        </div>
 
-          <span className="support-text">
-            24X7 Support
-          </span>
+        {/* LINKS */}
+        <div className="footer-links">
 
-          <div className="social-icons">
+          <Link to="/about">About Us</Link>
 
-            <div className="social-icon facebook">
-              f
-            </div>
+          <span>•</span>
 
-            <div className="social-icon instagram">
-              ◎
-            </div>
+          <Link to="/terms">Terms and Conditions</Link>
 
-            <div className="social-icon telegram">
-              ✈
-            </div>
+          <span>•</span>
 
-            <div className="social-icon twitter">
-              ✕
-            </div>
+          <Link to="/responsible-gaming">Responsible Gaming</Link>
 
+        </div>
+
+        {/* SOCIAL ICONS */}
+        <div className="social-icons">
+
+          <div className="icon whatsapp">
+            <FaWhatsapp />
+          </div>
+
+          <div className="icon facebook">
+            <FaFacebookF />
+          </div>
+
+          <div className="icon instagram">
+            <FaInstagram />
+          </div>
+
+          <div className="icon telegram">
+            <FaTelegramPlane />
+          </div>
+
+          <div className="icon youtube">
+            <FaYoutube />
           </div>
 
         </div>
 
       </div>
 
-      {/* FOOTER BOTTOM */}
-      <div className="footer-bottom">
+      {/* MIDDLE */}
+      <div className="footer-middle">
 
         {/* LEFT */}
-        <div className="footer-left">
+        <div className="safe-box">
 
-          <div className="safe-logo">
-            🔒
-          </div>
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png"
+            alt="safe"
+          />
 
-          <div className="safe-content">
+          <div>
 
-            <div className="safe-title">
-              100% SAFE
-            </div>
+            <h3>100% SAFE</h3>
 
-            <div className="safe-desc">
+            <p>
               Protected connection and encrypted data.
-            </div>
+            </p>
 
           </div>
 
-        </div>
-
-        {/* CENTER */}
-        <div className="footer-center">
-          © Copyright 2025. All Rights Reserved. Powered by Shiv247.
         </div>
 
         {/* RIGHT */}
-        <div className="footer-right">
+        <div className="footer-badges">
 
-          <div className="footer-badge">
+          <div className="badge red">
             18+
           </div>
 
-          <div className="footer-badge">
+          <div className="badge">
             gc
           </div>
 
-          <div className="footer-badge">
-            gst
+          <div className="badge">
+            gt
           </div>
 
         </div>
 
       </div>
 
-    </>
+      {/* BOTTOM */}
+      <div className="footer-bottom">
+
+        <p>
+          Contact for any query - WhatsApp -
+        </p>
+
+        <h4>
+          © Copyright 2020. All Rights Reserved.
+        </h4>
+
+      </div>
+
+    </footer>
   );
 };
 

@@ -1,156 +1,358 @@
-.home-page {
-  width: 100%;
-  min-height: 100vh;
-  background: #efefef;
+/* ================= BASE ================= */
+
+*{box-sizing:border-box;}
+
+.home-page{
+  width:100%;
+  min-height:100vh;
+  background:#0f1720;
+  overflow-x:hidden;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
-/* MAIN LAYOUT */
+/* ================= IMAGE SLIDER ================= */
 
-.main-layout {
-  display: flex;
+.image-slider{
+  width:100%;
+  height:420px;
+  position:relative;
+  overflow:hidden;
+  background:#000;
 }
 
-/* CONTENT */
-
-.content-area {
-  flex: 1;
-  overflow-x: auto;
-  background: #efefef;
+.slider-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
 
-/* SPORTS TABS */
-
-.sports-tabs {
-  display: flex;
-  overflow-x: auto;
-  background: #dcdcdc;
-  border-bottom: 1px solid #999;
+.slider-arrow{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:45px;
+  height:45px;
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  font-size:28px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  cursor:pointer;
+  z-index:10;
+  transition:0.3s;
 }
 
-.sports-tabs::-webkit-scrollbar {
-  display: none;
+.slider-arrow:hover{background:#00a651;}
+.left-arrow{left:15px;}
+.right-arrow{right:15px;}
+
+.slider-dots{
+  position:absolute;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:10px;
 }
 
-.sports-tab {
-  padding: 12px 20px;
-  background: #d9d9d9;
-  border-right: 1px solid #999;
-  font-size: 14px;
-  white-space: nowrap;
-  cursor: pointer;
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#999;
+  cursor:pointer;
+  transition:0.3s;
 }
 
-.active-tab {
-  background: #0088cc;
-  color: white;
-  font-weight: bold;
+.active-dot{background:#00ff73;}
+
+/* ================= MAIN ================= */
+
+.main-layout{
+  width:100%;
+  display:flex;
 }
 
-/* TABLE */
-
-.match-table {
-  width: 100%;
-  background: #f7f7f7;
+.content-area{
+  width:100%;
+  padding:8px;
 }
 
-/* TABLE HEADER */
+/* ================= OUR LATEST CASINO ================= */
 
-.table-header {
-  display: flex;
-  justify-content: space-between;
-  background: #efefef;
-  border-bottom: 1px solid #c2c2c2;
-  padding: 10px;
-  font-weight: bold;
+.latest-casino-section{
+  width:100%;
+  background:#151d26;
+  padding:10px 0;
+  margin-bottom:15px;
 }
 
-.game-col {
-  width: 70%;
+.latest-title{
+  color:#d8c7a1;
+  font-size:28px;
+  font-weight:900;
+  padding-left:10px;
+  margin-bottom:10px;
+  text-transform:uppercase;
 }
 
-.odds-header {
-  width: 30%;
-  display: flex;
-  justify-content: space-around;
+.latest-casino-slider{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  overflow-x:auto;
+  padding:0 8px;
+  scrollbar-width:none;
 }
 
-/* MATCH ROW */
+.latest-casino-slider::-webkit-scrollbar{display:none;}
 
-.match-row {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #d8d8d8;
-  background: #f5f5f5;
+.latest-card{
+  min-width:190px;
+  height:100px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:0.3s;
+  background:#000;
+  position:relative;
+  flex-shrink:0;
 }
 
-.match-name {
-  width: 70%;
-  padding: 10px;
-  font-size: 14px;
-  color: #222;
+.latest-card:hover{transform:scale(1.03);}
+
+.latest-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
 }
 
-.match-time {
-  color: #666;
-  margin-left: 8px;
+.latest-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:0.3s;
+  letter-spacing:2px;
 }
 
-.odds-section {
-  width: 30%;
-  display: flex;
+.latest-card:hover .latest-overlay{opacity:1;}
+
+/* ================= LIVE CASINO ================= */
+
+.live-casino-section{
+  width:100%;
+  background:#151d26;
+  padding-bottom:10px;
+  margin-bottom:15px;
 }
 
-.blue-box,
-.pink-box {
-  flex: 1;
-  text-align: center;
-  padding: 10px 0;
-  font-weight: bold;
-  font-size: 14px;
-  border-left: 1px solid #fff;
+.live-title{
+  color:#d8c7a1;
+  font-size:28px;
+  font-weight:900;
+  padding:10px;
+  text-transform:uppercase;
 }
 
-.blue-box {
-  background: #72bbef;
+.live-casino-grid{
+  display:grid;
+  grid-template-columns:repeat(8, 1fr);
+  gap:2px;
 }
 
-.pink-box {
-  background: #faa9ba;
+.live-card{
+  overflow:hidden;
+  background:#000;
+  cursor:pointer;
+  transition:0.3s;
+  position:relative;
 }
 
-/* CASINO */
+.live-card:hover{transform:scale(1.03);z-index:2;}
 
-.casino-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2px;
-  margin-top: 10px;
+.live-card img{
+  width:100%;
+  height:115px;
+  object-fit:cover;
+  display:block;
+  transition:0.3s;
 }
 
-.casino-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
+.live-card:hover img{transform:scale(1.05);}
+
+.live-overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  font-size:18px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  transition:0.3s;
+  letter-spacing:2px;
 }
 
-/* MOBILE */
+.live-card:hover .live-overlay{opacity:1;}
 
-@media screen and (max-width: 991px) {
+/* ================= TOP WINNERS ================= */
 
-  .main-layout {
-    flex-direction: column;
+.top-winners-section{
+  width:100%;
+  background:#1b222b;
+  margin-top:15px;
+  padding:15px 0;
+  overflow:hidden;
+}
+
+.winner-title{
+  color:#d8c7a1;
+  font-size:28px;
+  font-weight:900;
+  padding:0 10px 15px;
+  text-transform:uppercase;
+}
+
+.winner-slider{
+  width:100%;
+  overflow:hidden;
+}
+
+.winner-grid{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  width:max-content;
+  animation:winnerScroll 35s linear infinite;
+}
+
+@keyframes winnerScroll{
+  0%{transform:translateX(0);}
+  100%{transform:translateX(calc(-225px * 6));}
+}
+
+.winner-card{
+  min-width:210px;
+  background:#202020;
+  padding:15px 10px;
+  text-align:center;
+  transition:0.3s;
+  border-radius:4px;
+  overflow:hidden;
+  flex-shrink:0;
+}
+
+.winner-card:hover{
+  transform:translateY(-5px);
+  box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+.winner-user{
+  display:flex;
+  justify-content:center;
+  margin-bottom:12px;
+}
+
+.winner-user img{
+  width:90px;
+  height:90px;
+  object-fit:contain;
+}
+
+.winner-details{width:100%;}
+
+.winner-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+  color:#fff;
+  font-size:15px;
+  gap:10px;
+}
+
+.winner-row span{font-weight:700;color:#f1f1f1;}
+.winner-row strong{font-weight:600;color:#fff;font-size:14px;}
+
+/* ================= TABLET ================= */
+
+@media(max-width:1200px){
+  .live-casino-grid{grid-template-columns:repeat(6, 1fr);}
+}
+
+@media(max-width:991px){
+  .image-slider{height:260px;}
+  .live-casino-grid{grid-template-columns:repeat(4, 1fr);}
+  .live-card img{height:100px;}
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:768px){
+
+  .image-slider{height:200px;}
+
+  .slider-arrow{
+    width:32px;
+    height:32px;
+    font-size:18px;
   }
 
-  .match-row {
-    min-width: 900px;
+  .latest-title,
+  .live-title,
+  .winner-title{font-size:18px;}
+
+  .latest-card{
+    min-width:140px;
+    height:80px;
   }
 
-  .table-header {
-    min-width: 900px;
+  .live-casino-grid{grid-template-columns:repeat(3, 1fr);}
+  .live-card img{height:85px;}
+
+  .winner-card{
+    min-width:170px;
+    padding:12px 8px;
   }
 
-  .casino-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .winner-user img{width:70px;height:70px;}
+  .winner-row{font-size:12px;}
+  .winner-row strong{font-size:11px;}
+
+}
+
+@media(max-width:480px){
+
+  .image-slider{height:170px;}
+
+  .slider-arrow{
+    width:28px;
+    height:28px;
+    font-size:16px;
   }
+
+  .latest-card{
+    min-width:120px;
+    height:70px;
+  }
+
+  .live-casino-grid{grid-template-columns:repeat(2, 1fr);}
+  .live-card img{height:80px;}
+
+  .winner-card{min-width:150px;}
+
+  .content-area{padding:5px;}
 
 }

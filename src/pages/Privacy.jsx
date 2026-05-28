@@ -1,14 +1,13 @@
 import React from "react";
-import logo from "../assets/images/logo2.png";
-import "../styles/Auth.css";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 import "../styles/Privacy.css";
-import { Link } from "react-router-dom";
 
 const Privacy = () => {
   return (
-    <div className="auth-page">
-      <img src={logo} alt="logo" className="logo" />
-
+    <div>
+      <Header />
+      <div style={{ display: "flex", justifyContent: "center", padding: "30px 15px", background: "#f4f4f4", minHeight: "80vh" }}>
       <div className="privacy-box">
         <h1>Privacy Policy</h1>
 
@@ -140,10 +139,9 @@ const Privacy = () => {
         <p>If you have any questions about this Privacy Policy, You can contact us:</p>
         <p>By email: <a href="mailto:info@shiv247.com">info@shiv247.com</a></p>
 
-        <div className="privacy-back">
-          <Link to="/">← Back to Login</Link>
-        </div>
       </div>
+      </div>
+      <Footer />
     </div>
   );
 };
