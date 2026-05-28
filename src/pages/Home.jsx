@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import FloatingSocialBar from "../components/FloatingSocialBar";
 import "./home.css";
 
 /* ================= SLIDER IMAGES ================= */
@@ -289,6 +290,10 @@ const Home = () => {
         </div>
 
       </div>
+      
+
+      {/* ================= FLOATING SOCIAL BAR ================= */}
+      <FloatingSocialBar />
 
       {/* ================= FOOTER ================= */}
 

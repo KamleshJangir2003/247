@@ -1,0 +1,105 @@
+.fsb-wrapper {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.fsb-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px 12px 14px;
+  text-decoration: none;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.5px;
+  width: 52px;
+  overflow: hidden;
+  clip-path: polygon(0 0, 100% 0, 88% 100%, 0 100%);
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Glossy shine overlay */
+.fsb-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.22) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
+}
+
+.fsb-btn .fsb-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  min-width: 22px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+
+.fsb-btn span {
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.25s 0.05s, transform 0.25s 0.05s;
+  font-size: 12px;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.fsb-btn:hover {
+  width: 148px;
+  box-shadow: 4px 0 18px rgba(0,0,0,0.45);
+}
+
+.fsb-btn:hover span {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* WhatsApp */
+.fsb-whatsapp {
+  background: linear-gradient(135deg, #1ebe57 0%, #128c3e 100%);
+  box-shadow: 2px 2px 8px rgba(18,140,62,0.5);
+}
+.fsb-whatsapp:hover {
+  background: linear-gradient(135deg, #25d366 0%, #1aad4e 100%);
+}
+
+/* Telegram */
+.fsb-telegram {
+  background: linear-gradient(135deg, #34aadf 0%, #1a7fb5 100%);
+  box-shadow: 2px 2px 8px rgba(26,127,181,0.5);
+}
+.fsb-telegram:hover {
+  background: linear-gradient(135deg, #54c4f5 0%, #229ed9 100%);
+}
+
+/* Support */
+.fsb-support {
+  background: linear-gradient(135deg, #1a3a6e 0%, #0d1f3c 100%);
+  box-shadow: 2px 2px 8px rgba(13,31,60,0.6);
+}
+.fsb-support:hover {
+  background: linear-gradient(135deg, #2a5298 0%, #1a3a6e 100%);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .fsb-btn {
+    padding: 10px 14px 10px 10px;
+    width: 44px;
+  }
+  .fsb-btn .fsb-icon {
+    font-size: 17px;
+  }
+  .fsb-btn:hover {
+    width: 130px;
+  }
+}
