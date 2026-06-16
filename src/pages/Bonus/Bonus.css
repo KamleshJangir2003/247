@@ -1,0 +1,16 @@
+.bonus-page { width:100%; min-height:100vh; background:#efefef; display:flex; flex-direction:column; }
+.bonus-page .main-layout { flex:1; display:flex; }
+.bonus-content { flex:1; padding:10px; }
+.bonus-header { background:#333; color:#fff; padding:8px 12px; border-radius:3px; font-size:14px; font-weight:bold; display:flex; align-items:center; gap:8px; margin-bottom:12px; }
+.b-dot { width:10px; height:10px; background:#f0c040; border-radius:50%; display:inline-block; }
+.bonus-grid { display:flex; flex-direction:column; gap:10px; }
+.bonus-card { background:#fff; border-radius:6px; padding:15px; display:flex; align-items:flex-start; gap:15px; position:relative; border-left:4px solid #00a651; }
+.bonus-card.inactive { border-left-color:#ccc; opacity:0.7; }
+.bonus-icon { font-size:36px; flex-shrink:0; }
+.bonus-info { flex:1; }
+.bonus-title { font-size:15px; font-weight:700; margin-bottom:4px; }
+.bonus-desc  { font-size:12px; color:#555; margin-bottom:6px; }
+.bonus-expiry { font-size:11px; color:#888; }
+.bonus-badge { position:absolute; top:12px; right:12px; padding:3px 10px; border-radius:10px; font-size:11px; font-weight:bold; }
+.bonus-badge.active   { background:#d4edda; color:#155724; }
+.bonus-badge.inactive { background:#f8d7da; color:#721c24; }

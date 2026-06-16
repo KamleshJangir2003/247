@@ -1,0 +1,155 @@
+/* ===== SIDEBAR ROOT ===== */
+.ds-root {
+  width: 100%;
+  padding: 8px 0 16px;
+  position: relative;
+}
+
+/* CLOSE BTN */
+.ds-close {
+  display: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #718096;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px;
+}
+.ds-close:hover { color: #f56565; }
+
+/* SECTION HEADER */
+.ds-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #4a5568;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+}
+.ds-section-header:hover { color: #718096; }
+.ds-section-header svg { font-size: 10px; }
+
+/* ITEMS */
+.ds-items { padding: 2px 0; }
+
+.ds-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+  border-left: 3px solid transparent;
+  position: relative;
+}
+.ds-item:hover { background: #111827; }
+.ds-item--active {
+  background: #0d1f0d;
+  border-left-color: #00e676;
+}
+.ds-item--active .ds-item-label { color: #00e676; }
+.ds-item--active .ds-item-icon { color: #00e676; }
+
+.ds-item-icon {
+  font-size: 15px;
+  color: #718096;
+  width: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+.ds-item:hover .ds-item-icon { color: #a0aec0; }
+
+.ds-item-label {
+  font-size: 13px;
+  color: #a0aec0;
+  flex: 1;
+  transition: color 0.15s;
+}
+.ds-item:hover .ds-item-label { color: #e0e0e0; }
+
+.ds-count {
+  font-size: 11px;
+  color: #4a5568;
+  background: #1a2332;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.ds-badge {
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.ds-badge--live {
+  background: #f56565;
+  color: #fff;
+  animation: badgePulse 1.5s infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* DIVIDER */
+.ds-divider {
+  height: 1px;
+  background: #1e2d3d;
+  margin: 8px 14px;
+}
+
+/* PROMO BANNER */
+.ds-promo {
+  margin: 16px 10px 0;
+  background: linear-gradient(135deg, #0d2b1a, #1a3a2a);
+  border: 1px solid #1e4d30;
+  border-radius: 8px;
+  padding: 14px 12px;
+  text-align: center;
+}
+
+.ds-promo-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #f6c90e;
+  margin-bottom: 4px;
+}
+
+.ds-promo-text {
+  font-size: 11px;
+  color: #a0aec0;
+  margin-bottom: 10px;
+}
+
+.ds-promo-btn {
+  background: linear-gradient(135deg, #00e676, #00b248);
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+.ds-promo-btn:hover { opacity: 0.85; }
+
+/* RESPONSIVE */
+@media (max-width: 991px) {
+  .ds-close { display: block; }
+}

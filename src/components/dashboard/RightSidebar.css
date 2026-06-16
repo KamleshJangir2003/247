@@ -1,0 +1,185 @@
+/* ===== RIGHT SIDEBAR ===== */
+.rs-root {
+  width: 100%;
+  padding: 10px 0 20px;
+}
+
+/* SECTION */
+.rs-section {
+  margin-bottom: 16px;
+  padding: 0 10px;
+}
+
+.rs-section-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 0 8px;
+  border-bottom: 1px solid #1e2d3d;
+  margin-bottom: 8px;
+}
+
+.rs-title-icon { font-size: 13px; }
+.rs-title-icon--gold   { color: #f6c90e; }
+.rs-title-icon--purple { color: #b794f4; }
+.rs-title-icon--red    { color: #f56565; }
+
+/* WINNERS */
+.rs-winners { display: flex; flex-direction: column; gap: 4px; }
+
+.rs-winner-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  background: #111827;
+  border-radius: 6px;
+  border: 1px solid #1e2d3d;
+  transition: background 0.15s;
+}
+.rs-winner-card:hover { background: #1a2332; }
+
+.rs-winner-rank {
+  font-size: 11px;
+  font-weight: 800;
+  color: #f6c90e;
+  width: 18px;
+  flex-shrink: 0;
+}
+
+.rs-winner-info { flex: 1; min-width: 0; }
+
+.rs-winner-user {
+  font-size: 12px;
+  font-weight: 700;
+  color: #e0e0e0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rs-winner-game {
+  font-size: 10px;
+  color: #4a5568;
+  margin-top: 1px;
+}
+
+.rs-winner-amount {
+  font-size: 11px;
+  font-weight: 700;
+  color: #00e676;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* BONUS */
+.rs-bonus {
+  margin: 0 10px 16px;
+  background: linear-gradient(135deg, #0d2b1a, #1a3a2a);
+  border: 1px solid #1e4d30;
+  border-radius: 8px;
+  padding: 14px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rs-bonus-icon {
+  font-size: 28px;
+  color: #f6c90e;
+  flex-shrink: 0;
+}
+
+.rs-bonus-content { flex: 1; }
+
+.rs-bonus-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #f6c90e;
+  margin-bottom: 2px;
+}
+
+.rs-bonus-amount {
+  font-size: 11px;
+  color: #a0aec0;
+  margin-bottom: 8px;
+}
+
+.rs-bonus-btn {
+  background: linear-gradient(135deg, #00e676, #00b248);
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+.rs-bonus-btn:hover { opacity: 0.85; }
+
+/* CASINO GRID */
+.rs-casino-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.rs-casino-card {
+  background: #111827;
+  border: 1px solid #1e2d3d;
+  border-radius: 6px;
+  padding: 10px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+.rs-casino-card:hover { background: #1a2332; transform: translateY(-2px); }
+
+.rs-casino-emoji { font-size: 22px; margin-bottom: 4px; }
+
+.rs-casino-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #a0aec0;
+}
+
+.rs-casino-tag {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 8px;
+  font-weight: 800;
+  color: #fff;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.5px;
+}
+
+/* TRENDING */
+.rs-trending { display: flex; flex-direction: column; gap: 4px; }
+
+.rs-trend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  background: #111827;
+  border-radius: 5px;
+  border: 1px solid #1e2d3d;
+  font-size: 11px;
+  color: #a0aec0;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.rs-trend-item:hover { background: #1a2332; color: #e0e0e0; }
+
+.rs-trend-star { color: #f6c90e; font-size: 10px; flex-shrink: 0; }

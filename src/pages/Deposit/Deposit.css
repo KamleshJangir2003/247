@@ -240,6 +240,14 @@
   overflow: hidden;
 }
 
+.table-title {
+  background: #333;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -255,20 +263,55 @@ th {
   text-align: left;
 }
 
-.no-data {
-  text-align: center;
-  padding: 40px;
+tbody tr {
+  border-bottom: 1px solid #eee;
 }
 
-.no-data img {
-  width: 60px;
-  opacity: 0.5;
+tbody td {
+  padding: 10px;
+  font-size: 12px;
 }
 
-.no-data p {
+tbody tr:hover { background: #f9f9f9; }
+
+.status-badge {
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.status-badge.pending  { background: #fff3cd; color: #856404; }
+.status-badge.approved { background: #d4edda; color: #155724; }
+.status-badge.rejected { background: #f8d7da; color: #721c24; }
+
+/* MESSAGE */
+
+.dep-msg {
+  padding: 10px 15px;
+  border-radius: 4px;
   margin-top: 10px;
-  color: #888;
+  font-size: 13px;
+  font-weight: 600;
 }
+
+.dep-msg.success { background: #d4edda; color: #155724; }
+.dep-msg.error   { background: #f8d7da; color: #721c24; }
+
+/* QR PLACEHOLDER */
+
+.qr-placeholder {
+  text-align: center;
+  padding: 20px;
+  color: #333;
+}
+
+.qr-icon { font-size: 36px; margin-bottom: 8px; }
+.qr-upi  { font-size: 16px; font-weight: bold; color: #00a651; margin: 5px 0; }
+.qr-note { font-size: 12px; color: #666; margin-bottom: 10px; }
+.qr-img img { border: 2px solid #ddd; border-radius: 8px; }
+
+.file-name { font-size: 11px; color: #00a651; display: block; margin-top: 4px; }
 
 /* RESPONSIVE */
 

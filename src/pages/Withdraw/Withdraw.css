@@ -1,0 +1,212 @@
+.withdraw-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #efefef;
+  display: flex;
+  flex-direction: column;
+}
+
+.withdraw-page .main-layout {
+  flex: 1;
+  display: flex;
+}
+
+.withdraw-content {
+  flex: 1;
+  padding: 10px;
+  background: #efefef;
+  overflow-x: auto;
+}
+
+.withdraw-header {
+  background: #333;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.withdraw-title {
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.wdot {
+  width: 10px;
+  height: 10px;
+  background: #e65c00;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.withdraw-balance {
+  font-size: 13px;
+  color: #00ff73;
+}
+
+.wd-msg {
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.wd-msg.success { background: #d4edda; color: #155724; }
+.wd-msg.error   { background: #f8d7da; color: #721c24; }
+
+.rules-box {
+  background: #efefef;
+  border: 1px dashed #999;
+  padding: 15px;
+  margin-top: 10px;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.wd-body {
+  background: white;
+  border-radius: 5px;
+  padding: 15px;
+  margin-top: 10px;
+}
+
+.wd-methods {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.wd-method-btn {
+  padding: 8px 18px;
+  border: 1px solid #ccc;
+  background: #eee;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.wd-method-btn.active {
+  background: #002f47;
+  color: white;
+  border-color: #002f47;
+}
+
+.wd-form-wrap {
+  max-width: 500px;
+}
+
+.wd-form-group {
+  margin-bottom: 12px;
+}
+
+.wd-form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.wd-form-group input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #c8d0d8;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.wd-amount-btns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.wd-amount-btns button {
+  padding: 10px;
+  background: #e65c00;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.wd-amount-btns button:hover { background: #cc5200; }
+
+.wd-checkbox {
+  display: flex;
+  gap: 10px;
+  font-size: 11px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.wd-submit-btn {
+  width: 100%;
+  padding: 12px;
+  background: #00131d;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+.wd-submit-btn:hover { background: #e65c00; }
+
+/* TABLE */
+
+.wd-table-section {
+  background: white;
+  margin-top: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.wd-table-title {
+  background: #333;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+table { width: 100%; border-collapse: collapse; }
+thead { background: #ddd; }
+th { padding: 10px; font-size: 12px; text-align: left; }
+tbody tr { border-bottom: 1px solid #eee; }
+tbody td { padding: 10px; font-size: 12px; }
+tbody tr:hover { background: #f9f9f9; }
+
+.wd-status {
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.wd-status.pending  { background: #fff3cd; color: #856404; }
+.wd-status.approved { background: #d4edda; color: #155724; }
+.wd-status.rejected { background: #f8d7da; color: #721c24; }
+
+.no-data { text-align: center; padding: 40px; }
+.no-data img { width: 60px; opacity: 0.5; }
+.no-data p { margin-top: 10px; color: #888; }
+
+@media (max-width: 768px) {
+  .wd-form-wrap { max-width: 100%; }
+  .withdraw-header { flex-direction: column; gap: 5px; align-items: flex-start; }
+}

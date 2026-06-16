@@ -1,0 +1,71 @@
+/* ===== SPORTSBOOK SIDEBAR ===== */
+.sbs-root {
+  width: 100%;
+  background: #151515;
+  padding-bottom: 20px;
+}
+
+/* SECTION TITLE */
+.sbs-sec-title {
+  background: #008b5b;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-bottom: 1px solid #006b45;
+  letter-spacing: 0.5px;
+  user-select: none;
+}
+.sbs-sec-title:hover { background: #007a50; }
+
+.sbs-arrow {
+  font-size: 8px;
+  color: #ccffcc;
+}
+
+/* ITEM */
+.sbs-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px 5px 10px;
+  border-bottom: 1px solid #1e1e1e;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.sbs-item:hover { background: #1e1e1e; }
+.sbs-item-active {
+  background: #1e2e1e;
+  border-left: 3px solid #008b5b;
+}
+
+.sbs-icon {
+  font-size: 12px;
+  width: 16px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sbs-label {
+  font-size: 11px;
+  color: #cccccc;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sbs-item-active .sbs-label { color: #ffffff; }
+
+.sbs-count {
+  font-size: 10px;
+  background: #008b5b;
+  color: #fff;
+  padding: 0 5px;
+  border-radius: 2px;
+  font-weight: bold;
+  flex-shrink: 0;
+}

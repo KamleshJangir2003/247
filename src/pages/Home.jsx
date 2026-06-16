@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FloatingSocialBar from "../components/FloatingSocialBar";
+import GameModal from "../components/livecasino/GameModal";
 import "./home.css";
 
 /* ================= SLIDER IMAGES ================= */
@@ -39,40 +41,40 @@ const sliderImages = [
   slide7,
 ];
 
+/* ── All games with proper names mapped to images + routes ── */
+const allGames = [
+  { name: "20-20 Poker",      img: img1,  badge: "LIVE", route: "/live-casino" },
+  { name: "29 Card Baccarat", img: img2,  badge: "LIVE", route: "/live-casino" },
+  { name: "6 Player Poker",   img: img3,  badge: "LIVE", route: "/live-casino" },
+  { name: "Aviator",          img: img4,  badge: "HOT",  route: "/slot" },
+  { name: "Dragon Tiger",     img: img5,  badge: "LIVE", route: "/live-casino" },
+  { name: "Dragon Tiger 2",   img: img6,  badge: "LIVE", route: "/live-casino" },
+  { name: "Poker 1 Day",      img: img7,  badge: "LIVE", route: "/live-casino" },
+  { name: "Roulette",         img: img8,  badge: "LIVE", route: "/live-casino" },
+  { name: "Sic Bo",           img: img9,  badge: "LIVE", route: "/live-casino" },
+  { name: "Casino Lobby",     img: img10, badge: "LIVE", route: "/live-casino" },
+];
+
+const navSections = [
+  { label: "Live Casino",   route: "/live-casino",   icon: "🎰" },
+  { label: "Sportsbook",    route: "/sportsbook1",   icon: "⚽" },
+  { label: "Exchange",      route: "/exchange",      icon: "🔄" },
+  { label: "Slot Games",    route: "/slot",          icon: "🎰" },
+  { label: "Lottery",       route: "/lottery",       icon: "🎟️" },
+  { label: "Fantasy Games", route: "/fantasy-games", icon: "🏆" },
+];
+
 const Home = () => {
-
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
-
-  /* ================= AUTO SLIDER ================= */
+  const [activeGame, setActiveGame] = useState(null);
 
   useEffect(() => {
-
     const timer = setInterval(() => {
-
-      setCurrentSlide(
-        (prev) => (prev + 1) % sliderImages.length
-      );
-
+      setCurrentSlide((prev) => (prev + 1) % sliderImages.length);
     }, 3000);
-
     return () => clearInterval(timer);
-
   }, []);
-
-  /* ================= CASINO CARDS ================= */
-
-  const casinoCards = [
-    img1,
-    img2,
-    img3,
-    img4,
-    img5,
-    img6,
-    img7,
-    img8,
-    img9,
-    img10,
-  ];
 
   return (
 
@@ -154,6 +156,16 @@ const Home = () => {
 
         <div className="content-area">
 
+          {/* ================= GAME CATEGORY NAV ================= */}
+          <div className="home-cat-nav">
+            {navSections.map((s) => (
+              <div key={s.route} className="home-cat-btn" onClick={() => navigate(s.route)}>
+                <span>{s.icon}</span>
+                <span>{s.label}</span>
+              </div>
+            ))}
+          </div>
+
           {/* ================= OUR LATEST CASINO ================= */}
 
           <div className="latest-casino-section">
@@ -163,21 +175,18 @@ const Home = () => {
             </div>
 
             <div className="latest-casino-slider">
-
               {
-                casinoCards.map((img, index) => (
-
+                allGames.map((game, index) => (
                   <div
                     className="latest-card"
                     key={index}
+                    onClick={() => navigate(game.route)}
                   >
-                    <img src={img} alt="" />
-                    <div className="latest-overlay">LOGIN</div>
+                    <img src={game.img} alt={game.name} />
+                    <div className="latest-overlay">▶ PLAY</div>
                   </div>
-
                 ))
               }
-
             </div>
 
           </div>
@@ -191,36 +200,18 @@ const Home = () => {
             </div>
 
             <div className="live-casino-grid">
-
               {
-                [
-                  ...casinoCards,
-                  ...casinoCards,
-                  ...casinoCards,
-                  ...casinoCards,
-                  ...casinoCards,
-                ].map((img, index) => (
-
+                [...allGames, ...allGames, ...allGames, ...allGames, ...allGames].map((game, index) => (
                   <div
                     className="live-card"
                     key={index}
+                    onClick={() => navigate(game.route)}
                   >
-
-                    {/* IMAGE */}
-
-                    <img src={img} alt="" />
-
-                    {/* HOVER LOGIN */}
-
-                    <div className="live-overlay">
-                      LOGIN
-                    </div>
-
+                    <img src={game.img} alt={game.name} />
+                    <div className="live-overlay">▶ PLAY</div>
                   </div>
-
                 ))
               }
-
             </div>
 
           </div>
@@ -291,6 +282,10 @@ const Home = () => {
 
       </div>
       
+
+      {activeGame && (
+        <GameModal game={activeGame} onClose={() => setActiveGame(null)} />
+      )}
 
       {/* ================= FLOATING SOCIAL BAR ================= */}
       <FloatingSocialBar />

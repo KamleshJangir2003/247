@@ -1,0 +1,130 @@
+.top-nav {
+  width: 100%;
+  background: #1a1a2e;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 2px solid #e2b94b;
+  overflow: visible;
+  scrollbar-width: none;
+  position: relative;
+  z-index: 1000;
+}
+.top-nav::-webkit-scrollbar { display: none; }
+
+.top-nav-item {
+  color: #ffffff;
+  text-decoration: none;
+  padding: 9px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-right: 1px solid #2a2a4a;
+  transition: background 0.2s, color 0.2s;
+}
+.top-nav-item:hover,
+.top-nav-active {
+  background: #008b5b;
+  color: #fff;
+}
+
+/* RIGHT SIDE */
+
+.top-nav-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  flex-shrink: 0;
+}
+
+.top-nav-balance {
+  background: #0d3d2a;
+  color: #00ff73;
+  padding: 5px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.top-nav-deposit {
+  background: #00a651;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+.top-nav-deposit:hover { background: #008f45; }
+
+.top-nav-withdraw {
+  background: #e65c00;
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: 0.2s;
+}
+.top-nav-withdraw:hover { background: #cc5200; }
+
+.top-nav-user {
+  position: relative;
+  padding: 2px 6px;
+  z-index: 1001;
+}
+
+.top-nav-user-icon {
+  font-size: 22px;
+  cursor: pointer;
+  user-select: none;
+  color: #fff;
+}
+
+.top-nav-dropdown {
+  position: absolute;
+  top: 38px;
+  right: 0;
+  background: #1e2a38;
+  border: 1px solid #2a3a4a;
+  border-radius: 6px;
+  min-width: 200px;
+  z-index: 9999;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  overflow: visible;
+}
+
+.top-nav-dropdown div {
+  padding: 10px 15px;
+  color: #d8c7a1;
+  font-size: 13px;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+}
+
+.top-nav-dropdown div:hover {
+  background: #00a651;
+  color: #fff;
+}
+
+.top-nav-logout:hover {
+  background: #c0392b !important;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .top-nav-balance { display: none; }
+  .top-nav-deposit, .top-nav-withdraw { padding: 5px 10px; font-size: 11px; }
+}

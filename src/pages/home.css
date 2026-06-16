@@ -81,6 +81,47 @@
   padding:8px;
 }
 
+/* ================= GAME CATEGORY NAV ================= */
+
+.home-cat-nav{
+  display:flex;
+  gap:8px;
+  padding:10px 8px;
+  background:#151d26;
+  overflow-x:auto;
+  scrollbar-width:none;
+  margin-bottom:4px;
+}
+
+.home-cat-nav::-webkit-scrollbar{display:none;}
+
+.home-cat-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  min-width:90px;
+  padding:10px 12px;
+  background:#1e2a38;
+  color:#d8c7a1;
+  font-size:12px;
+  font-weight:700;
+  border-radius:6px;
+  cursor:pointer;
+  transition:0.2s;
+  white-space:nowrap;
+  text-transform:uppercase;
+  border:1px solid #2a3a4a;
+}
+
+.home-cat-btn span:first-child{font-size:20px;}
+
+.home-cat-btn:hover{
+  background:#00a651;
+  color:#fff;
+  border-color:#00a651;
+}
+
 /* ================= OUR LATEST CASINO ================= */
 
 .latest-casino-section{

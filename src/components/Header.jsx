@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "./header.css";
 import logo from "../assets/images/logo2.png";
-import { Link } from "react-router-dom";
-import { FaMoon } from "react-icons/fa";
+import { Link, useNavigate } from "react-router-dom";
+import { FaMoon, FaUserCircle, FaWallet } from "react-icons/fa";
 
 const Header = () => {
+  const navigate = useNavigate();
+  // Simulate logged-in state (in real app this comes from auth context)
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [balance] = useState(5000);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+
   return (
     <>
       {/* TOP HEADER */}
@@ -12,7 +18,9 @@ const Header = () => {
 
         {/* LOGO */}
         <div className="logo-section">
-          <img src={logo} alt="logo" className="main-logo" />
+          <Link to="/home">
+            <img src={logo} alt="logo" className="main-logo" />
+          </Link>
         </div>
 
         {/* RIGHT SIDE */}
@@ -23,19 +31,51 @@ const Header = () => {
             <FaMoon />
           </div>
 
-          {/* LOGIN BUTTON */}
-          <Link to="/login">
-            <button className="login-btn">
-              Login
-            </button>
-          </Link>
+          {isLoggedIn ? (
+            <>
+              {/* BALANCE */}
+              <div className="header-balance">
+                <FaWallet style={{ marginRight: 5 }} />
+                ₹{balance.toLocaleString("en-IN")}
+              </div>
 
-          {/* DEMO BUTTON */}
-          <Link to="/demo">
-            <button className="demo-btn">
-              Demo
-            </button>
-          </Link>
+              {/* DEPOSIT BUTTON */}
+              <button className="deposit-btn" onClick={() => navigate("/deposit")}>
+                Deposit
+              </button>
+
+              {/* WITHDRAW BUTTON */}
+              <button className="withdraw-btn" onClick={() => navigate("/withdraw")}>
+                Withdraw
+              </button>
+
+              {/* USER MENU */}
+              <div className="user-menu-wrap" onClick={() => setShowUserMenu(!showUserMenu)}>
+                <FaUserCircle className="user-icon" />
+                {showUserMenu && (
+                  <div className="user-dropdown">
+                    <div onClick={() => navigate("/deposit")}>💰 Deposit</div>
+                    <div onClick={() => navigate("/withdraw")}>💸 Withdraw</div>
+                    <div onClick={() => setIsLoggedIn(false)}>🚪 Logout</div>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+              {/* LOGIN BUTTON */}
+              <button className="login-btn" onClick={() => { setIsLoggedIn(true); navigate("/home"); }}>
+                Login
+              </button>
+
+              {/* DEMO BUTTON */}
+              <Link to="/dashboard">
+                <button className="demo-btn">
+                  Demo
+                </button>
+              </Link>
+            </>
+          )}
 
         </div>
 

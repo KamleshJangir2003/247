@@ -1,0 +1,312 @@
+/* ===== ODDS TABLE ===== */
+.sbot-root {
+  width: 100%;
+  background: #111111;
+}
+
+/* SECTION HEADER */
+.sbot-sec-hdr {
+  background: #1a1a1a;
+  border-top: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sbot-sec-title {
+  font-size: 11px;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.sbot-sec-count {
+  font-size: 10px;
+  color: #888888;
+  background: #2a2a2a;
+  padding: 1px 6px;
+}
+
+/* TABLE */
+.sbot-table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+/* THEAD */
+.sbot-thead-row {
+  background: #1a3a5c;
+}
+
+.sbot-th-match {
+  text-align: left;
+  padding: 5px 10px;
+  font-size: 11px;
+  color: #aaccee;
+  font-weight: bold;
+  border-right: 1px solid #0d2a4a;
+  width: 38%;
+}
+
+.sbot-th-odds {
+  text-align: center;
+  padding: 4px 2px;
+  width: 7.75%;
+  border-right: 1px solid #0d2a4a;
+}
+
+.sbot-th-back {
+  display: inline-block;
+  background: #72bbef;
+  color: #000000;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 8px;
+}
+
+.sbot-th-lay {
+  display: inline-block;
+  background: #f6a9c8;
+  color: #000000;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 8px;
+}
+
+.sbot-thead-sub {
+  background: #0d2a4a;
+}
+
+.sbot-th-team {
+  text-align: center;
+  font-size: 10px;
+  color: #7799bb;
+  padding: 3px 4px;
+  border-right: 1px solid #0a1e36;
+  font-weight: normal;
+}
+
+/* SPORT ROW */
+.sbot-sport-row { background: #1a1a1a; }
+.sbot-sport-cell {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #008b5b;
+  border-top: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+  letter-spacing: 0.5px;
+}
+
+/* MATCH ROW */
+.sbot-row {
+  border-bottom: 1px solid #1e1e1e;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.sbot-row-even { background: #141414; }
+.sbot-row-odd  { background: #111111; }
+.sbot-row:hover { background: #1a2a1a !important; }
+.sbot-row-live { border-left: 3px solid #cc0000; }
+
+/* MATCH INFO CELL */
+.sbot-td-match {
+  padding: 6px 10px;
+  vertical-align: middle;
+  border-right: 1px solid #1e1e1e;
+}
+
+.sbot-match-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 3px;
+  flex-wrap: wrap;
+}
+
+.sbot-live-badge {
+  font-size: 9px;
+  font-weight: bold;
+  color: #ff4444;
+  animation: liveBlink 1s infinite;
+}
+
+@keyframes liveBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.sbot-league {
+  font-size: 10px;
+  color: #888888;
+}
+
+.sbot-time {
+  font-size: 10px;
+  color: #666666;
+  margin-left: auto;
+}
+
+.sbot-teams {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sbot-team1,
+.sbot-team2 {
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+}
+
+.sbot-vs {
+  font-size: 10px;
+  color: #555555;
+  flex-shrink: 0;
+}
+
+.sbot-score {
+  font-size: 10px;
+  color: #f6c90e;
+  margin-top: 2px;
+}
+
+/* ODDS CELLS */
+.sbot-odds-cell {
+  text-align: center;
+  padding: 0;
+  border-right: 1px solid #1e1e1e;
+  cursor: pointer;
+  transition: filter 0.1s;
+  vertical-align: middle;
+  height: 44px;
+}
+.sbot-odds-cell:hover { filter: brightness(1.2); }
+.sbot-flash { filter: brightness(1.5) !important; }
+
+.sbot-back  { background: #72bbef; }
+.sbot-back2 { background: #5aabdf; }
+.sbot-lay   { background: #f6a9c8; }
+.sbot-lay2  { background: #e699b8; }
+
+.sbot-odds-val {
+  font-size: 13px;
+  font-weight: bold;
+  color: #000000;
+  line-height: 1.2;
+}
+
+.sbot-odds-size {
+  font-size: 9px;
+  color: #333333;
+  line-height: 1;
+}
+
+/* EXPANDED ROW */
+.sbot-exp-row { background: #0a0a0a; }
+.sbot-exp-td {
+  padding: 10px 14px;
+  border-bottom: 2px solid #008b5b;
+}
+
+.sbot-exp-inner {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sbot-exp-col { flex: 1; min-width: 200px; }
+
+.sbot-exp-title {
+  font-size: 11px;
+  font-weight: bold;
+  color: #aaaaaa;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.sbot-exp-odds-row {
+  display: flex;
+  gap: 4px;
+}
+
+.sbot-exp-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.sbot-exp-lbl {
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 5px;
+  margin-right: 2px;
+}
+.sbot-exp-lbl-back { background: #72bbef; color: #000; }
+.sbot-exp-lbl-lay  { background: #f6a9c8; color: #000; }
+
+.sbot-exp-cell {
+  text-align: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: filter 0.1s;
+  min-width: 52px;
+}
+.sbot-exp-cell:hover { filter: brightness(1.2); }
+.sbot-exp-back { background: #72bbef; }
+.sbot-exp-lay  { background: #f6a9c8; }
+
+.sbot-exp-cell div:first-child {
+  font-size: 12px;
+  font-weight: bold;
+  color: #000000;
+}
+
+.sbot-exp-sz {
+  font-size: 9px;
+  color: #333333;
+}
+
+/* EMPTY STATE */
+.sbot-empty {
+  padding: 40px 20px;
+  text-align: center;
+  background: #111111;
+  border-bottom: 1px solid #2a2a2a;
+}
+.sbot-empty-icon { font-size: 36px; margin-bottom: 10px; }
+.sbot-empty-text { font-size: 13px; color: #aaaaaa; margin-bottom: 4px; }
+.sbot-empty-sub  { font-size: 11px; color: #555555; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .sbot-th-match { width: 45%; }
+  .sbot-th-odds  { width: 6.875%; }
+  .sbot-team1,
+  .sbot-team2    { max-width: 80px; font-size: 11px; }
+}
+
+@media (max-width: 600px) {
+  /* Hide 2nd back/lay columns on mobile */
+  .sbot-table th:nth-child(3),
+  .sbot-table th:nth-child(5),
+  .sbot-table th:nth-child(7),
+  .sbot-table th:nth-child(9),
+  .sbot-table td:nth-child(3),
+  .sbot-table td:nth-child(5),
+  .sbot-table td:nth-child(7),
+  .sbot-table td:nth-child(9) { display: none; }
+  .sbot-th-match { width: 50%; }
+  .sbot-team1,
+  .sbot-team2    { max-width: 65px; font-size: 10px; }
+  .sbot-odds-val { font-size: 11px; }
+}

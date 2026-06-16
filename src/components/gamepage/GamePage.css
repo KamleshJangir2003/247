@@ -1,0 +1,307 @@
+.gpage-wrap {
+  min-height: 100vh;
+  background: #111111;
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── TOP NAV ── */
+.gpage-topnav {
+  background: #151515;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #222;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.gpage-topnav::-webkit-scrollbar { display: none; }
+
+.gpage-topnav a {
+  color: #ccc;
+  text-decoration: none;
+  padding: 9px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-right: 1px solid #222;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.gpage-topnav a:hover,
+.gpage-topnav a.gpage-active {
+  background: #008b5b;
+  color: #fff;
+}
+
+/* ── PAGE TITLE BAR ── */
+.gpage-titlebar {
+  background: #0d0d0d;
+  border-bottom: 2px solid #008b5b;
+  padding: 7px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.gpage-titlebar-dot {
+  width: 8px;
+  height: 8px;
+  background: #008b5b;
+  border-radius: 50%;
+}
+.gpage-titlebar-text {
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.gpage-titlebar-count {
+  color: #008b5b;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+/* ── BODY ── */
+.gpage-body {
+  display: flex;
+  flex: 1;
+}
+
+/* ── SIDEBAR ── */
+.gpage-sidebar {
+  width: 140px;
+  min-width: 140px;
+  background: #151515;
+  border-right: 1px solid #222;
+  padding: 6px 0;
+}
+.gpage-sidebar-title {
+  color: #666;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 6px 10px 6px;
+  border-bottom: 1px solid #1e1e1e;
+  margin-bottom: 4px;
+}
+.gpage-sidebar-btn {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  color: #bbb;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: left;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.gpage-sidebar-btn:hover,
+.gpage-sidebar-btn.active {
+  background: #1e1e1e;
+  color: #fff;
+  border-left-color: #008b5b;
+}
+
+/* ── MAIN CONTENT ── */
+.gpage-main {
+  flex: 1;
+  padding: 8px;
+  background: #111;
+  overflow-y: auto;
+}
+.gpage-section-title {
+  color: #008b5b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 2px 8px;
+  border-bottom: 1px solid #1e1e1e;
+  margin-bottom: 8px;
+}
+
+/* ── GAME GRID ── */
+.gpage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+  gap: 6px;
+}
+
+/* ── GAME CARD ── */
+.gpage-card {
+  position: relative;
+  height: 140px;
+  border: 1px solid #2a2a2a;
+  overflow: hidden;
+  cursor: pointer;
+  background: #1a1a1a;
+}
+.gpage-card:hover .gpage-card-img {
+  transform: scale(1.07);
+}
+.gpage-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+.gpage-card-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: #008b5b;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 5px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.gpage-card-badge.hot  { background: #e05c00; }
+.gpage-card-badge.new  { background: #0066cc; }
+.gpage-card-badge.live { background: #008b5b; }
+
+.gpage-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.88));
+  padding: 20px 8px 6px;
+}
+.gpage-card-name {
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+.gpage-card-play {
+  color: #00ff99;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.gpage-card:hover .gpage-card-play { opacity: 1; }
+
+/* ── MODAL ── */
+.gpage-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.gpage-modal-box {
+  background: #111;
+  border: 1px solid #333;
+  width: 100%;
+  max-width: 860px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.9);
+  overflow: hidden;
+}
+.gpage-modal-topbar {
+  background: #1a1a1a;
+  border-bottom: 2px solid #008b5b;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.gpage-modal-name {
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.gpage-modal-badge {
+  background: #008b5b;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 7px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-left: 8px;
+}
+.gpage-modal-close {
+  background: #ff3b3b;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.gpage-modal-close:hover { background: #cc0000; }
+.gpage-modal-imgwrap {
+  width: 100%;
+  height: 480px;
+  background: #000;
+  overflow: hidden;
+}
+.gpage-modal-imgwrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.gpage-modal-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+@media (max-width: 600px) {
+  .gpage-modal-imgwrap { height: 300px; }
+}
+.gpage-modal-bottom {
+  background: #1a1a1a;
+  border-top: 1px solid #2a2a2a;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.gpage-modal-note {
+  color: #555;
+  font-size: 10px;
+}
+.gpage-modal-playbtn {
+  background: #008b5b;
+  color: #fff;
+  border: none;
+  padding: 10px 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.gpage-modal-playbtn:hover { background: #00a86b; }
+
+@media (max-width: 768px) {
+  .gpage-sidebar { display: none; }
+  .gpage-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+}

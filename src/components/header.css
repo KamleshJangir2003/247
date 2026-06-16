@@ -40,6 +40,86 @@
     cursor:pointer;
 }
 
+/* BALANCE */
+
+.header-balance{
+    background:#0d3d2a;
+    color:#00ff73;
+    padding:7px 12px;
+    font-size:13px;
+    font-weight:700;
+    border-radius:4px;
+    display:flex;
+    align-items:center;
+}
+
+/* DEPOSIT / WITHDRAW BUTTONS */
+
+.deposit-btn{
+    background:#00a651;
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    font-size:13px;
+    cursor:pointer;
+    font-weight:600;
+    border-radius:4px;
+    transition:0.2s;
+}
+
+.deposit-btn:hover{background:#008f45;}
+
+.withdraw-btn{
+    background:#e65c00;
+    color:#fff;
+    border:none;
+    padding:8px 14px;
+    font-size:13px;
+    cursor:pointer;
+    font-weight:600;
+    border-radius:4px;
+    transition:0.2s;
+}
+
+.withdraw-btn:hover{background:#cc5200;}
+
+/* USER MENU */
+
+.user-menu-wrap{
+    position:relative;
+    cursor:pointer;
+}
+
+.user-icon{
+    font-size:28px;
+    color:#d8c7a1;
+}
+
+.user-dropdown{
+    position:absolute;
+    top:38px;
+    right:0;
+    background:#1e2a38;
+    border:1px solid #2a3a4a;
+    border-radius:6px;
+    min-width:150px;
+    z-index:999;
+    overflow:hidden;
+}
+
+.user-dropdown div{
+    padding:10px 15px;
+    color:#d8c7a1;
+    font-size:13px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.user-dropdown div:hover{
+    background:#00a651;
+    color:#fff;
+}
+
 /* BUTTONS */
 
 .login-btn,

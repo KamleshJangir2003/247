@@ -1,0 +1,133 @@
+/* ===== BANNER SLIDER ===== */
+.bs-root {
+  width: 100%;
+  position: relative;
+}
+
+.bs-swiper {
+  width: 100%;
+  height: 220px;
+}
+
+.bs-slide {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  padding: 0 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bs-content {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+}
+
+.bs-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 4px;
+  color: #fff;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.bs-emoji {
+  display: none;
+}
+
+.bs-title {
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 6px;
+  text-shadow: 0 0 20px rgba(0,230,118,0.3);
+}
+
+.bs-subtitle {
+  font-size: 16px;
+  color: #e0e0e0;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.bs-desc {
+  font-size: 12px;
+  color: #718096;
+  margin-bottom: 16px;
+}
+
+.bs-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+  letter-spacing: 0.5px;
+}
+.bs-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+/* DECO EMOJI */
+.bs-deco {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 100px;
+  opacity: 0.15;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* SWIPER OVERRIDES */
+.bs-swiper .swiper-pagination-bullet {
+  background: #4a5568;
+  opacity: 1;
+  width: 8px;
+  height: 8px;
+}
+.bs-swiper .swiper-pagination-bullet-active {
+  background: #00e676;
+  width: 20px;
+  border-radius: 4px;
+}
+
+.bs-swiper .swiper-button-next,
+.bs-swiper .swiper-button-prev {
+  color: #00e676;
+  width: 32px;
+  height: 32px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 50%;
+}
+.bs-swiper .swiper-button-next::after,
+.bs-swiper .swiper-button-prev::after {
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .bs-swiper, .bs-slide { height: 180px; }
+  .bs-slide { padding: 0 40px; }
+  .bs-title { font-size: 22px; }
+  .bs-subtitle { font-size: 13px; }
+  .bs-deco { font-size: 70px; right: 30px; }
+}
+
+@media (max-width: 480px) {
+  .bs-swiper, .bs-slide { height: 160px; }
+  .bs-slide { padding: 0 30px; }
+  .bs-title { font-size: 18px; }
+  .bs-subtitle { font-size: 12px; }
+  .bs-desc { display: none; }
+  .bs-deco { display: none; }
+  .bs-swiper .swiper-button-next,
+  .bs-swiper .swiper-button-prev { display: none; }
+}

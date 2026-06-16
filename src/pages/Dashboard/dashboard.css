@@ -1,0 +1,88 @@
+/* ===== SPORTSBOOK CLASSIC LAYOUT ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body { background: #111111; }
+
+.sb-wrap {
+  width: 100%;
+  min-height: 100vh;
+  background: #111111;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.sb-body {
+  display: flex;
+  width: 100%;
+  min-height: calc(100vh - 62px);
+  align-items: flex-start;
+}
+
+/* LEFT SIDEBAR */
+.sb-left {
+  width: 170px;
+  min-width: 170px;
+  background: #151515;
+  border-right: 1px solid #2a2a2a;
+  min-height: calc(100vh - 62px);
+  flex-shrink: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #333 #151515;
+}
+.sb-left::-webkit-scrollbar { width: 3px; }
+.sb-left::-webkit-scrollbar-thumb { background: #333; }
+
+/* CENTER */
+.sb-center {
+  flex: 1;
+  min-width: 0;
+  background: #111111;
+}
+
+/* RIGHT SIDEBAR */
+.sb-right {
+  width: 200px;
+  min-width: 200px;
+  background: #151515;
+  border-left: 1px solid #2a2a2a;
+  min-height: calc(100vh - 62px);
+  flex-shrink: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #333 #151515;
+}
+.sb-right::-webkit-scrollbar { width: 3px; }
+.sb-right::-webkit-scrollbar-thumb { background: #333; }
+
+/* MOBILE OVERLAY */
+.sb-mob-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 90;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .sb-right { width: 170px; min-width: 170px; }
+}
+
+@media (max-width: 900px) {
+  .sb-right { display: none; }
+  .sb-left {
+    position: fixed;
+    top: 0; left: -175px;
+    height: 100vh;
+    z-index: 100;
+    transition: left 0.25s;
+  }
+  .sb-left-open { left: 0 !important; }
+  .sb-mob-overlay { display: block; }
+}
+
+@media (max-width: 600px) {
+  .sb-left { width: 200px; min-width: 200px; }
+}

@@ -1,0 +1,75 @@
+.casino-header {
+  width: 100%;
+  background: #111111;
+  border-bottom: 1px solid #222;
+}
+
+.casino-header-top {
+  background: #0a0a0a;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #1e1e1e;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #ff3b3b;
+  border-radius: 50%;
+  animation: blink 1s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+.live-label {
+  color: #ff3b3b;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.casino-label {
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.casino-nav {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+  background: #151515;
+}
+
+.casino-nav::-webkit-scrollbar { display: none; }
+
+.casino-nav-item {
+  color: #cccccc;
+  text-decoration: none;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-right: 1px solid #222;
+  transition: background 0.15s, color 0.15s;
+  cursor: pointer;
+  display: block;
+}
+
+.casino-nav-item:hover,
+.casino-nav-item.active {
+  background: #008b5b;
+  color: #fff;
+}

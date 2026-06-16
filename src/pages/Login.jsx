@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../styles/Auth.css";
 import logo from "../assets/images/logo2.png";
 
@@ -12,9 +12,29 @@ import {
   FaTimes,
 } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+const DEMO_USER = "demo";
+const DEMO_PASS = "demo123";
 
 const Login = () => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = () => {
+    if (username === DEMO_USER && password === DEMO_PASS) {
+      navigate("/dashboard");
+    } else {
+      setError("Invalid username or password.");
+    }
+  };
+
+  const handleDemoLogin = () => {
+    navigate("/dashboard");
+  };
+
   return (
     <div className="auth-page">
 
@@ -29,24 +49,36 @@ const Login = () => {
         <h2>LOGIN 📌</h2>
 
         <div className="input-box">
-          <input type="text" placeholder="Username" />
+          <input
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => { setUsername(e.target.value); setError(""); }}
+          />
           <span><FaUser /></span>
         </div>
 
         <div className="input-box">
-          <input type="password" placeholder="Password" />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => { setPassword(e.target.value); setError(""); }}
+          />
           <span><FaKey /></span>
         </div>
+
+        {error && <p className="login-error">{error}</p>}
 
         <div className="forgot">
           <a href="/">Forgot Password?</a>
         </div>
 
-        <button className="btn">
+        <button className="btn" onClick={handleLogin}>
           Login <FaSignInAlt />
         </button>
 
-        <button className="btn">
+        <button className="btn btn-demo" onClick={handleDemoLogin}>
           Login with demo ID <FaSignInAlt />
         </button>
 

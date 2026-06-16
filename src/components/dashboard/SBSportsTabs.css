@@ -1,0 +1,41 @@
+/* ===== SPORTS TABS ===== */
+.sbst-root {
+  width: 100%;
+  background: #1a3a5c;
+  border-bottom: 2px solid #0d2a4a;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.sbst-root::-webkit-scrollbar { display: none; }
+
+.sbst-inner {
+  display: flex;
+  align-items: center;
+  min-width: max-content;
+}
+
+.sbst-tab {
+  background: none;
+  border: none;
+  border-right: 1px solid #0d2a4a;
+  color: #aaccee;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 6px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: Tahoma, Arial, sans-serif;
+  transition: background 0.15s, color 0.15s;
+  height: 30px;
+  letter-spacing: 0.3px;
+}
+.sbst-tab:hover { background: #0d2a4a; color: #ffffff; }
+.sbst-tab-active {
+  background: #008b5b;
+  color: #ffffff;
+  border-right-color: #006b45;
+}
+
+@media (max-width: 480px) {
+  .sbst-tab { padding: 6px 10px; font-size: 10px; }
+}

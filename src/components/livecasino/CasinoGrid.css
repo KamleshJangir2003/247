@@ -1,0 +1,23 @@
+.casino-grid-wrapper {
+  flex: 1;
+  background: #111111;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.casino-grid-title {
+  color: #008b5b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 2px 8px;
+  border-bottom: 1px solid #222;
+  margin-bottom: 8px;
+}
+
+.casino-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 6px;
+}
