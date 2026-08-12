@@ -1,0 +1,162 @@
+.adm-mgmt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.adm-mgmt-title { font-size: 16px; font-weight: 700; color: #c0d0e0; }
+
+.adm-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.adm-search-bar input,
+.adm-search-bar select {
+  background: #121c2e;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 9px 14px;
+  color: #c0d0e0;
+  font-size: 13px;
+  outline: none;
+}
+
+.adm-search-bar input::placeholder { color: #3a4a5a; }
+.adm-search-bar input:focus,
+.adm-search-bar select:focus { border-color: #0078b3; }
+.adm-search-bar select option { background: #121c2e; }
+
+.adm-table-wrap {
+  background: #121c2e;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
+}
+
+.adm-table th {
+  padding: 12px 16px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #3a4a5a;
+  background: rgba(255,255,255,0.02);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.adm-table td {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #8a9ab0;
+  border-top: 1px solid rgba(255,255,255,0.03);
+  vertical-align: middle;
+}
+
+.adm-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.adm-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.adm-badge.pending   { background: rgba(245,158,11,0.15); color: #fbbf24; }
+.adm-badge.approved  { background: rgba(34,197,94,0.15);  color: #4ade80; }
+.adm-badge.rejected  { background: rgba(239,68,68,0.15);  color: #f87171; }
+.adm-badge.active    { background: rgba(34,197,94,0.15);  color: #4ade80; }
+.adm-badge.blocked   { background: rgba(239,68,68,0.15);  color: #f87171; }
+
+.adm-action-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.adm-btn-approve,
+.adm-btn-reject,
+.adm-btn-block,
+.adm-btn-unblock,
+.adm-btn-view {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: opacity 0.2s;
+}
+
+.adm-btn-approve  { background: rgba(34,197,94,0.15);  color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.adm-btn-reject   { background: rgba(239,68,68,0.15);  color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+.adm-btn-block    { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+.adm-btn-unblock  { background: rgba(34,197,94,0.12);  color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+.adm-btn-view     { background: rgba(0,120,179,0.12);  color: #00aaff; border: 1px solid rgba(0,120,179,0.25); }
+
+.adm-btn-approve:hover, .adm-btn-reject:hover,
+.adm-btn-block:hover,   .adm-btn-unblock:hover,
+.adm-btn-view:hover     { opacity: 0.75; }
+
+.adm-nodata {
+  text-align: center;
+  padding: 48px 20px;
+  color: #3a4a5a;
+  font-size: 14px;
+}
+
+.adm-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.adm-pagination button {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 6px;
+  color: #7a8a9a;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.adm-pagination button.active { background: #0078b3; color: #fff; border-color: #0078b3; }
+.adm-pagination button:hover:not(.active) { background: rgba(255,255,255,0.08); }
+
+.adm-summary-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.adm-sum-card {
+  background: #121c2e;
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 14px 20px;
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+}
+
+.adm-sum-card p { font-size: 10px; color: #556; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.adm-sum-card h4 { font-size: 20px; font-weight: 700; color: #e0ecf8; }

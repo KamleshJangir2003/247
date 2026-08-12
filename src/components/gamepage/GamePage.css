@@ -270,6 +270,98 @@
   border: none;
   display: block;
 }
+
+/* Coming Soon */
+.gpage-coming-soon {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.gpage-coming-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: blur(4px) brightness(0.35);
+}
+.gpage-coming-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.gpage-coming-icon {
+  font-size: 52px;
+  animation: gpulse 1.5s infinite;
+}
+@keyframes gpulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+.gpage-coming-title {
+  color: #fff;
+  font-size: 22px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.gpage-coming-text {
+  color: #00ff99;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.gpage-coming-badge {
+  background: #008b5b;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 5px 16px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+.gpage-login-btn {
+  background: #008b5b;
+  color: #fff;
+  border: none;
+  padding: 11px 32px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.15s;
+}
+.gpage-login-btn:hover { background: #00a86b; }
+.gpage-register-btn {
+  background: transparent;
+  color: #00ff99;
+  border: 1px solid #00ff99;
+  padding: 10px 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.15s;
+}
+.gpage-register-btn:hover { background: #00ff99; color: #000; }
+.gpage-demo-tag {
+  background: #e05c00;
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  letter-spacing: 1px;
+}
 @media (max-width: 600px) {
   .gpage-modal-imgwrap { height: 300px; }
 }

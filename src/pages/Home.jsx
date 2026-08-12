@@ -43,16 +43,16 @@ const sliderImages = [
 
 /* ── All games with proper names mapped to images + routes ── */
 const allGames = [
-  { name: "20-20 Poker",      img: img1,  badge: "LIVE", route: "/live-casino" },
-  { name: "29 Card Baccarat", img: img2,  badge: "LIVE", route: "/live-casino" },
-  { name: "6 Player Poker",   img: img3,  badge: "LIVE", route: "/live-casino" },
-  { name: "Aviator",          img: img4,  badge: "HOT",  route: "/slot" },
-  { name: "Dragon Tiger",     img: img5,  badge: "LIVE", route: "/live-casino" },
-  { name: "Dragon Tiger 2",   img: img6,  badge: "LIVE", route: "/live-casino" },
-  { name: "Poker 1 Day",      img: img7,  badge: "LIVE", route: "/live-casino" },
-  { name: "Roulette",         img: img8,  badge: "LIVE", route: "/live-casino" },
-  { name: "Sic Bo",           img: img9,  badge: "LIVE", route: "/live-casino" },
-  { name: "Casino Lobby",     img: img10, badge: "LIVE", route: "/live-casino" },
+  { name: "20-20 Poker",      img: img1,  badge: "LIVE" },
+  { name: "29 Card Baccarat", img: img2,  badge: "LIVE" },
+  { name: "6 Player Poker",   img: img3,  badge: "LIVE" },
+  { name: "Aviator",          img: img4,  badge: "HOT"  },
+  { name: "Dragon Tiger",     img: img5,  badge: "LIVE" },
+  { name: "Dragon Tiger 2",   img: img6,  badge: "LIVE" },
+  { name: "Poker 1 Day",      img: img7,  badge: "LIVE" },
+  { name: "Roulette",         img: img8,  badge: "LIVE" },
+  { name: "Sic Bo",           img: img9,  badge: "LIVE" },
+  { name: "Casino Lobby",     img: img10, badge: "LIVE" },
 ];
 
 const navSections = [
@@ -180,7 +180,7 @@ const Home = () => {
                   <div
                     className="latest-card"
                     key={index}
-                    onClick={() => navigate(game.route)}
+                    onClick={() => setActiveGame(game)}
                   >
                     <img src={game.img} alt={game.name} />
                     <div className="latest-overlay">▶ PLAY</div>
@@ -205,7 +205,7 @@ const Home = () => {
                   <div
                     className="live-card"
                     key={index}
-                    onClick={() => navigate(game.route)}
+                    onClick={() => setActiveGame(game)}
                   >
                     <img src={game.img} alt={game.name} />
                     <div className="live-overlay">▶ PLAY</div>

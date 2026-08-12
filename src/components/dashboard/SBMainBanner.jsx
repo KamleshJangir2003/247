@@ -1,56 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./SBMainBanner.css";
 
-const banners = [
-  {
-    id: 1,
-    bg: "#0a2a0a",
-    accent: "#00cc44",
-    tag: "LIVE NOW",
-    sport: "🏏 IPL 2025",
-    match: "Gujarat Titans vs Rajasthan Royals",
-    info: "Today 7:30 PM  |  Narendra Modi Stadium",
-    score: "GT: 142/4 (16.2 ov)  •  RR need 78 off 23 balls",
-    btn1: "BET NOW",
-    btn2: "VIEW ODDS",
-  },
-  {
-    id: 2,
-    bg: "#0a0a2a",
-    accent: "#4488ff",
-    tag: "FEATURED",
-    sport: "🎾 Wimbledon 2025",
-    match: "N. Djokovic vs C. Alcaraz",
-    info: "Today 6:00 PM  |  Centre Court",
-    score: "Djokovic leads 6-4, 3-2  •  Grand Slam Final",
-    btn1: "BET NOW",
-    btn2: "VIEW ODDS",
-  },
-  {
-    id: 3,
-    bg: "#1a0a0a",
-    accent: "#ff6644",
-    tag: "PREMIER LEAGUE",
-    sport: "⚽ Premier League",
-    match: "Manchester City vs Arsenal",
-    info: "Tomorrow 9:00 PM  |  Etihad Stadium",
-    score: "Title Decider  •  Best odds guaranteed",
-    btn1: "BET NOW",
-    btn2: "VIEW ODDS",
-  },
-  {
-    id: 4,
-    bg: "#1a1a0a",
-    accent: "#f6c90e",
-    tag: "WELCOME BONUS",
-    sport: "🎁 Special Offer",
-    match: "100% Welcome Bonus up to ₹10,000",
-    info: "New members only  •  Min deposit ₹500",
-    score: "Use code: WELCOME100  •  T&C apply",
-    btn1: "CLAIM NOW",
-    btn2: "LEARN MORE",
-  },
-];
+import img1 from "../../assets/images/silder/1731820173329.webp";
+import img2 from "../../assets/images/silder/1771220336277-722050072.png";
+import img3 from "../../assets/images/silder/1771220336279-671789886.png";
+import img4 from "../../assets/images/silder/1771261315528-342023838.webp";
+import img5 from "../../assets/images/silder/1774727746638-247527026.webp";
+import img6 from "../../assets/images/silder/1774727746639-660377855.webp";
+import img7 from "../../assets/images/silder/1774727746651-476426483.webp";
+
+const banners = [img1, img2, img3, img4, img5, img6, img7];
 
 const SBMainBanner = () => {
   const [cur, setCur] = useState(0);
@@ -63,28 +22,8 @@ const SBMainBanner = () => {
   const b = banners[cur];
 
   return (
-    <div className="sbb-root" style={{ background: b.bg }}>
-      {/* SLIDE CONTENT */}
-      <div className="sbb-content">
-        <div className="sbb-left">
-          <span className="sbb-tag" style={{ background: b.accent, color: b.accent === "#f6c90e" ? "#000" : "#fff" }}>
-            {b.tag}
-          </span>
-          <div className="sbb-sport" style={{ color: b.accent }}>{b.sport}</div>
-          <div className="sbb-match">{b.match}</div>
-          <div className="sbb-info">{b.info}</div>
-          <div className="sbb-score">{b.score}</div>
-          <div className="sbb-btns">
-            <button className="sbb-btn sbb-btn-main" style={{ background: b.accent, color: b.accent === "#f6c90e" ? "#000" : "#fff" }}>
-              {b.btn1}
-            </button>
-            <button className="sbb-btn sbb-btn-sec">{b.btn2}</button>
-          </div>
-        </div>
-        <div className="sbb-deco">
-          <div className="sbb-deco-sport">{b.sport.split(" ")[0]}</div>
-        </div>
-      </div>
+    <div className="sbb-root">
+      <img src={banners[cur]} alt={`banner-${cur + 1}`} className="sbb-img" />
 
       {/* BOTTOM CONTROLS */}
       <div className="sbb-controls">

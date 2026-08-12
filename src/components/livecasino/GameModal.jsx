@@ -1,7 +1,12 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./GameModal.css";
 
 const GameModal = ({ game, onClose }) => {
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  const isDemo     = localStorage.getItem("userType") === "demo";
+
   useEffect(() => {
     const handler = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", handler);
@@ -10,42 +15,95 @@ const GameModal = ({ game, onClose }) => {
 
   if (!game) return null;
 
+  const renderContent = () => {
+    // Not logged in
+    if (!isLoggedIn) {
+      return (
+        <div className="gmodal-coming-soon">
+          <img src={game.img} alt={game.name} className="gmodal-coming-bg" />
+          <div className="gmodal-coming-overlay">
+            <div className="gmodal-coming-icon">🔒</div>
+            <div className="gmodal-coming-title">{game.name}</div>
+            <div className="gmodal-coming-text">Login karein to play</div>
+            <button className="gmodal-login-btn" onClick={() => { onClose(); navigate("/"); }}>
+              Login Now
+            </button>
+            <button className="gmodal-register-btn" onClick={() => { onClose(); navigate("/register"); }}>
+              Register Now
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Demo user — view only, no play
+    if (isDemo) {
+      return (
+        <div className="gmodal-coming-soon">
+          <img src={game.img} alt={game.name} className="gmodal-coming-bg" />
+          <div className="gmodal-coming-overlay">
+            <div className="gmodal-coming-icon">👁️</div>
+            <div className="gmodal-coming-title">{game.name}</div>
+            <div className="gmodal-coming-text">Demo Mode — View Only</div>
+            <div className="gmodal-coming-badge">Game khelne ke liye Real Account se Login karein</div>
+            <button className="gmodal-login-btn" onClick={() => { onClose(); navigate("/"); }}>
+              Real Account Login
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // Real logged in user
+    if (game.gameUrl) {
+      return (
+        <iframe
+          src={game.gameUrl}
+          className="gmodal-iframe"
+          title={game.name}
+          allowFullScreen
+        />
+      );
+    }
+
+    // Real user but no API yet
+    return (
+      <div className="gmodal-coming-soon">
+        <img src={game.img} alt={game.name} className="gmodal-coming-bg" />
+        <div className="gmodal-coming-overlay">
+          <div className="gmodal-coming-icon">🎮</div>
+          <div className="gmodal-coming-title">{game.name}</div>
+          <div className="gmodal-coming-text">Game API Coming Soon</div>
+          <div className="gmodal-coming-badge">Admin Panel se API add karein</div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="gmodal-backdrop" onClick={onClose}>
       <div className="gmodal-box" onClick={(e) => e.stopPropagation()}>
 
-        {/* TOP BAR — game name + close */}
         <div className="gmodal-topbar">
           <div className="gmodal-topbar-left">
             <span className="gmodal-name">{game.name}</span>
             {game.badge && <span className="gmodal-badge">{game.badge}</span>}
+            {isDemo && <span className="gmodal-demo-tag">DEMO</span>}
           </div>
           <button className="gmodal-close" onClick={onClose}>✕</button>
         </div>
 
-        {/* GAME AREA — full image shown clearly, iframe when API ready */}
         <div className="gmodal-img-wrap">
-          {game.gameUrl ? (
-            <iframe
-              src={game.gameUrl}
-              className="gmodal-iframe"
-              title={game.name}
-              allowFullScreen
-            />
-          ) : (
-            <img src={game.img} alt={game.name} />
-          )}
+          {renderContent()}
         </div>
 
-        {/* BOTTOM BAR — note + play button */}
         <div className="gmodal-bottom">
           <span className="gmodal-api-note">🎮 {game.name}</span>
-          <button
-            className="gmodal-play-btn"
-            onClick={() => window.open(game.gameUrl, "_blank")}
-          >
-            ⛶ Full Screen
-          </button>
+          {!isDemo && game.gameUrl && isLoggedIn && (
+            <button className="gmodal-play-btn" onClick={() => window.open(game.gameUrl, "_blank")}>
+              ⛶ Full Screen
+            </button>
+          )}
         </div>
 
       </div>

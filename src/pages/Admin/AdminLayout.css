@@ -1,0 +1,188 @@
+.adm-wrap {
+  display: flex;
+  min-height: 100vh;
+  background: #0e1420;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #d0dce8;
+}
+
+/* ── SIDEBAR ── */
+.adm-sidebar {
+  width: 240px;
+  min-width: 240px;
+  background: #0b1220;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 200;
+  transition: left 0.25s;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #1e2a3a #0b1220;
+}
+
+.adm-sidebar-brand {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.adm-brand-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, #0078b3, #00aaff);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,120,179,0.35);
+}
+
+.adm-brand-text h2 { font-size: 14px; font-weight: 700; color: #fff; }
+.adm-brand-text p  { font-size: 10px; color: #556; margin-top: 2px; text-transform: uppercase; letter-spacing: 1px; }
+
+.adm-nav { padding: 14px 10px; flex: 1; }
+
+.adm-nav-section {
+  font-size: 10px;
+  font-weight: 700;
+  color: #334;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  padding: 10px 10px 6px;
+}
+
+.adm-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #7a8a9a;
+  transition: all 0.18s;
+  margin-bottom: 2px;
+  text-decoration: none;
+}
+
+.adm-nav-item:hover { background: rgba(255,255,255,0.05); color: #c0ccd8; }
+.adm-nav-item.active { background: rgba(0,120,179,0.15); color: #00aaff; border-left: 3px solid #0078b3; }
+
+.adm-nav-item .adm-icon { font-size: 15px; width: 20px; text-align: center; }
+
+.adm-nav-badge {
+  margin-left: auto;
+  background: #dc2626;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 20px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.adm-sidebar-footer {
+  padding: 16px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.adm-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(220,38,38,0.12);
+  border: 1px solid rgba(220,38,38,0.2);
+  border-radius: 8px;
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.adm-logout-btn:hover { background: rgba(220,38,38,0.22); }
+
+/* ── MAIN ── */
+.adm-main {
+  margin-left: 240px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── TOPBAR ── */
+.adm-topbar {
+  height: 60px;
+  background: #0b1220;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.adm-topbar-left { display: flex; align-items: center; gap: 14px; }
+
+.adm-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #7a8a9a;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.adm-page-title { font-size: 16px; font-weight: 700; color: #fff; }
+
+.adm-topbar-right { display: flex; align-items: center; gap: 16px; }
+
+.adm-topbar-date { font-size: 12px; color: #556; }
+
+.adm-admin-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0,120,179,0.12);
+  border: 1px solid rgba(0,120,179,0.2);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  color: #00aaff;
+  font-weight: 600;
+}
+
+/* ── CONTENT ── */
+.adm-content { padding: 24px; flex: 1; }
+
+/* ── OVERLAY (mobile) ── */
+.adm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 190;
+}
+
+@media(max-width:900px) {
+  .adm-sidebar { left: -240px; }
+  .adm-sidebar.open { left: 0; }
+  .adm-main { margin-left: 0; }
+  .adm-menu-btn { display: block; }
+  .adm-overlay.show { display: block; }
+  .adm-topbar-date { display: none; }
+}

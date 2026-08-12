@@ -6,8 +6,7 @@ import { FaMoon, FaUserCircle, FaWallet } from "react-icons/fa";
 
 const Header = () => {
   const navigate = useNavigate();
-  // Simulate logged-in state (in real app this comes from auth context)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
   const [balance] = useState(5000);
   const [showUserMenu, setShowUserMenu] = useState(false);
 
@@ -56,7 +55,7 @@ const Header = () => {
                   <div className="user-dropdown">
                     <div onClick={() => navigate("/deposit")}>💰 Deposit</div>
                     <div onClick={() => navigate("/withdraw")}>💸 Withdraw</div>
-                    <div onClick={() => setIsLoggedIn(false)}>🚪 Logout</div>
+                    <div onClick={() => { localStorage.removeItem("isLoggedIn"); localStorage.removeItem("userType"); setIsLoggedIn(false); navigate("/home"); }}>🚪 Logout</div>
                   </div>
                 )}
               </div>
@@ -64,7 +63,7 @@ const Header = () => {
           ) : (
             <>
               {/* LOGIN BUTTON */}
-              <button className="login-btn" onClick={() => { setIsLoggedIn(true); navigate("/home"); }}>
+              <button className="login-btn" onClick={() => navigate("/login")}>
                 Login
               </button>
 

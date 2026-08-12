@@ -25,6 +25,8 @@ const Login = () => {
 
   const handleLogin = () => {
     if (username === DEMO_USER && password === DEMO_PASS) {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("userType", "real");
       navigate("/dashboard");
     } else {
       setError("Invalid username or password.");
@@ -32,6 +34,8 @@ const Login = () => {
   };
 
   const handleDemoLogin = () => {
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("userType", "demo");
     navigate("/dashboard");
   };
 
