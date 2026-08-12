@@ -20,12 +20,14 @@ import Sportsbook1Page from "./pages/Sportsbook1/Sportsbook1Page";
 import ExchangePage from "./pages/Exchange/ExchangePage";
 import SlotPage from "./pages/Slot/SlotPage";
 import FantasyGamesPage from "./pages/FantasyGames/FantasyGamesPage";
+import CrashPage from "./pages/Crash/CrashPage";
 import AdminLogin from "./pages/Admin/AdminLogin";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminUsers from "./pages/Admin/AdminUsers";
 import AdminDeposits from "./pages/Admin/AdminDeposits";
 import AdminWithdrawals from "./pages/Admin/AdminWithdrawals";
 import AdminTransactions from "./pages/Admin/AdminTransactions";
+import UserLayout from "./components/UserLayout";
 
 const AdminGuard = ({ children }) => {
   return localStorage.getItem("adminLoggedIn") === "true"
@@ -61,12 +63,13 @@ function App() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/responsible-gaming" element={<ResponsibleGaming />} />
-        <Route path="/live-casino" element={<LiveCasinoPage />} />
-        <Route path="/lottery" element={<LotteryPage />} />
-        <Route path="/sportsbook1" element={<Sportsbook1Page />} />
-        <Route path="/exchange" element={<ExchangePage />} />
-        <Route path="/slot" element={<SlotPage />} />
-        <Route path="/fantasy-games" element={<FantasyGamesPage />} />
+        <Route path="/live-casino" element={<UserLayout><LiveCasinoPage /></UserLayout>} />
+        <Route path="/lottery" element={<UserLayout><LotteryPage /></UserLayout>} />
+        <Route path="/sportsbook1" element={<UserLayout><Sportsbook1Page /></UserLayout>} />
+        <Route path="/exchange" element={<UserLayout><ExchangePage /></UserLayout>} />
+        <Route path="/slot" element={<UserLayout><SlotPage /></UserLayout>} />
+        <Route path="/fantasy-games" element={<UserLayout><FantasyGamesPage /></UserLayout>} />
+        <Route path="/crash" element={<UserLayout><CrashPage /></UserLayout>} />
 
         {/* Admin Routes */}
         <Route path="/admin-login" element={<AdminLogin />} />

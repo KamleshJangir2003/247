@@ -12,6 +12,22 @@
 }
 .top-nav::-webkit-scrollbar { display: none; }
 
+.top-nav-logo {
+  display: flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-right: 1px solid #2a2a4a;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.top-nav-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
 .top-nav-item {
   color: #ffffff;
   text-decoration: none;
@@ -127,4 +143,5 @@
 @media (max-width: 768px) {
   .top-nav-balance { display: none; }
   .top-nav-deposit, .top-nav-withdraw { padding: 5px 10px; font-size: 11px; }
+  .top-nav-logo-img { height: 26px; }
 }

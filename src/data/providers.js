@@ -1,0 +1,30 @@
+export const slotProviders = [
+  "All Providers",
+  "Demo Slots",
+  "JILI",
+  "Amigo",
+  "Turbo Games",
+  "Red Tiger",
+  "1X2 Gaming",
+  "BB Games",
+  "Boongo",
+  "Evoplay",
+  "Habanero",
+  "Hacksaw",
+  "Kalamba",
+  "Lady Luck",
+];
+
+export const fantasyProviders = [
+  "All Providers",
+  "Demo Fantasy",
+  "SmartSoft",
+  "PopOK",
+  "Pascal",
+  "Spribe",
+  "Darwin",
+  "Gemini",
+  "Studio21",
+  "BEON",
+  "KingMidas",
+];

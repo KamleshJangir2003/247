@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import logo from "../../assets/images/logo2.png";
 import "./TopNav.css";
 
 const links = [
@@ -9,6 +10,7 @@ const links = [
   { label: "Live Casino",   path: "/live-casino" },
   { label: "Slot",          path: "/slot" },
   { label: "Fantasy Games", path: "/fantasy-games" },
+  { label: "Crash",         path: "/crash" },
 ];
 
 const menuItems = [
@@ -46,6 +48,9 @@ const TopNav = () => {
 
   return (
     <div className="top-nav">
+      <Link to="/dashboard" className="top-nav-logo">
+        <img src={logo} alt="logo" className="top-nav-logo-img" />
+      </Link>
       {links.map((item) => (
         <Link
           key={item.label}

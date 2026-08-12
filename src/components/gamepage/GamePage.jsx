@@ -1,18 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./GamePage.css";
 
-const NAV = [
-  { label: "Lottery",       path: "/lottery" },
-  { label: "Sportsbook1",   path: "/sportsbook1" },
-  { label: "Exchange",      path: "/exchange" },
-  { label: "Live Casino",   path: "/live-casino" },
-  { label: "Slot",          path: "/slot" },
-  { label: "Fantasy Games", path: "/fantasy-games" },
-];
-
 const GamePage = ({ title, games, categories }) => {
-  const location   = useLocation();
   const navigate   = useNavigate();
   const [activeGame, setActiveGame] = useState(null);
   const [activeCat, setActiveCat]   = useState(categories?.[0] || "All");
@@ -34,11 +24,13 @@ const GamePage = ({ title, games, categories }) => {
     return "live";
   };
 
+  const getImg = (game) => game.image || game.img;
+
   const renderModalContent = () => {
     if (!isLoggedIn) {
       return (
         <div className="gpage-coming-soon">
-          <img src={activeGame.img} alt={activeGame.name} className="gpage-coming-bg" />
+          <img src={getImg(activeGame)} alt={activeGame.name} className="gpage-coming-bg" />
           <div className="gpage-coming-overlay">
             <div className="gpage-coming-icon">🔒</div>
             <div className="gpage-coming-title">{activeGame.name}</div>
@@ -52,7 +44,7 @@ const GamePage = ({ title, games, categories }) => {
     if (isDemo) {
       return (
         <div className="gpage-coming-soon">
-          <img src={activeGame.img} alt={activeGame.name} className="gpage-coming-bg" />
+          <img src={getImg(activeGame)} alt={activeGame.name} className="gpage-coming-bg" />
           <div className="gpage-coming-overlay">
             <div className="gpage-coming-icon">👁️</div>
             <div className="gpage-coming-title">{activeGame.name}</div>
@@ -70,7 +62,7 @@ const GamePage = ({ title, games, categories }) => {
     }
     return (
       <div className="gpage-coming-soon">
-        <img src={activeGame.img} alt={activeGame.name} className="gpage-coming-bg" />
+        <img src={getImg(activeGame)} alt={activeGame.name} className="gpage-coming-bg" />
         <div className="gpage-coming-overlay">
           <div className="gpage-coming-icon">🎮</div>
           <div className="gpage-coming-title">{activeGame.name}</div>
@@ -83,14 +75,6 @@ const GamePage = ({ title, games, categories }) => {
 
   return (
     <div className="gpage-wrap">
-
-      <nav className="gpage-topnav">
-        {NAV.map((n) => (
-          <Link key={n.path} to={n.path} className={location.pathname === n.path ? "gpage-active" : ""}>
-            {n.label}
-          </Link>
-        ))}
-      </nav>
 
       <div className="gpage-titlebar">
         <div className="gpage-titlebar-dot" />
@@ -117,7 +101,7 @@ const GamePage = ({ title, games, categories }) => {
           <div className="gpage-grid">
             {games.map((game) => (
               <div key={game.id} className="gpage-card" onClick={() => setActiveGame(game)}>
-                <img src={game.img} alt={game.name} className="gpage-card-img" />
+                <img src={getImg(game)} alt={game.name} className="gpage-card-img" />
                 {game.badge && (
                   <span className={`gpage-card-badge ${badgeClass(game.badge)}`}>{game.badge}</span>
                 )}

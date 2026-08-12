@@ -21,3 +21,12 @@
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 6px;
 }
+
+.casino-grid-empty {
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  padding: 48px 16px;
+  letter-spacing: 0.5px;
+}

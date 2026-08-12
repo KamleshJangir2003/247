@@ -1,0 +1,63 @@
+.fantasy-search-bar {
+  padding: 0 0 10px 0;
+}
+
+.fantasy-search-input {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  color: #fff;
+  font-size: 12px;
+  padding: 8px 12px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+
+.fantasy-search-input:focus {
+  border-color: #008b5b;
+}
+
+.fantasy-search-input::placeholder {
+  color: #555;
+}
+
+.fantasy-empty {
+  text-align: center;
+  padding: 60px 16px;
+}
+
+.fantasy-empty-title {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.fantasy-empty-sub {
+  color: #555;
+  font-size: 12px;
+}
+
+.fantasy-clear-btn {
+  display: block;
+  width: calc(100% - 20px);
+  margin: 10px 10px 0;
+  background: #1e1e1e;
+  border: 1px solid #333;
+  color: #ff5555;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 8px 10px;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.5px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.fantasy-clear-btn:hover {
+  background: #ff5555;
+  color: #fff;
+}
