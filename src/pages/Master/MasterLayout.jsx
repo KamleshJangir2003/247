@@ -1,61 +1,54 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  FaThLarge, FaUsers, FaUserTie, FaMoneyBillWave, FaArrowCircleUp,
-  FaExchangeAlt, FaGamepad, FaLayerGroup, FaBuilding, FaImage,
-  FaHistory, FaKey, FaSignOutAlt, FaBars, FaShieldAlt
+  FaThLarge, FaUsers, FaUserTie, FaUserShield, FaGamepad,
+  FaLayerGroup, FaBuilding, FaImage, FaBullhorn, FaKey,
+  FaHistory, FaCog, FaSignOutAlt, FaBars, FaCrown
 } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import "../../components/PanelShared.css";
 
 const NAV = [
   { section: "Main" },
-  { icon: <FaThLarge />,       label: "Dashboard",       path: "/admin/dashboard" },
-  { section: "Users" },
-  { icon: <FaUsers />,         label: "All Users",       path: "/admin/users" },
-  { icon: <FaUserTie />,       label: "Agents",          path: "/admin/agents" },
-  { section: "Finance" },
-  { icon: <FaMoneyBillWave />, label: "Deposits",        path: "/admin/deposits",     badge: "deposits" },
-  { icon: <FaArrowCircleUp />, label: "Withdrawals",     path: "/admin/withdrawals",  badge: "withdrawals" },
-  { icon: <FaExchangeAlt />,   label: "Transactions",    path: "/admin/transactions" },
+  { icon: <FaThLarge />,    label: "Dashboard",    path: "/master/dashboard" },
+  { section: "Management" },
+  { icon: <FaUserShield />, label: "Admins",        path: "/master/admins" },
+  { icon: <FaUserTie />,    label: "Agents",        path: "/master/agents" },
+  { icon: <FaUsers />,      label: "Users",         path: "/master/users" },
   { section: "Games" },
-  { icon: <FaGamepad />,       label: "Games",           path: "/admin/games" },
-  { icon: <FaLayerGroup />,    label: "Categories",      path: "/admin/categories" },
-  { icon: <FaBuilding />,      label: "Providers",       path: "/admin/providers" },
-  { icon: <FaImage />,         label: "Banners",         path: "/admin/banners" },
+  { icon: <FaGamepad />,    label: "Games",         path: "/master/games" },
+  { icon: <FaLayerGroup />, label: "Categories",    path: "/master/categories" },
+  { icon: <FaBuilding />,   label: "Providers",     path: "/master/providers" },
+  { section: "Content" },
+  { icon: <FaImage />,      label: "Banners",       path: "/master/banners" },
+  { icon: <FaBullhorn />,   label: "Announcements", path: "/master/announcements" },
   { section: "System" },
-  { icon: <FaHistory />,       label: "Activity Logs",   path: "/admin/activity" },
-  { icon: <FaKey />,           label: "Permissions",     path: "/admin/permissions" },
+  { icon: <FaKey />,        label: "Permissions",   path: "/master/permissions" },
+  { icon: <FaHistory />,    label: "Activity Logs", path: "/master/activity" },
+  { icon: <FaCog />,        label: "Settings",      path: "/master/settings" },
 ];
 
-const AdminLayout = ({ children, pageTitle, pendingDeposits = 0, pendingWithdrawals = 0 }) => {
+const MasterLayout = ({ children, pageTitle }) => {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleLogout = () => { logout(); navigate("/login"); };
-
-  const getBadge = (key) => {
-    if (key === "deposits") return pendingDeposits;
-    if (key === "withdrawals") return pendingWithdrawals;
-    return 0;
-  };
 
   return (
     <div className="panel-wrap">
       <aside className={`panel-sidebar ${open ? "open" : ""}`}>
         <div className="panel-brand">
-          <div className="panel-brand-icon">🛡️</div>
+          <div className="panel-brand-icon">👑</div>
           <div className="panel-brand-text">
             <h2>777GAMES</h2>
-            <p>Admin Panel</p>
+            <p>Master Panel</p>
           </div>
         </div>
         <nav className="panel-nav">
           {NAV.map((item, i) => {
             if (item.section) return <div key={i} className="panel-nav-section">{item.section}</div>;
-            const count = item.badge ? getBadge(item.badge) : 0;
             return (
               <Link
                 key={item.path}
@@ -65,7 +58,6 @@ const AdminLayout = ({ children, pageTitle, pendingDeposits = 0, pendingWithdraw
               >
                 <span>{item.icon}</span>
                 {item.label}
-                {count > 0 && <span className="panel-nav-badge">{count}</span>}
               </Link>
             );
           })}
@@ -89,7 +81,7 @@ const AdminLayout = ({ children, pageTitle, pendingDeposits = 0, pendingWithdraw
             <span className="panel-topbar-date">
               {new Date().toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" })}
             </span>
-            <div className="panel-role-badge"><FaShieldAlt /> {user?.name || "Admin"}</div>
+            <div className="panel-role-badge"><FaCrown /> {user?.name || "Master"}</div>
           </div>
         </header>
         <div className="panel-content">{children}</div>
@@ -98,4 +90,4 @@ const AdminLayout = ({ children, pageTitle, pendingDeposits = 0, pendingWithdraw
   );
 };
 
-export default AdminLayout;
+export default MasterLayout;

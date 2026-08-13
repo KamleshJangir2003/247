@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import AdminLayout from "./AdminLayout";
+import AgentLayout from "./AgentLayout";
 import { INIT_USERS } from "../../data/usersData";
 import { addLog } from "../../data/activityLog";
 import { useAuth } from "../../context/AuthContext";
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 8;
 
-const AdminUsers = () => {
+const AgentUsers = () => {
   const { user } = useAuth();
-  const [users, setUsers] = useState(INIT_USERS);
+  const [users, setUsers] = useState(INIT_USERS.filter(u => u.agent === user?.username));
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [page, setPage] = useState(1);
@@ -17,14 +17,14 @@ const AdminUsers = () => {
     setUsers(users.map(u => {
       if (u.id !== id) return u;
       const next = u.status === "active" ? "blocked" : "active";
-      addLog(user.username, "admin", `${next === "blocked" ? "Blocked" : "Unblocked"} user`, u.username);
+      addLog(user.username, "agent", `${next === "blocked" ? "Blocked" : "Unblocked"} user`, u.username);
       return { ...u, status: next };
     }));
   };
 
   const filtered = users.filter(u => {
     const q = search.toLowerCase();
-    const matchQ = u.username.toLowerCase().includes(q) || u.name.toLowerCase().includes(q) || u.mobile.includes(q);
+    const matchQ = u.username.toLowerCase().includes(q) || u.name.toLowerCase().includes(q);
     const matchF = filter === "all" || u.status === filter;
     return matchQ && matchF;
   });
@@ -33,18 +33,18 @@ const AdminUsers = () => {
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
-    <AdminLayout pageTitle="User Management">
+    <AgentLayout pageTitle="My Users">
       <div className="p-summary-row">
-        <div className="p-sum-card"><p>Total Users</p><h4>{users.length}</h4></div>
+        <div className="p-sum-card"><p>Total</p><h4>{users.length}</h4></div>
         <div className="p-sum-card"><p>Active</p><h4 style={{ color: "#4ade80" }}>{users.filter(u => u.status === "active").length}</h4></div>
         <div className="p-sum-card"><p>Blocked</p><h4 style={{ color: "#f87171" }}>{users.filter(u => u.status === "blocked").length}</h4></div>
       </div>
 
       <div className="p-card">
         <div className="p-card-header">
-          <h3>All Users</h3>
+          <h3>My Users</h3>
           <div className="p-search-bar">
-            <input placeholder="Search user..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} style={{ width: 240 }} />
+            <input placeholder="Search user..." value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} style={{ width: 200 }} />
             <select value={filter} onChange={e => { setFilter(e.target.value); setPage(1); }}>
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -91,8 +91,8 @@ const AdminUsers = () => {
           </div>
         </div>
       </div>
-    </AdminLayout>
+    </AgentLayout>
   );
 };
 
-export default AdminUsers;
+export default AgentUsers;

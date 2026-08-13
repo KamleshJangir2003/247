@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AdminLayout from "./AdminLayout";
-import "./AdminManage.css";
 
 const INIT = [
   { id:1,  type:"Deposit",    user:"km****1851", amount:"₹2,000",  method:"UPI",           ref:"UTR123456001", date:"28 May, 11:02", status:"pending"  },
@@ -21,7 +20,7 @@ const AdminTransactions = () => {
   const [filter, setFilter] = useState("all");
   const [status, setStatus] = useState("all");
   const [search, setSearch] = useState("");
-  const [page, setPage]     = useState(1);
+  const [page, setPage] = useState(1);
 
   const filtered = INIT.filter(r => {
     const matchT = filter === "all" || r.type.toLowerCase() === filter;
@@ -31,80 +30,71 @@ const AdminTransactions = () => {
   });
 
   const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const paginated  = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   return (
     <AdminLayout pageTitle="All Transactions">
-
-      <div className="adm-summary-row">
-        <div className="adm-sum-card"><p>Total Records</p><h4>{INIT.length}</h4></div>
-        <div className="adm-sum-card"><p>Deposits</p><h4 style={{color:"#4ade80"}}>{INIT.filter(r=>r.type==="Deposit").length}</h4></div>
-        <div className="adm-sum-card"><p>Withdrawals</p><h4 style={{color:"#f87171"}}>{INIT.filter(r=>r.type==="Withdrawal").length}</h4></div>
-        <div className="adm-sum-card"><p>Pending</p><h4 style={{color:"#fbbf24"}}>{INIT.filter(r=>r.status==="pending").length}</h4></div>
+      <div className="p-summary-row">
+        <div className="p-sum-card"><p>Total Records</p><h4>{INIT.length}</h4></div>
+        <div className="p-sum-card"><p>Deposits</p><h4 style={{ color: "#4ade80" }}>{INIT.filter(r => r.type === "Deposit").length}</h4></div>
+        <div className="p-sum-card"><p>Withdrawals</p><h4 style={{ color: "#f87171" }}>{INIT.filter(r => r.type === "Withdrawal").length}</h4></div>
+        <div className="p-sum-card"><p>Pending</p><h4 style={{ color: "#fbbf24" }}>{INIT.filter(r => r.status === "pending").length}</h4></div>
       </div>
 
-      <div className="adm-mgmt-header">
-        <span className="adm-mgmt-title">Transaction History</span>
-        <div className="adm-search-bar">
-          <input
-            type="text"
-            placeholder="Search user / reference"
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-            style={{ width: 220 }}
-          />
-          <select value={filter} onChange={(e) => { setFilter(e.target.value); setPage(1); }}>
-            <option value="all">All Types</option>
-            <option value="deposit">Deposit</option>
-            <option value="withdrawal">Withdrawal</option>
-          </select>
-          <select value={status} onChange={(e) => { setStatus(e.target.value); setPage(1); }}>
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-          </select>
+      <div className="p-card">
+        <div className="p-card-header">
+          <h3>Transaction History</h3>
+          <div className="p-search-bar">
+            <input placeholder="Search user / reference" value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} style={{ width: 200 }} />
+            <select value={filter} onChange={e => { setFilter(e.target.value); setPage(1); }}>
+              <option value="all">All Types</option>
+              <option value="deposit">Deposit</option>
+              <option value="withdrawal">Withdrawal</option>
+            </select>
+            <select value={status} onChange={e => { setStatus(e.target.value); setPage(1); }}>
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        <div className="p-card-body" style={{ padding: 0 }}>
+          <div className="p-table-wrap">
+            <table className="p-table">
+              <thead><tr><th>#</th><th>Type</th><th>User</th><th>Amount</th><th>Method</th><th>Reference</th><th>Date</th><th>Status</th></tr></thead>
+              <tbody>
+                {paginated.length === 0
+                  ? <tr><td colSpan={8} className="p-nodata">No records found.</td></tr>
+                  : paginated.map((r, i) => (
+                    <tr key={r.id}>
+                      <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
+                      <td>
+                        <span style={{ color: r.type === "Deposit" ? "#4ade80" : "#f87171", fontWeight: 600, fontSize: 12 }}>
+                          {r.type === "Deposit" ? "⬇ " : "⬆ "}{r.type}
+                        </span>
+                      </td>
+                      <td style={{ color: "#c0d0e0", fontWeight: 600 }}>{r.user}</td>
+                      <td style={{ color: r.type === "Deposit" ? "#4ade80" : "#f87171", fontWeight: 600 }}>{r.amount}</td>
+                      <td>{r.method}</td>
+                      <td style={{ fontFamily: "monospace", fontSize: 11 }}>{r.ref}</td>
+                      <td>{r.date}</td>
+                      <td><span className={`p-badge ${r.status}`}>{r.status}</span></td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+            {totalPages > 1 && (
+              <div className="p-pagination">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                  <button key={p} className={page === p ? "active" : ""} onClick={() => setPage(p)}>{p}</button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-
-      <div className="adm-table-wrap">
-        <table className="adm-table">
-          <thead>
-            <tr>
-              <th>#</th><th>Type</th><th>User</th><th>Amount</th><th>Method</th><th>Reference</th><th>Date</th><th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginated.length === 0 ? (
-              <tr><td colSpan={8} className="adm-nodata">No records found.</td></tr>
-            ) : paginated.map((r, i) => (
-              <tr key={r.id}>
-                <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
-                <td>
-                  <span style={{ color: r.type === "Deposit" ? "#4ade80" : "#f87171", fontWeight:600, fontSize:12 }}>
-                    {r.type === "Deposit" ? "⬇ " : "⬆ "}{r.type}
-                  </span>
-                </td>
-                <td style={{ color:"#c0d0e0", fontWeight:600 }}>{r.user}</td>
-                <td style={{ color: r.type === "Deposit" ? "#4ade80" : "#f87171", fontWeight:600 }}>{r.amount}</td>
-                <td>{r.method}</td>
-                <td style={{ fontFamily:"monospace", fontSize:11 }}>{r.ref}</td>
-                <td>{r.date}</td>
-                <td><span className={`adm-badge ${r.status}`}>{r.status}</span></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {totalPages > 1 && (
-          <div className="adm-pagination">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-              <button key={p} className={page === p ? "active" : ""} onClick={() => setPage(p)}>{p}</button>
-            ))}
-          </div>
-        )}
-      </div>
-
     </AdminLayout>
   );
 };
