@@ -7,6 +7,11 @@ const GamePage = ({ title, games, categories }) => {
   const [activeGame, setActiveGame] = useState(null);
   const [activeCat, setActiveCat]   = useState(categories?.[0] || "All");
 
+  const allLabel = categories?.[0] || "All";
+  const filtered = activeCat === allLabel
+    ? games
+    : games.filter((g) => g.subCategory === activeCat);
+
   const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
   const isDemo     = localStorage.getItem("userType") === "demo";
 
@@ -79,7 +84,7 @@ const GamePage = ({ title, games, categories }) => {
       <div className="gpage-titlebar">
         <div className="gpage-titlebar-dot" />
         <span className="gpage-titlebar-text">{title}</span>
-        <span className="gpage-titlebar-count">{games.length} Games</span>
+        <span className="gpage-titlebar-count">{filtered.length} / {games.length} Games</span>
       </div>
 
       <div className="gpage-body">
@@ -98,20 +103,24 @@ const GamePage = ({ title, games, categories }) => {
 
         <main className="gpage-main">
           <div className="gpage-section-title">{activeCat} — {title}</div>
-          <div className="gpage-grid">
-            {games.map((game) => (
-              <div key={game.id} className="gpage-card" onClick={() => setActiveGame(game)}>
-                <img src={getImg(game)} alt={game.name} className="gpage-card-img" />
-                {game.badge && (
-                  <span className={`gpage-card-badge ${badgeClass(game.badge)}`}>{game.badge}</span>
-                )}
-                <div className="gpage-card-overlay">
-                  <div className="gpage-card-name">{game.name}</div>
-                  <div className="gpage-card-play">▶ PLAY</div>
+          {filtered.length === 0 ? (
+            <div className="gpage-empty">No games available in this category</div>
+          ) : (
+            <div className="gpage-grid">
+              {filtered.map((game) => (
+                <div key={game.id} className="gpage-card" onClick={() => setActiveGame(game)}>
+                  <img src={getImg(game)} alt={game.name} className="gpage-card-img" />
+                  {game.badge && (
+                    <span className={`gpage-card-badge ${badgeClass(game.badge)}`}>{game.badge}</span>
+                  )}
+                  <div className="gpage-card-overlay">
+                    <div className="gpage-card-name">{game.name}</div>
+                    <div className="gpage-card-play">▶ PLAY</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </main>
       </div>
 

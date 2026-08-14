@@ -5,7 +5,7 @@ import CasinoSidebar from "../../components/livecasino/CasinoSidebar";
 import CasinoGrid from "../../components/livecasino/CasinoGrid";
 
 const LiveCasinoPage = () => {
-  const [category, setCategory] = useState("Our Casino");
+  const [category, setCategory] = useState("All Games");
 
   return (
     <div className="live-casino-page">

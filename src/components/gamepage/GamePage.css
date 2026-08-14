@@ -409,3 +409,13 @@
 @media (max-width: 600px) {
   .gpage-modal-imgwrap { height: 260px; }
 }
+
+/* ── EMPTY STATE ── */
+.gpage-empty {
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+  padding: 48px 16px;
+  letter-spacing: 0.5px;
+}

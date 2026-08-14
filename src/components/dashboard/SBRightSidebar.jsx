@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SBRightSidebar.css";
+import GameModal from "../livecasino/GameModal";
+import { liveCasinoGames, crashGames } from "../../data/gamesData";
 
 const winners = [
   { user: "km****1851", game: "Roulette",     amt: "₹3,15,41,739", time: "19:33" },
@@ -19,63 +22,93 @@ const casinoGames = [
   { emoji: "🎲", name: "Teen Patti",   tag: "NEW",  tagBg: "#1a3a5c" },
 ];
 
-const SBRightSidebar = () => (
-  <div className="sbrs-root">
+// Find a game by name across live casino and crash data
+const allGames = [...liveCasinoGames, ...crashGames];
+const findGame = (name) =>
+  allGames.find((g) => g.name.toLowerCase() === name.toLowerCase());
 
-    {/* WINNERS */}
-    <div className="sbrs-sec-title">🏆 TOP WINNERS</div>
-    <div className="sbrs-winners">
-      {winners.map((w, i) => (
-        <div className="sbrs-winner-row" key={i}>
-          <span className="sbrs-rank">#{i + 1}</span>
-          <div className="sbrs-winner-info">
-            <div className="sbrs-winner-user">{w.user}</div>
-            <div className="sbrs-winner-game">{w.game} • {w.time}</div>
+const SBRightSidebar = () => {
+  const navigate = useNavigate();
+  const [activeGame, setActiveGame] = useState(null);
+
+  const handleGameClick = (name) => {
+    const game = findGame(name);
+    if (game) {
+      setActiveGame(game);
+    } else {
+      navigate("/live-casino");
+    }
+  };
+
+  return (
+    <div className="sbrs-root">
+
+      {/* WINNERS */}
+      <div className="sbrs-sec-title">🏆 TOP WINNERS</div>
+      <div className="sbrs-winners">
+        {winners.map((w, i) => (
+          <div className="sbrs-winner-row" key={i}>
+            <span className="sbrs-rank">#{i + 1}</span>
+            <div className="sbrs-winner-info">
+              <div className="sbrs-winner-user">{w.user}</div>
+              <div className="sbrs-winner-game">{w.game} • {w.time}</div>
+            </div>
+            <div className="sbrs-winner-amt">{w.amt}</div>
           </div>
-          <div className="sbrs-winner-amt">{w.amt}</div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
 
-    {/* BONUS BANNER */}
-    <div className="sbrs-sec-title">🎁 BONUS</div>
-    <div className="sbrs-bonus">
-      <div className="sbrs-bonus-title">Welcome Bonus</div>
-      <div className="sbrs-bonus-amt">100% up to ₹10,000</div>
-      <div className="sbrs-bonus-code">Code: WELCOME100</div>
-      <button className="sbrs-bonus-btn">CLAIM NOW</button>
-    </div>
+      {/* BONUS BANNER */}
+      <div className="sbrs-sec-title">🎁 BONUS</div>
+      <div className="sbrs-bonus">
+        <div className="sbrs-bonus-title">Welcome Bonus</div>
+        <div className="sbrs-bonus-amt">100% up to ₹10,000</div>
+        <div className="sbrs-bonus-code">Code: WELCOME100</div>
+        <button className="sbrs-bonus-btn" onClick={() => navigate("/bonus")}>CLAIM NOW</button>
+      </div>
 
-    {/* CASINO GAMES */}
-    <div className="sbrs-sec-title">🎰 CASINO GAMES</div>
-    <div className="sbrs-casino-grid">
-      {casinoGames.map((g, i) => (
-        <div className="sbrs-casino-card" key={i}>
-          <div className="sbrs-casino-emoji">{g.emoji}</div>
-          <div className="sbrs-casino-name">{g.name}</div>
-          <span className="sbrs-casino-tag" style={{ background: g.tagBg }}>{g.tag}</span>
-        </div>
-      ))}
-    </div>
+      {/* CASINO GAMES */}
+      <div className="sbrs-sec-title">🎰 CASINO GAMES</div>
+      <div className="sbrs-casino-grid">
+        {casinoGames.map((g, i) => (
+          <div
+            className="sbrs-casino-card"
+            key={i}
+            onClick={() => handleGameClick(g.name)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && handleGameClick(g.name)}
+          >
+            <div className="sbrs-casino-emoji">{g.emoji}</div>
+            <div className="sbrs-casino-name">{g.name}</div>
+            <span className="sbrs-casino-tag" style={{ background: g.tagBg }}>{g.tag}</span>
+          </div>
+        ))}
+      </div>
 
-    {/* TRENDING */}
-    <div className="sbrs-sec-title">🔥 TRENDING</div>
-    <div className="sbrs-trending">
-      {[
-        "India to win Test Series",
-        "Djokovic Wimbledon Winner",
-        "Man City Top 4 Finish",
-        "GT IPL 2025 Champions",
-        "Alcaraz French Open",
-      ].map((t, i) => (
-        <div className="sbrs-trend-item" key={i}>
-          <span className="sbrs-trend-num">{i + 1}.</span>
-          <span>{t}</span>
-        </div>
-      ))}
-    </div>
+      {/* TRENDING */}
+      <div className="sbrs-sec-title">🔥 TRENDING</div>
+      <div className="sbrs-trending">
+        {[
+          "India to win Test Series",
+          "Djokovic Wimbledon Winner",
+          "Man City Top 4 Finish",
+          "GT IPL 2025 Champions",
+          "Alcaraz French Open",
+        ].map((t, i) => (
+          <div className="sbrs-trend-item" key={i}>
+            <span className="sbrs-trend-num">{i + 1}.</span>
+            <span>{t}</span>
+          </div>
+        ))}
+      </div>
 
-  </div>
-);
+      {activeGame && (
+        <GameModal game={activeGame} onClose={() => setActiveGame(null)} />
+      )}
+
+    </div>
+  );
+};
 
 export default SBRightSidebar;
