@@ -362,9 +362,6 @@
   padding: 2px 6px;
   letter-spacing: 1px;
 }
-@media (max-width: 600px) {
-  .gpage-modal-imgwrap { height: 300px; }
-}
 .gpage-modal-bottom {
   background: #1a1a1a;
   border-top: 1px solid #2a2a2a;
@@ -396,4 +393,19 @@
 @media (max-width: 768px) {
   .gpage-sidebar { display: none; }
   .gpage-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+  .gpage-topnav a { padding: 8px 12px; font-size: 10px; }
+}
+
+@media (max-width: 480px) {
+  .gpage-grid { grid-template-columns: repeat(2, 1fr); }
+  .gpage-card { height: 120px; }
+  .gpage-modal-imgwrap { height: 220px; }
+  .gpage-modal-bottom { flex-direction: column; gap: 8px; }
+  .gpage-modal-playbtn { width: 100%; text-align: center; }
+  .gpage-titlebar { padding: 6px 10px; }
+  .gpage-main { padding: 6px; }
+}
+
+@media (max-width: 600px) {
+  .gpage-modal-imgwrap { height: 260px; }
 }

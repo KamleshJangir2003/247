@@ -23,3 +23,9 @@
 
 @media(max-width:768px){ .support-cards{ grid-template-columns:repeat(2,1fr); } }
 @media(max-width:480px){ .support-cards{ grid-template-columns:1fr 1fr; } }
+
+@media(max-width:767px){
+  .support-page .main-layout { flex-direction:column; }
+  .support-content { padding:8px; }
+  .support-form { max-width:100%; }
+}

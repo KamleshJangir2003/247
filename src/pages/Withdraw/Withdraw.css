@@ -210,3 +210,15 @@ tbody tr:hover { background: #f9f9f9; }
   .wd-form-wrap { max-width: 100%; }
   .withdraw-header { flex-direction: column; gap: 5px; align-items: flex-start; }
 }
+
+@media (max-width: 767px) {
+  .withdraw-page .main-layout {
+    flex-direction: column;
+  }
+  .withdraw-content { padding: 8px; }
+  .wd-table-section { overflow-x: auto; }
+  .wd-table-section table { min-width: 480px; }
+  .wd-amount-btns { grid-template-columns: repeat(3, 1fr); }
+  .wd-methods { gap: 6px; }
+  .wd-method-btn { padding: 7px 12px; font-size: 12px; }
+}

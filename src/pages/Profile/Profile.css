@@ -21,3 +21,9 @@
 .p-save-btn:hover { background:#00a651; }
 
 @media(max-width:600px){ .profile-form{ grid-template-columns:1fr; } }
+
+@media(max-width:767px){
+  .profile-page .main-layout { flex-direction:column; }
+  .profile-content { padding:8px; }
+  .profile-card { flex-direction:column; text-align:center; }
+}

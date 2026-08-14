@@ -328,3 +328,32 @@ tbody tr:hover { background: #f9f9f9; }
     display: none;
   }
 }
+
+@media (max-width: 767px) {
+  .deposit-page .main-layout {
+    flex-direction: column;
+  }
+  .deposit-content {
+    padding: 8px;
+  }
+  .deposit-body {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .right-box {
+    width: 100%;
+  }
+  .table-section {
+    overflow-x: auto;
+  }
+  table {
+    min-width: 480px;
+  }
+  .amount-buttons {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .tabs button {
+    font-size: 11px;
+    padding: 7px 4px;
+  }
+}

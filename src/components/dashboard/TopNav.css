@@ -12,6 +12,73 @@
 }
 .top-nav::-webkit-scrollbar { display: none; }
 
+/* HAMBURGER for mobile */
+.top-nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 12px;
+  height: 44px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* MOBILE DRAWER */
+.top-nav-drawer {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 260px;
+  height: 100vh;
+  background: #1a1a2e;
+  z-index: 9999;
+  flex-direction: column;
+  padding: 16px 0;
+  box-shadow: 4px 0 20px rgba(0,0,0,0.7);
+  overflow-y: auto;
+}
+.top-nav-drawer.open { display: flex; }
+.top-nav-drawer-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 16px 14px;
+  align-self: flex-end;
+}
+.top-nav-drawer a,
+.top-nav-drawer-item {
+  display: block;
+  padding: 13px 20px;
+  color: #d8c7a1;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid #2a2a4a;
+  cursor: pointer;
+  background: none;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  text-align: left;
+  width: 100%;
+  transition: 0.2s;
+}
+.top-nav-drawer a:hover,
+.top-nav-drawer-item:hover { background: #008b5b; color: #fff; }
+.top-nav-drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 9998;
+}
+.top-nav-drawer-overlay.open { display: block; }
+
 .top-nav-logo {
   display: flex;
   align-items: center;
@@ -140,8 +207,16 @@
   color: #fff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .top-nav-hamburger { display: flex; }
+  .top-nav-item { display: none; }
   .top-nav-balance { display: none; }
-  .top-nav-deposit, .top-nav-withdraw { padding: 5px 10px; font-size: 11px; }
+  .top-nav-deposit, .top-nav-withdraw { display: none; }
+  .top-nav-logo { padding: 4px 8px; }
   .top-nav-logo-img { height: 26px; }
+  .top-nav-right { padding: 0 6px; gap: 6px; }
+}
+
+@media (max-width: 480px) {
+  .top-nav-logo-img { height: 22px; }
 }

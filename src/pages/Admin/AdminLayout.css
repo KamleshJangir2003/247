@@ -4,6 +4,7 @@
   background: #0e1420;
   font-family: 'Segoe UI', Arial, sans-serif;
   color: #d0dce8;
+  overflow-x: hidden;
 }
 
 /* ── SIDEBAR ── */
@@ -119,6 +120,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 /* ── TOPBAR ── */
@@ -185,4 +188,12 @@
   .adm-menu-btn { display: block; }
   .adm-overlay.show { display: block; }
   .adm-topbar-date { display: none; }
+  .adm-content { padding: 14px; }
+}
+
+@media(max-width:480px) {
+  .adm-content { padding: 10px; }
+  .adm-topbar { padding: 0 12px; }
+  .adm-page-title { font-size: 14px; }
+  .adm-admin-badge { padding: 4px 8px; font-size: 11px; }
 }

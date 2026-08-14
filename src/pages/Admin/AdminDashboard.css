@@ -110,4 +110,10 @@
 
 @media(max-width:1100px) { .adm-stats-grid { grid-template-columns: repeat(2,1fr); } }
 @media(max-width:700px)  { .adm-stats-grid { grid-template-columns: 1fr 1fr; } .adm-bottom-grid { grid-template-columns: 1fr; } }
-@media(max-width:480px)  { .adm-stats-grid { grid-template-columns: 1fr; } }
+@media(max-width:480px)  {
+  .adm-stats-grid { grid-template-columns: 1fr 1fr; }
+  .adm-stat-card { padding:14px; gap:10px; }
+  .adm-stat-icon { width:40px; height:40px; font-size:18px; }
+  .adm-stat-info h3 { font-size:18px; }
+  .adm-mini-table th, .adm-mini-table td { padding:8px 10px; font-size:11px; }
+}

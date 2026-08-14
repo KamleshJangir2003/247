@@ -1,5 +1,5 @@
 /* ── PANEL SHELL ─────────────────────────────────────────── */
-.panel-wrap { display:flex; min-height:100vh; background:#0a0f1a; color:#c8d8e8; font-family:'Segoe UI',sans-serif; }
+.panel-wrap { display:flex; min-height:100vh; background:#0a0f1a; color:#c8d8e8; font-family:'Segoe UI',sans-serif; overflow-x:hidden; }
 
 /* ── SIDEBAR ─────────────────────────────────────────────── */
 .panel-sidebar { width:240px; min-height:100vh; background:#0d1526; display:flex; flex-direction:column; flex-shrink:0; transition:transform .25s; z-index:200; }
@@ -159,7 +159,40 @@
 .p-perm-section { font-size:11px; color:#3a5a7a; letter-spacing:1px; text-transform:uppercase; padding:10px 14px 4px; background:#0a0f1a; }
 
 /* ── RESPONSIVE SIDEBAR ──────────────────────────────────── */
-@media(max-width:768px) {
-  .panel-sidebar { position:fixed; top:0; left:0; height:100vh; transform:translateX(-100%); }
+@media(max-width:1023px) {
+  .panel-sidebar { position:fixed; top:0; left:0; height:100vh; transform:translateX(-100%); z-index:300; }
   .panel-sidebar.open { transform:translateX(0); }
+  .panel-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:199; }
+  .panel-overlay.show { display:block; }
+}
+
+@media(max-width:768px) {
+  .panel-content { padding:14px; }
+  .p-stats-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+  .p-bottom-grid { grid-template-columns:1fr; }
+  .p-form-grid { grid-template-columns:1fr; }
+  .p-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .p-table { min-width:520px; }
+  .p-mgmt-header { flex-direction:column; align-items:flex-start; }
+  .p-search-bar { width:100%; }
+  .p-search-bar input, .p-search-bar select { flex:1; min-width:0; width:100%; }
+  .p-summary-row { gap:8px; }
+  .p-sum-card { min-width:100px; }
+  .panel-topbar { padding:0 12px; }
+  .panel-topbar-date { display:none; }
+  .p-modal-overlay { padding:8px; }
+  .p-modal { max-width:100%; }
+}
+
+@media(max-width:480px) {
+  .p-stats-grid { grid-template-columns:1fr 1fr; gap:8px; }
+  .p-stat-card { padding:12px; gap:10px; }
+  .p-stat-icon { width:36px; height:36px; font-size:16px; }
+  .p-stat-info h3 { font-size:15px; }
+  .panel-content { padding:10px; }
+  .p-card-header { padding:10px 12px; }
+  .p-card-body { padding:10px 12px; }
+  .p-modal { margin:0; border-radius:8px; }
+  .p-pagination { justify-content:center; }
+  .p-role-badge span:last-child { display:none; }
 }

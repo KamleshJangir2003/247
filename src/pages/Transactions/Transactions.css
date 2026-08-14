@@ -27,3 +27,12 @@ tbody tr:hover { background:#f9f9f9; }
 .txn-status.rejected { background:#f8d7da; color:#721c24; }
 
 .txn-nodata { text-align:center; padding:40px; color:#888; font-size:13px; }
+
+@media(max-width:767px){
+  .txn-page .main-layout { flex-direction:column; }
+  .txn-content { padding:8px; }
+  .txn-table-wrap { overflow-x:auto; }
+  .txn-table-wrap table { min-width:520px; }
+  .txn-filters { flex-wrap:wrap; gap:6px; }
+  .txn-filter-btn { padding:6px 12px; font-size:12px; }
+}

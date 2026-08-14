@@ -209,4 +209,32 @@ body{
     width:220px;
   }
 
+  .row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .row input {
+    width: 100%;
+    margin-bottom: 12px;
+  }
+
+  .email-row {
+    flex-direction: column;
+  }
+
+  .otp-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .auth-page {
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .support h3 { font-size: 24px; }
+
 }
