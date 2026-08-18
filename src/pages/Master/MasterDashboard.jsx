@@ -1,80 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MasterLayout from "./MasterLayout";
-import { FaUsers, FaUserTie, FaUserShield, FaGamepad, FaMoneyBillWave, FaArrowCircleUp } from "react-icons/fa";
-import { getLogs } from "../../data/activityLog";
-
-const stats = [
-  { icon: <FaUserShield />, color: "purple", label: "Total Admins",   value: "3",         sub: "Active" },
-  { icon: <FaUserTie />,    color: "teal",   label: "Total Agents",   value: "12",        sub: "Active" },
-  { icon: <FaUsers />,      color: "blue",   label: "Total Users",    value: "1,248",     sub: "+12 today" },
-  { icon: <FaGamepad />,    color: "amber",  label: "Total Games",    value: "88",        sub: "Enabled" },
-  { icon: <FaMoneyBillWave />, color: "green", label: "Total Deposits",  value: "₹4,82,500", sub: "All time" },
-  { icon: <FaArrowCircleUp />, color: "red",   label: "Total Withdrawals", value: "₹2,14,000", sub: "All time" },
-];
+import { FaUsers, FaUserTie, FaMoneyBillWave, FaArrowCircleUp, FaWallet } from "react-icons/fa";
+import { masterDashboard, masterReport } from "../../api/agent";
 
 const MasterDashboard = () => {
-  const logs = getLogs().slice(0, 6);
+  const [data, setData]     = useState(null);
+  const [report, setReport] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    Promise.all([masterDashboard(), masterReport()])
+      .then(([d, r]) => {
+        if (d?.success)  setData(d.data);
+        if (r?.success)  setReport(r.data);
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const stats = [
+    { icon: <FaUserTie />,       color: "teal",  label: "Total Agents",      value: data?.totalAgents ?? "—" },
+    { icon: <FaUsers />,         color: "blue",  label: "Total Users",       value: data?.totalUsers  ?? "—" },
+    { icon: <FaWallet />,        color: "green", label: "My Balance",        value: data ? `₹${data.balance.toLocaleString("en-IN")}` : "—" },
+    { icon: <FaMoneyBillWave />, color: "amber", label: "Pending Deposits",  value: data?.pendingDeposits  ?? "—" },
+    { icon: <FaArrowCircleUp />, color: "red",   label: "Pending Withdrawals", value: data?.pendingWithdrawals ?? "—" },
+    { icon: <FaMoneyBillWave />, color: "purple",label: "Total Deposited",   value: report ? `₹${(report.totalDepositAmount || 0).toLocaleString("en-IN")}` : "—" },
+  ];
+
   return (
     <MasterLayout pageTitle="Dashboard">
-      <div className="p-stats-grid">
-        {stats.map((s, i) => (
-          <div className="p-stat-card" key={i}>
-            <div className={`p-stat-icon ${s.color}`}>{s.icon}</div>
-            <div className="p-stat-info">
-              <p>{s.label}</p>
-              <h3>{s.value}</h3>
-              <div className="p-stat-sub">{s.sub}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="p-bottom-grid">
-        <div className="p-card">
-          <div className="p-card-header">
-            <h3>Quick Links</h3>
-          </div>
-          <div className="p-card-body" style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            {[
-              { label: "Manage Admins",  path: "/master/admins" },
-              { label: "Manage Agents",  path: "/master/agents" },
-              { label: "Manage Users",   path: "/master/users" },
-              { label: "Games Catalog",  path: "/master/games" },
-              { label: "Banners",        path: "/master/banners" },
-              { label: "Permissions",    path: "/master/permissions" },
-              { label: "Activity Logs",  path: "/master/activity" },
-              { label: "Settings",       path: "/master/settings" },
-            ].map(l => (
-              <Link key={l.path} to={l.path} className="p-btn p-btn-primary" style={{ textDecoration: "none", padding: "7px 14px", borderRadius: 6, fontSize: 12 }}>
-                {l.label}
-              </Link>
+      {loading ? (
+        <div style={{ color: "#7a9ab8", padding: 20 }}>Loading…</div>
+      ) : (
+        <>
+          <div className="p-stats-grid">
+            {stats.map((s, i) => (
+              <div className="p-stat-card" key={i}>
+                <div className={`p-stat-icon ${s.color}`}>{s.icon}</div>
+                <div className="p-stat-info">
+                  <p>{s.label}</p>
+                  <h3>{s.value}</h3>
+                </div>
+              </div>
             ))}
           </div>
-        </div>
 
-        <div className="p-card">
-          <div className="p-card-header">
-            <h3>Recent Activity</h3>
-            <Link to="/master/activity" className="p-view-all">View All →</Link>
-          </div>
-          <div className="p-card-body" style={{ padding: 0 }}>
-            <table className="p-mini-table">
-              <thead><tr><th>Actor</th><th>Action</th><th>Target</th><th>Date</th></tr></thead>
-              <tbody>
-                {logs.map(l => (
-                  <tr key={l.id}>
-                    <td><span className={`p-badge ${l.role}`}>{l.actor}</span></td>
-                    <td>{l.action}</td>
-                    <td>{l.target}</td>
-                    <td style={{ color: "#4a6a8a", fontSize: 11 }}>{l.date}</td>
-                  </tr>
+          <div className="p-bottom-grid">
+            <div className="p-card">
+              <div className="p-card-header"><h3>Quick Links</h3></div>
+              <div className="p-card-body" style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+                {[
+                  { label: "Manage Agents",  path: "/master/agents" },
+                  { label: "Manage Users",   path: "/master/users" },
+                  { label: "Activity Logs",  path: "/master/activity" },
+                  { label: "Settings",       path: "/master/settings" },
+                ].map(l => (
+                  <Link key={l.path} to={l.path} className="p-btn p-btn-primary"
+                    style={{ textDecoration: "none", padding: "7px 14px", borderRadius: 6, fontSize: 12 }}>
+                    {l.label}
+                  </Link>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </div>
+
+            {data?.recentAudit?.length > 0 && (
+              <div className="p-card">
+                <div className="p-card-header">
+                  <h3>Recent Activity</h3>
+                  <Link to="/master/activity" className="p-view-all">View All →</Link>
+                </div>
+                <div className="p-card-body" style={{ padding: 0 }}>
+                  <table className="p-mini-table">
+                    <thead><tr><th>Actor</th><th>Action</th><th>Date</th></tr></thead>
+                    <tbody>
+                      {data.recentAudit.map(l => (
+                        <tr key={l._id}>
+                          <td><span className={`p-badge ${l.actor?.role?.toLowerCase()}`}>{l.actor?.username}</span></td>
+                          <td>{l.action}</td>
+                          <td style={{ color: "#4a6a8a", fontSize: 11 }}>{new Date(l.createdAt).toLocaleDateString("en-IN")}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
           </div>
-        </div>
-      </div>
+        </>
+      )}
     </MasterLayout>
   );
 };

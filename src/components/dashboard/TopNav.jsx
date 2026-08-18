@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo2.png";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { useAuth } from "../../context/AuthContext";
 import "./TopNav.css";
 
 const links = [
@@ -25,18 +26,17 @@ const menuItems = [
 ];
 
 const TopNav = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
+  const location    = useLocation();
+  const navigate    = useNavigate();
+  const { logout }  = useAuth();
+  const [showMenu, setShowMenu]     = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const dropdownRef = useRef(null);
   const balance = 5000;
 
   useEffect(() => {
     const handler = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setShowMenu(false);
-      }
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setShowMenu(false);
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
@@ -44,12 +44,17 @@ const TopNav = () => {
 
   const handleNav = (path) => { setShowMenu(false); setDrawerOpen(false); navigate(path); };
 
+  const handleLogout = async () => {
+    await logout();
+    setShowMenu(false);
+    setDrawerOpen(false);
+    navigate("/login");
+  };
+
   return (
     <>
-      {/* MOBILE DRAWER OVERLAY */}
       <div className={`top-nav-drawer-overlay${drawerOpen ? " open" : ""}`} onClick={() => setDrawerOpen(false)} />
 
-      {/* MOBILE DRAWER */}
       <nav className={`top-nav-drawer${drawerOpen ? " open" : ""}`}>
         <button className="top-nav-drawer-close" onClick={() => setDrawerOpen(false)}><FaTimes /></button>
         {links.map(l => (
@@ -61,12 +66,11 @@ const TopNav = () => {
               {item.icon} {item.label}
             </button>
           ))}
-          <button className="top-nav-drawer-item" onClick={() => handleNav("/")}>🚪 Logout</button>
+          <button className="top-nav-drawer-item" onClick={handleLogout}>🚪 Logout</button>
         </div>
       </nav>
 
       <div className="top-nav">
-        {/* HAMBURGER */}
         <button className="top-nav-hamburger" onClick={() => setDrawerOpen(true)}><FaBars /></button>
 
         <Link to="/dashboard" className="top-nav-logo">
@@ -83,7 +87,6 @@ const TopNav = () => {
           </Link>
         ))}
 
-        {/* RIGHT SIDE */}
         <div className="top-nav-right">
           <div className="top-nav-balance">₹{balance.toLocaleString("en-IN")}</div>
           <button className="top-nav-deposit"  onClick={() => navigate("/deposit")}>💰 Deposit</button>
@@ -98,7 +101,7 @@ const TopNav = () => {
                     {item.icon} {item.label}
                   </div>
                 ))}
-                <div className="top-nav-logout" onClick={() => handleNav("/")}>🚪 Logout</div>
+                <div className="top-nav-logout" onClick={handleLogout}>🚪 Logout</div>
               </div>
             )}
           </div>

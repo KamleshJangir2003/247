@@ -1,20 +1,25 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { FaThLarge, FaUsers, FaUserCircle, FaHistory, FaChartBar, FaSignOutAlt, FaBars, FaUserTie } from "react-icons/fa";
+import { FaThLarge, FaUsers, FaUserCircle, FaHistory, FaChartBar, FaSignOutAlt, FaBars, FaUserTie, FaMoneyBillWave, FaArrowCircleUp, FaExchangeAlt, FaPercentage } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import "../../components/PanelShared.css";
 
 const NAV = [
   { section: "Main" },
-  { icon: <FaThLarge />,   label: "Dashboard",     path: "/agent/dashboard" },
+  { icon: <FaThLarge />,        label: "Dashboard",     path: "/agent/dashboard" },
   { section: "Users" },
-  { icon: <FaUsers />,     label: "My Users",       path: "/agent/users" },
-  { icon: <FaUserCircle />,label: "User Details",   path: "/agent/user-details" },
-  { icon: <FaHistory />,   label: "User Activity",  path: "/agent/user-activity" },
+  { icon: <FaUsers />,          label: "My Users",       path: "/agent/users" },
+  { icon: <FaUserCircle />,     label: "User Details",   path: "/agent/user-details" },
+  { icon: <FaHistory />,        label: "User Activity",  path: "/agent/user-activity" },
+  { section: "Finance" },
+  { icon: <FaMoneyBillWave />,  label: "Deposits",       path: "/agent/deposits" },
+  { icon: <FaArrowCircleUp />,  label: "Withdrawals",    path: "/agent/withdrawals" },
+  { icon: <FaExchangeAlt />,    label: "Transactions",   path: "/agent/transactions" },
+  { icon: <FaPercentage />,     label: "Commissions",    path: "/agent/commissions" },
   { section: "Reports" },
-  { icon: <FaChartBar />,  label: "Reports",        path: "/agent/reports" },
+  { icon: <FaChartBar />,       label: "Reports",        path: "/agent/reports" },
   { section: "Account" },
-  { icon: <FaUserTie />,   label: "My Profile",     path: "/agent/profile" },
+  { icon: <FaUserTie />,        label: "My Profile",     path: "/agent/profile" },
 ];
 
 const AgentLayout = ({ children, pageTitle }) => {

@@ -1,42 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.css";
 import logo from "../assets/images/logo2.png";
 import { Link, useNavigate } from "react-router-dom";
 import { FaMoon, FaUserCircle, FaWallet, FaBars, FaTimes } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
+import { getBalance } from "../api/wallet";
 
 const NAV_LINKS = [
-  { label: "Home",         path: "/home" },
-  { label: "Sportsbook",   path: "/sportsbook1" },
-  { label: "Exchange",     path: "/exchange" },
-  { label: "Live Casino",  path: "/live-casino" },
-  { label: "Slot",         path: "/slot" },
-  { label: "Fantasy",      path: "/fantasy-games" },
-  { label: "Crash",        path: "/crash" },
-  { label: "Lottery",      path: "/lottery" },
+  { label: "Home",        path: "/home" },
+  { label: "Sportsbook",  path: "/sportsbook1" },
+  { label: "Exchange",    path: "/exchange" },
+  { label: "Live Casino", path: "/live-casino" },
+  { label: "Slot",        path: "/slot" },
+  { label: "Fantasy",     path: "/fantasy-games" },
+  { label: "Crash",       path: "/crash" },
+  { label: "Lottery",     path: "/lottery" },
 ];
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
-  const [balance] = useState(5000);
+  const { user, logout } = useAuth();
+  const isLoggedIn = !!user;
+  const [balance, setBalance] = useState(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      getBalance().then((res) => {
+        if (res?.success) setBalance(res.data.wallet.balance ?? 0);
+      }).catch(() => {});
+    } else {
+      setBalance(null);
+    }
+  }, [isLoggedIn]);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleNav = (path) => { setMobileOpen(false); navigate(path); };
-  const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userType");
-    setIsLoggedIn(false);
+
+  const handleLogout = async () => {
+    await logout();
     setMobileOpen(false);
-    navigate("/home");
+    setShowUserMenu(false);
+    navigate("/login");
   };
 
   return (
     <>
-      {/* MOBILE OVERLAY */}
       <div className={`header-mobile-overlay${mobileOpen ? " open" : ""}`} onClick={() => setMobileOpen(false)} />
 
-      {/* MOBILE NAV DRAWER */}
       <nav className={`header-mobile-nav${mobileOpen ? " open" : ""}`}>
         <button className="header-mobile-nav-close" onClick={() => setMobileOpen(false)}><FaTimes /></button>
         {NAV_LINKS.map(l => (
@@ -57,19 +68,15 @@ const Header = () => {
         )}
       </nav>
 
-      {/* TOP HEADER */}
       <div className="top-header">
-        {/* HAMBURGER */}
         <button className="header-hamburger" onClick={() => setMobileOpen(true)}><FaBars /></button>
 
-        {/* LOGO */}
         <div className="logo-section">
           <Link to="/home">
             <img src={logo} alt="logo" className="main-logo" />
           </Link>
         </div>
 
-        {/* RIGHT SIDE */}
         <div className="right-header">
           <div className="moon-icon"><FaMoon /></div>
 
@@ -77,9 +84,9 @@ const Header = () => {
             <>
               <div className="header-balance">
                 <FaWallet style={{ marginRight: 5 }} />
-                ₹{balance.toLocaleString("en-IN")}
+                {balance !== null ? `₹${balance.toLocaleString("en-IN")}` : "—"}
               </div>
-              <button className="deposit-btn" onClick={() => navigate("/deposit")}>Deposit</button>
+              <button className="deposit-btn"  onClick={() => navigate("/deposit")}>Deposit</button>
               <button className="withdraw-btn" onClick={() => navigate("/withdraw")}>Withdraw</button>
               <div className="user-menu-wrap" onClick={() => setShowUserMenu(!showUserMenu)}>
                 <FaUserCircle className="user-icon" />
@@ -87,7 +94,7 @@ const Header = () => {
                   <div className="user-dropdown">
                     <div onClick={() => { setShowUserMenu(false); navigate("/deposit"); }}>💰 Deposit</div>
                     <div onClick={() => { setShowUserMenu(false); navigate("/withdraw"); }}>💸 Withdraw</div>
-                    <div onClick={() => { setShowUserMenu(false); handleLogout(); }}>🚪 Logout</div>
+                    <div onClick={handleLogout}>🚪 Logout</div>
                   </div>
                 )}
               </div>
@@ -101,7 +108,6 @@ const Header = () => {
         </div>
       </div>
 
-      {/* MATCH BAR */}
       <div className="match-bar">
         <div className="upcoming-box">Upcoming <br /> Fixture</div>
         <div className="match-scroll">

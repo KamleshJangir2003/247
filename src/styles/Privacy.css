@@ -1,5 +1,6 @@
 .privacy-box {
-  width: 750px;
+  width: 100%;
+  max-width: 750px;
   background: #ececec;
   padding: 35px 40px;
   border-radius: 4px;
@@ -69,9 +70,18 @@
   font-weight: bold;
 }
 
+@media (max-width: 767px) {
+  .privacy-box {
+    width: 100%;
+    padding: 20px 14px;
+  }
+}
+
 @media (max-width: 480px) {
   .privacy-box {
-    width: 92%;
-    padding: 20px;
+    width: 100%;
+    padding: 16px 12px;
   }
+  .privacy-box h1 { font-size: 22px; }
+  .privacy-box h2 { font-size: 17px; }
 }

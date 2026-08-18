@@ -1,39 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AdminLayout from "./AdminLayout";
-import { addLog } from "../../data/activityLog";
-import { useAuth } from "../../context/AuthContext";
-
-const INIT = [
-  { id: 1, username: "agent777",  name: "Agent User",  email: "agent@777games.com",  mobile: "99887XXXXX", users: 45, created: "01 Feb 2024", status: "active"  },
-  { id: 2, username: "agent002",  name: "South Agent", email: "south@777games.com",  mobile: "77665XXXXX", users: 32, created: "10 Mar 2024", status: "active"  },
-  { id: 3, username: "agent003",  name: "North Agent", email: "north@777games.com",  mobile: "88990XXXXX", users: 18, created: "20 Apr 2024", status: "blocked" },
-];
+import { listUsers, setStatus } from "../../api/users";
 
 const AdminAgents = () => {
-  const { user } = useAuth();
-  const [agents, setAgents] = useState(INIT);
+  const [agents, setAgents] = useState([]);
+  const [total, setTotal]   = useState(0);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const toggle = (id) => {
-    setAgents(agents.map(a => {
-      if (a.id !== id) return a;
-      const next = a.status === "active" ? "blocked" : "active";
-      addLog(user.username, "admin", `${next === "blocked" ? "Blocked" : "Unblocked"} agent`, a.username);
-      return { ...a, status: next };
-    }));
+  const load = useCallback(() => {
+    setLoading(true);
+    listUsers({ role: "AGENT", limit: 100 }).then((res) => {
+      if (res?.success) { setAgents(res.data.users); setTotal(res.data.total); }
+    }).finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const toggle = async (a) => {
+    const next = a.status === "active" ? "blocked" : "active";
+    const res = await setStatus(a._id, next);
+    if (res?.success) load();
   };
 
   const filtered = agents.filter(a =>
     a.username.toLowerCase().includes(search.toLowerCase()) ||
-    a.name.toLowerCase().includes(search.toLowerCase())
+    `${a.firstName} ${a.lastName || ""}`.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <AdminLayout pageTitle="Agents">
       <div className="p-summary-row">
-        <div className="p-sum-card"><p>Total Agents</p><h4>{agents.length}</h4></div>
+        <div className="p-sum-card"><p>Total Agents</p><h4>{total}</h4></div>
         <div className="p-sum-card"><p>Active</p><h4 style={{ color: "#4ade80" }}>{agents.filter(a => a.status === "active").length}</h4></div>
-        <div className="p-sum-card"><p>Total Users</p><h4 style={{ color: "#4a9eff" }}>{agents.reduce((s, a) => s + a.users, 0)}</h4></div>
       </div>
 
       <div className="p-card">
@@ -46,29 +45,30 @@ const AdminAgents = () => {
         <div className="p-card-body" style={{ padding: 0 }}>
           <div className="p-table-wrap">
             <table className="p-table">
-              <thead><tr><th>#</th><th>Username</th><th>Name</th><th>Mobile</th><th>Users</th><th>Created</th><th>Status</th><th>Actions</th></tr></thead>
+              <thead><tr><th>#</th><th>Username</th><th>Name</th><th>Mobile</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>
-                {filtered.length === 0
-                  ? <tr><td colSpan={8} className="p-nodata">No agents found.</td></tr>
-                  : filtered.map((a, i) => (
-                    <tr key={a.id}>
-                      <td>{i + 1}</td>
-                      <td style={{ color: "#2dd4bf", fontWeight: 600 }}>{a.username}</td>
-                      <td>{a.name}</td>
-                      <td>{a.mobile}</td>
-                      <td style={{ color: "#4a9eff", fontWeight: 600 }}>{a.users}</td>
-                      <td>{a.created}</td>
-                      <td><span className={`p-badge ${a.status}`}>{a.status}</span></td>
-                      <td>
-                        <div className="p-action-btns">
-                          {a.status === "active"
-                            ? <button className="p-btn p-btn-block" onClick={() => toggle(a.id)}>Block</button>
-                            : <button className="p-btn p-btn-unblock" onClick={() => toggle(a.id)}>Unblock</button>
-                          }
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                {loading
+                  ? <tr><td colSpan={7} className="p-nodata">Loading…</td></tr>
+                  : filtered.length === 0
+                    ? <tr><td colSpan={7} className="p-nodata">No agents found.</td></tr>
+                    : filtered.map((a, i) => (
+                      <tr key={a._id}>
+                        <td>{i + 1}</td>
+                        <td style={{ color: "#2dd4bf", fontWeight: 600 }}>{a.username}</td>
+                        <td>{`${a.firstName} ${a.lastName || ""}`.trim()}</td>
+                        <td>{a.phone || "—"}</td>
+                        <td>{new Date(a.createdAt).toLocaleDateString("en-IN")}</td>
+                        <td><span className={`p-badge ${a.status}`}>{a.status}</span></td>
+                        <td>
+                          <div className="p-action-btns">
+                            {a.status === "active"
+                              ? <button className="p-btn p-btn-block"   onClick={() => toggle(a)}>Block</button>
+                              : <button className="p-btn p-btn-unblock" onClick={() => toggle(a)}>Unblock</button>
+                            }
+                          </div>
+                        </td>
+                      </tr>
+                    ))
                 }
               </tbody>
             </table>

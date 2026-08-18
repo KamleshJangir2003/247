@@ -1,44 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AdminLayout from "./AdminLayout";
+import { listTransactions } from "../../api/wallet";
 
-const INIT = [
-  { id:1,  type:"Deposit",    user:"km****1851", amount:"₹2,000",  method:"UPI",           ref:"UTR123456001", date:"28 May, 11:02", status:"pending"  },
-  { id:2,  type:"Deposit",    user:"ra****7734", amount:"₹5,000",  method:"IMPS",          ref:"UTR123456002", date:"28 May, 10:44", status:"approved" },
-  { id:3,  type:"Withdrawal", user:"mo****4421", amount:"₹3,000",  method:"Bank Transfer", ref:"WD000001",     date:"28 May, 10:55", status:"pending"  },
-  { id:4,  type:"Deposit",    user:"su****3312", amount:"₹1,000",  method:"UPI",           ref:"UTR123456003", date:"28 May, 10:21", status:"pending"  },
-  { id:5,  type:"Withdrawal", user:"km****1851", amount:"₹1,000",  method:"UPI",           ref:"WD000002",     date:"28 May, 10:10", status:"approved" },
-  { id:6,  type:"Deposit",    user:"vi****9901", amount:"₹500",    method:"UPI",           ref:"UTR123456004", date:"28 May, 09:55", status:"rejected" },
-  { id:7,  type:"Deposit",    user:"mo****4421", amount:"₹10,000", method:"NEFT",          ref:"UTR123456005", date:"28 May, 09:10", status:"pending"  },
-  { id:8,  type:"Withdrawal", user:"pr****6672", amount:"₹5,000",  method:"NEFT",          ref:"WD000003",     date:"28 May, 09:30", status:"pending"  },
-  { id:9,  type:"Deposit",    user:"pr****6672", amount:"₹3,000",  method:"UPI",           ref:"UTR123456006", date:"27 May, 18:30", status:"approved" },
-  { id:10, type:"Withdrawal", user:"an****2244", amount:"₹2,500",  method:"UPI",           ref:"WD000004",     date:"27 May, 18:45", status:"approved" },
-];
-
-const PAGE_SIZE = 7;
+const PAGE_SIZE = 20;
 
 const AdminTransactions = () => {
-  const [filter, setFilter] = useState("all");
-  const [status, setStatus] = useState("all");
-  const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  const [rows, setRows]       = useState([]);
+  const [total, setTotal]     = useState(0);
+  const [typeFilter, setTypeFilter]     = useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [search, setSearch]   = useState("");
+  const [page, setPage]       = useState(1);
+  const [loading, setLoading] = useState(true);
 
-  const filtered = INIT.filter(r => {
-    const matchT = filter === "all" || r.type.toLowerCase() === filter;
-    const matchS = status === "all" || r.status === status;
-    const matchQ = r.user.toLowerCase().includes(search.toLowerCase()) || r.ref.toLowerCase().includes(search.toLowerCase());
-    return matchT && matchS && matchQ;
+  const load = useCallback(() => {
+    setLoading(true);
+    const params = { page, limit: PAGE_SIZE };
+    if (typeFilter !== "all")   params.type   = typeFilter.toUpperCase();
+    if (statusFilter !== "all") params.status = statusFilter.toUpperCase();
+    listTransactions(params).then((res) => {
+      if (res?.success) { setRows(res.data.transactions); setTotal(res.data.total); }
+    }).finally(() => setLoading(false));
+  }, [page, typeFilter, statusFilter]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const filtered = rows.filter(r => {
+    const q = search.toLowerCase();
+    return (r.userId?.username ?? "").toLowerCase().includes(q) ||
+           (r.reference ?? "").toLowerCase().includes(q);
   });
 
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const totalPages = Math.ceil(total / PAGE_SIZE);
+
+  const fmtType = (t) => {
+    if (t === "DEPOSIT")    return { label: "⬇ Deposit",    color: "#4ade80" };
+    if (t === "WITHDRAWAL") return { label: "⬆ Withdrawal", color: "#f87171" };
+    return { label: t?.replace(/_/g, " ") ?? "—", color: "#c0d0e0" };
+  };
 
   return (
     <AdminLayout pageTitle="All Transactions">
       <div className="p-summary-row">
-        <div className="p-sum-card"><p>Total Records</p><h4>{INIT.length}</h4></div>
-        <div className="p-sum-card"><p>Deposits</p><h4 style={{ color: "#4ade80" }}>{INIT.filter(r => r.type === "Deposit").length}</h4></div>
-        <div className="p-sum-card"><p>Withdrawals</p><h4 style={{ color: "#f87171" }}>{INIT.filter(r => r.type === "Withdrawal").length}</h4></div>
-        <div className="p-sum-card"><p>Pending</p><h4 style={{ color: "#fbbf24" }}>{INIT.filter(r => r.status === "pending").length}</h4></div>
+        <div className="p-sum-card"><p>Total Records</p><h4>{total}</h4></div>
+        <div className="p-sum-card"><p>Showing</p><h4>{filtered.length}</h4></div>
       </div>
 
       <div className="p-card">
@@ -46,42 +51,46 @@ const AdminTransactions = () => {
           <h3>Transaction History</h3>
           <div className="p-search-bar">
             <input placeholder="Search user / reference" value={search} onChange={e => { setSearch(e.target.value); setPage(1); }} style={{ width: 200 }} />
-            <select value={filter} onChange={e => { setFilter(e.target.value); setPage(1); }}>
+            <select value={typeFilter} onChange={e => { setTypeFilter(e.target.value); setPage(1); }}>
               <option value="all">All Types</option>
               <option value="deposit">Deposit</option>
               <option value="withdrawal">Withdrawal</option>
+              <option value="bonus">Bonus</option>
+              <option value="transfer_in">Transfer In</option>
+              <option value="transfer_out">Transfer Out</option>
             </select>
-            <select value={status} onChange={e => { setStatus(e.target.value); setPage(1); }}>
+            <select value={statusFilter} onChange={e => { setStatusFilter(e.target.value); setPage(1); }}>
               <option value="all">All Status</option>
+              <option value="completed">Completed</option>
               <option value="pending">Pending</option>
-              <option value="approved">Approved</option>
-              <option value="rejected">Rejected</option>
+              <option value="failed">Failed</option>
             </select>
           </div>
         </div>
         <div className="p-card-body" style={{ padding: 0 }}>
           <div className="p-table-wrap">
             <table className="p-table">
-              <thead><tr><th>#</th><th>Type</th><th>User</th><th>Amount</th><th>Method</th><th>Reference</th><th>Date</th><th>Status</th></tr></thead>
+              <thead><tr><th>#</th><th>Type</th><th>User</th><th>Amount</th><th>Balance After</th><th>Reference</th><th>Date</th><th>Status</th></tr></thead>
               <tbody>
-                {paginated.length === 0
-                  ? <tr><td colSpan={8} className="p-nodata">No records found.</td></tr>
-                  : paginated.map((r, i) => (
-                    <tr key={r.id}>
-                      <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
-                      <td>
-                        <span style={{ color: r.type === "Deposit" ? "#4ade80" : "#f87171", fontWeight: 600, fontSize: 12 }}>
-                          {r.type === "Deposit" ? "⬇ " : "⬆ "}{r.type}
-                        </span>
-                      </td>
-                      <td style={{ color: "#c0d0e0", fontWeight: 600 }}>{r.user}</td>
-                      <td style={{ color: r.type === "Deposit" ? "#4ade80" : "#f87171", fontWeight: 600 }}>{r.amount}</td>
-                      <td>{r.method}</td>
-                      <td style={{ fontFamily: "monospace", fontSize: 11 }}>{r.ref}</td>
-                      <td>{r.date}</td>
-                      <td><span className={`p-badge ${r.status}`}>{r.status}</span></td>
-                    </tr>
-                  ))
+                {loading
+                  ? <tr><td colSpan={8} className="p-nodata">Loading…</td></tr>
+                  : filtered.length === 0
+                    ? <tr><td colSpan={8} className="p-nodata">No records found.</td></tr>
+                    : filtered.map((r, i) => {
+                      const { label, color } = fmtType(r.type);
+                      return (
+                        <tr key={r._id}>
+                          <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
+                          <td><span style={{ color, fontWeight: 600, fontSize: 12 }}>{label}</span></td>
+                          <td style={{ color: "#c0d0e0", fontWeight: 600 }}>{r.userId?.username ?? "—"}</td>
+                          <td style={{ color, fontWeight: 600 }}>₹{r.amount?.toLocaleString("en-IN")}</td>
+                          <td style={{ color: "#7a9ab8" }}>₹{r.balanceAfter?.toLocaleString("en-IN")}</td>
+                          <td style={{ fontFamily: "monospace", fontSize: 11 }}>{r.reference}</td>
+                          <td>{new Date(r.createdAt).toLocaleString("en-IN")}</td>
+                          <td><span className={`p-badge ${r.status?.toLowerCase()}`}>{r.status?.toLowerCase()}</span></td>
+                        </tr>
+                      );
+                    })
                 }
               </tbody>
             </table>

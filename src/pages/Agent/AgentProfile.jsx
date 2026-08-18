@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AgentLayout from "./AgentLayout";
 import { useAuth } from "../../context/AuthContext";
-import { INIT_USERS } from "../../data/usersData";
+import { myUsers } from "../../api/agent";
 
 const AgentProfile = () => {
   const { user } = useAuth();
-  const myUsers = INIT_USERS.filter(u => u.agent === user?.username);
+  const [stats, setStats] = useState({ total: 0, active: 0 });
+
+  useEffect(() => {
+    myUsers({ limit: 1 }).then((res) => {
+      if (res?.success) {
+        setStats({ total: res.data.total, active: res.data.total });
+      }
+    }).catch(() => {});
+  }, []);
 
   return (
     <AgentLayout pageTitle="My Profile">
@@ -17,8 +25,7 @@ const AgentProfile = () => {
               ["Username", user?.username],
               ["Full Name", user?.name],
               ["Role", user?.role?.toUpperCase()],
-              ["Total Users", myUsers.length],
-              ["Active Users", myUsers.filter(u => u.status === "active").length],
+              ["Total Users", stats.total],
             ].map(([label, val]) => (
               <div className="p-form-group" key={label}>
                 <label>{label}</label>

@@ -87,6 +87,19 @@ const GamePage = ({ title, games, categories }) => {
         <span className="gpage-titlebar-count">{filtered.length} / {games.length} Games</span>
       </div>
 
+      {/* Mobile category tabs — visible only on small screens */}
+      <div className="gpage-cat-tabs">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            className={`gpage-cat-tab${activeCat === cat ? " active" : ""}`}
+            onClick={() => setActiveCat(cat)}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
       <div className="gpage-body">
         <aside className="gpage-sidebar">
           <div className="gpage-sidebar-title">Category</div>

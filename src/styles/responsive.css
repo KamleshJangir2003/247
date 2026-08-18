@@ -1,0 +1,505 @@
+/* ============================================================
+   GLOBAL RESPONSIVE STYLES — 777games
+   Targets: 320px, 375px, 390px, 414px, 430px, desktop
+   ============================================================ */
+
+/* ── BASE OVERFLOW GUARD ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+img, video, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ── MAIN LAYOUT (user pages with sidebar) ───────────────── */
+.main-layout {
+  display: flex;
+  width: 100%;
+}
+
+/* ── PRIVACY / TERMS / ABOUT / RESPONSIBLE GAMING ───────── */
+.privacy-page,
+.terms-page,
+.about-page,
+.rg-page {
+  min-height: 100vh;
+  background: #005f8f;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px 30px;
+}
+
+/* ── PANEL SIDEBAR — ensure menu btn always visible ─────── */
+.panel-menu-btn {
+  display: flex !important;
+  align-items: center;
+}
+
+/* ── LIVE CASINO PAGE ────────────────────────────────────── */
+.live-casino-body {
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .live-casino-body {
+    flex-direction: column;
+    overflow: visible;
+  }
+  .casino-sidebar {
+    width: 100% !important;
+    min-width: 100% !important;
+    flex-direction: row;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 4px 0;
+    border-right: none;
+    border-bottom: 1px solid #222;
+  }
+  .casino-sidebar::-webkit-scrollbar { display: none; }
+  .casino-sidebar .sidebar-title { display: none; }
+  .casino-sidebar .sidebar-btn {
+    white-space: nowrap;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    padding: 8px 14px;
+    flex-shrink: 0;
+  }
+  .casino-sidebar .sidebar-btn.active,
+  .casino-sidebar .sidebar-btn:hover {
+    border-left: none;
+    border-bottom-color: #008b5b;
+  }
+  .casino-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .casino-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .casino-card { height: 120px; }
+}
+
+/* ── GAME PAGE SIDEBAR ───────────────────────────────────── */
+@media (max-width: 767px) {
+  .gpage-sidebar { display: none; }
+  .gpage-body { flex-direction: column; }
+}
+
+/* ── GAME PAGE — category tabs on mobile ────────────────── */
+@media (max-width: 767px) {
+  .gpage-cat-tabs {
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    gap: 4px;
+    padding: 6px 8px;
+    background: #151515;
+    border-bottom: 1px solid #222;
+  }
+  .gpage-cat-tabs::-webkit-scrollbar { display: none; }
+  .gpage-cat-tab {
+    white-space: nowrap;
+    padding: 6px 12px;
+    background: #1e1e1e;
+    color: #bbb;
+    border: none;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    flex-shrink: 0;
+  }
+  .gpage-cat-tab.active { color: #fff; border-bottom-color: #008b5b; }
+}
+
+/* ── SPORTSBOOK DASHBOARD ────────────────────────────────── */
+@media (max-width: 767px) {
+  .sb-body { flex-direction: column; }
+  .sb-right { display: none; }
+  .sb-left {
+    position: fixed;
+    top: 0; left: -210px;
+    height: 100vh;
+    z-index: 100;
+    transition: left 0.25s;
+    width: 200px;
+    min-width: 200px;
+  }
+  .sb-left-open { left: 0 !important; }
+  .sb-mob-overlay { display: block; }
+}
+
+/* ── DEPOSIT / WITHDRAW / TRANSACTIONS / PROFILE / BONUS / SUPPORT / CHANGE-PASSWORD ── */
+@media (max-width: 767px) {
+  .deposit-page .main-layout,
+  .withdraw-page .main-layout,
+  .txn-page .main-layout,
+  .profile-page .main-layout,
+  .bonus-page .main-layout,
+  .support-page .main-layout,
+  .cp-page .main-layout {
+    flex-direction: column;
+  }
+}
+
+/* ── DEPOSIT BODY ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .deposit-body { flex-direction: column; gap: 10px; }
+  .right-box { width: 100% !important; }
+  .account-box { height: auto; padding: 20px; }
+  .table-section { overflow-x: auto; }
+  .table-section table { min-width: 480px; }
+}
+
+/* ── WITHDRAW TABLE ──────────────────────────────────────── */
+@media (max-width: 767px) {
+  .wd-table-section { overflow-x: auto; }
+  .wd-table-section table { min-width: 480px; }
+  .wd-form-wrap { max-width: 100%; }
+}
+
+/* ── TRANSACTIONS TABLE ──────────────────────────────────── */
+@media (max-width: 767px) {
+  .txn-table-wrap { overflow-x: auto; }
+  .txn-table-wrap table { min-width: 520px; }
+  .txn-filters { flex-wrap: wrap; gap: 6px; }
+}
+
+/* ── PROFILE FORM ────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .profile-form { grid-template-columns: 1fr !important; }
+  .profile-card { flex-direction: column; text-align: center; }
+}
+
+/* ── SUPPORT CARDS ───────────────────────────────────────── */
+@media (max-width: 767px) {
+  .support-cards { grid-template-columns: repeat(2, 1fr) !important; }
+  .support-form { max-width: 100%; }
+}
+
+/* ── PRIVACY BOX ─────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .privacy-box { width: 100% !important; padding: 20px 16px !important; }
+}
+
+/* ── ADMIN / MASTER / AGENT PANEL TABLES ────────────────── */
+@media (max-width: 767px) {
+  .adm-table-wrap,
+  .p-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .adm-table { min-width: 600px; }
+  .p-table   { min-width: 520px; }
+  .adm-mgmt-header { flex-direction: column; align-items: flex-start; }
+  .adm-search-bar  { width: 100%; flex-wrap: wrap; }
+  .adm-search-bar input,
+  .adm-search-bar select { flex: 1; min-width: 120px; }
+  .adm-summary-row { gap: 8px; }
+  .adm-sum-card { min-width: 120px; }
+  .adm-pagination { flex-wrap: wrap; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+  .adm-content { padding: 10px !important; }
+  .adm-stats-grid { grid-template-columns: 1fr 1fr !important; }
+  .adm-stat-card { padding: 12px !important; gap: 10px !important; }
+  .adm-stat-icon { width: 38px !important; height: 38px !important; font-size: 16px !important; }
+  .adm-stat-info h3 { font-size: 16px !important; }
+  .adm-bottom-grid { grid-template-columns: 1fr !important; }
+  .adm-mini-table th,
+  .adm-mini-table td { padding: 7px 8px !important; font-size: 11px !important; }
+}
+
+/* ── PANEL SHARED — extra small ─────────────────────────── */
+@media (max-width: 374px) {
+  .panel-content { padding: 8px !important; }
+  .p-stats-grid { grid-template-columns: 1fr 1fr !important; gap: 6px !important; }
+  .p-stat-card { padding: 10px !important; gap: 8px !important; }
+  .p-stat-icon { width: 32px !important; height: 32px !important; font-size: 14px !important; }
+  .p-stat-info h3 { font-size: 14px !important; }
+  .p-card-header { padding: 8px 10px !important; }
+  .p-card-body { padding: 8px 10px !important; }
+  .p-modal { border-radius: 6px !important; }
+  .p-btn { padding: 4px 8px !important; font-size: 10px !important; }
+}
+
+/* ── GAME MODAL ──────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .gmodal-box { max-width: 100% !important; margin: 0 !important; }
+  .gmodal-img-wrap { height: 260px !important; }
+  .gmodal-bottom { flex-direction: column; gap: 8px; }
+  .gmodal-play-btn { width: 100%; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .gmodal-img-wrap { height: 200px !important; }
+  .gmodal-name { font-size: 12px !important; }
+}
+
+/* ── GAME PAGE MODAL ─────────────────────────────────────── */
+@media (max-width: 767px) {
+  .gpage-modal-box { max-width: 100% !important; }
+  .gpage-modal-imgwrap { height: 260px !important; }
+  .gpage-modal-bottom { flex-direction: column; gap: 8px; }
+  .gpage-modal-playbtn { width: 100%; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .gpage-modal-imgwrap { height: 200px !important; }
+}
+
+/* ── FLOATING SOCIAL BAR ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .fsb-wrapper { top: auto; bottom: 80px; transform: none; }
+}
+
+/* ── HOME PAGE ───────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .home-cat-btn { min-width: 72px; padding: 8px 8px; font-size: 11px; }
+  .home-cat-btn span:first-child { font-size: 16px; }
+  .live-casino-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .live-card img { height: 80px !important; }
+  .latest-card { min-width: 110px !important; height: 65px !important; }
+  .winner-card { min-width: 150px !important; }
+}
+
+@media (max-width: 374px) {
+  .home-cat-btn { min-width: 64px; padding: 7px 6px; font-size: 10px; }
+  .live-casino-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .live-card img { height: 70px !important; }
+  .latest-card { min-width: 100px !important; height: 60px !important; }
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+@media (max-width: 374px) {
+  .top-header { padding: 0 6px !important; height: 50px !important; }
+  .main-logo { width: 90px !important; }
+  .login-btn, .demo-btn { padding: 5px 7px !important; font-size: 11px !important; }
+}
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .footer { padding: 16px 10px !important; }
+  .footer-top { gap: 14px; }
+  .support-section h2 { font-size: 20px !important; }
+  .footer-links { gap: 10px; }
+  .footer-links a { font-size: 12px; }
+  .footer-bottom h4 { font-size: 15px; }
+}
+
+/* ── AUTH PAGES ──────────────────────────────────────────── */
+@media (max-width: 374px) {
+  .auth-box, .register-box { width: 96% !important; padding: 16px 14px !important; }
+  .logo { width: 180px !important; }
+  .auth-page { padding-top: 16px !important; padding-left: 6px !important; padding-right: 6px !important; }
+  .btn { font-size: 14px !important; }
+}
+
+/* ── ADMIN LOGIN ─────────────────────────────────────────── */
+@media (max-width: 374px) {
+  .al-card { width: 96% !important; padding: 24px 16px !important; }
+}
+
+/* ── SPORTSBOOK ODDS TABLE ───────────────────────────────── */
+@media (max-width: 480px) {
+  .sbot-team1, .sbot-team2 { max-width: 55px !important; font-size: 10px !important; }
+  .sbot-odds-val { font-size: 10px !important; }
+  .sbot-odds-size { font-size: 8px !important; }
+}
+
+/* ── MATCH TABLE ─────────────────────────────────────────── */
+@media (max-width: 374px) {
+  .mt-odds-btn { width: 40px !important; height: 32px !important; }
+  .mt-odds-val { font-size: 10px !important; }
+  .mt-team { max-width: 65px !important; font-size: 10px !important; }
+  .mt-row { padding: 6px 8px !important; }
+}
+
+/* ── BANNER SLIDER ───────────────────────────────────────── */
+@media (max-width: 374px) {
+  .bs-swiper, .bs-slide { height: 140px !important; }
+  .sbb-root { height: 160px !important; }
+}
+
+/* ── TOPNAV (dashboard) ──────────────────────────────────── */
+@media (max-width: 374px) {
+  .top-nav-logo-img { height: 20px !important; }
+  .top-nav-right { padding: 0 4px !important; gap: 4px !important; }
+}
+
+/* ── PANEL TOPBAR ────────────────────────────────────────── */
+@media (max-width: 374px) {
+  .panel-topbar { padding: 0 8px !important; }
+  .panel-page-title { font-size: 13px !important; }
+  .panel-role-badge { font-size: 10px !important; padding: 2px 7px !important; }
+}
+
+/* ── ACCOUNT SIDEBAR (horizontal scroll on mobile) ───────── */
+@media (max-width: 374px) {
+  .acc-sidebar-item { padding: 7px 9px !important; font-size: 10px !important; }
+}
+
+/* ── SLOT / FANTASY SEARCH ───────────────────────────────── */
+@media (max-width: 480px) {
+  .slot-search-input,
+  .fantasy-search-input { font-size: 13px !important; padding: 9px 10px !important; }
+}
+
+/* ── BONUS CARDS ─────────────────────────────────────────── */
+@media (max-width: 374px) {
+  .bonus-card { padding: 12px !important; gap: 8px !important; }
+  .bonus-icon { font-size: 28px !important; }
+  .bonus-title { font-size: 13px !important; }
+}
+
+/* ── CHANGE PASSWORD / SUPPORT FORMS ────────────────────── */
+@media (max-width: 374px) {
+  .cp-form, .support-form { padding: 14px !important; }
+  .cp-group input,
+  .s-group input,
+  .s-group textarea { padding: 8px !important; }
+}
+
+/* ── PREVENT FIXED ELEMENTS COVERING CONTENT ────────────── */
+@media (max-width: 767px) {
+  .fsb-wrapper {
+    z-index: 500;
+  }
+  /* Ensure modals are above floating bar */
+  .p-modal-overlay,
+  .gmodal-backdrop,
+  .gpage-modal-backdrop { z-index: 9000 !important; }
+}
+
+/* ── LONG TEXT WRAP ──────────────────────────────────────── */
+.p-table td,
+.adm-table td,
+.txn-table-wrap td,
+.table-section td,
+.wd-table-section td {
+  word-break: break-word;
+}
+
+/* ── TAPPABLE MINIMUM SIZE ───────────────────────────────── */
+@media (max-width: 767px) {
+  button, .sidebar-btn, .gpage-sidebar-btn,
+  .acc-sidebar-item, .panel-nav-item,
+  .home-cat-btn, .casino-nav-item {
+    min-height: 40px;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  select,
+  textarea {
+    font-size: 16px !important; /* prevents iOS zoom */
+    min-height: 40px;
+  }
+}
+
+/* ── IMAGES INSIDE CONTAINERS ────────────────────────────── */
+.bs-img, .slider-img, .sbb-img,
+.gpage-card-img, .casino-card-img,
+.live-card img, .latest-card img {
+  max-width: 100%;
+  display: block;
+}
+
+/* ── HORIZONTAL SCROLL CONTAINERS ───────────────────────── */
+.home-cat-nav,
+.latest-casino-slider,
+.casino-nav,
+.gpage-topnav,
+.st-root,
+.match-scroll,
+.acc-sidebar,
+.txn-filters {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── PANEL BOTTOM GRID ───────────────────────────────────── */
+@media (max-width: 600px) {
+  .p-bottom-grid { grid-template-columns: 1fr !important; }
+  .p-form-grid   { grid-template-columns: 1fr !important; }
+  .p-summary-row { flex-direction: column; }
+  .p-sum-card    { min-width: 0; }
+}
+
+/* ── ADMIN MANAGE SUMMARY ────────────────────────────────── */
+@media (max-width: 480px) {
+  .adm-summary-row { flex-direction: column; }
+  .adm-sum-card { min-width: 0; width: 100%; }
+  .adm-action-btns { flex-wrap: wrap; }
+  .adm-btn-approve, .adm-btn-reject,
+  .adm-btn-block, .adm-btn-unblock,
+  .adm-btn-view { padding: 5px 9px !important; font-size: 10px !important; }
+}
+
+/* ── PANEL PERMISSION TABLE ──────────────────────────────── */
+@media (max-width: 767px) {
+  .p-perm-table { min-width: 480px; }
+  .p-perm-table th, .p-perm-table td { padding: 8px 10px; font-size: 12px; }
+}
+
+/* ── MINI TABLE ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .p-mini-table { min-width: 400px; }
+  .p-mini-table th, .p-mini-table td { padding: 6px 8px; font-size: 11px; }
+}
+
+/* ── WRAP MINI TABLE IN SCROLL ───────────────────────────── */
+.p-card-body { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+/* ── SPORTSBOOK SPORTS TABS ──────────────────────────────── */
+@media (max-width: 374px) {
+  .st-tab { padding: 8px 10px !important; font-size: 10px !important; }
+}
+
+/* ── SB HEADER STRIP ─────────────────────────────────────── */
+@media (max-width: 374px) {
+  .sbh-nav-btn { padding: 0 5px !important; font-size: 10px !important; }
+  .sbh-dep-btn { padding: 0 5px !important; font-size: 10px !important; }
+}
+
+/* ── WINNER SCROLL ANIMATION — pause on mobile ───────────── */
+@media (max-width: 767px) {
+  .winner-grid { animation-duration: 25s !important; }
+}
+
+/* ── DEPOSIT AMOUNT BUTTONS ──────────────────────────────── */
+@media (max-width: 374px) {
+  .amount-buttons { grid-template-columns: repeat(3, 1fr) !important; }
+  .amount-buttons button { padding: 8px 4px !important; font-size: 11px !important; }
+  .wd-amount-btns { grid-template-columns: repeat(3, 1fr) !important; }
+  .wd-amount-btns button { padding: 8px 4px !important; font-size: 11px !important; }
+}
+
+/* ── TABS (deposit) ──────────────────────────────────────── */
+@media (max-width: 374px) {
+  .tabs button { font-size: 10px !important; padding: 6px 3px !important; }
+}
+
+/* ── WITHDRAW METHODS ────────────────────────────────────── */
+@media (max-width: 374px) {
+  .wd-method-btn { padding: 6px 10px !important; font-size: 11px !important; }
+}
+
+/* ── SUPPORT CARDS SMALL ─────────────────────────────────── */
+@media (max-width: 374px) {
+  .support-cards { grid-template-columns: 1fr 1fr !important; gap: 6px !important; }
+  .support-card { padding: 10px !important; }
+  .s-card-icon { font-size: 22px !important; }
+}
+
+/* ── PANEL STATS GRID SMALL ──────────────────────────────── */
+@media (max-width: 374px) {
+  .p-stats-grid { grid-template-columns: 1fr 1fr !important; gap: 6px !important; }
+}

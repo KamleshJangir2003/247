@@ -1,55 +1,76 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import MasterLayout from "./MasterLayout";
 import { FaPlus, FaTimes } from "react-icons/fa";
-import { addLog } from "../../data/activityLog";
-import { useAuth } from "../../context/AuthContext";
-
-const INIT = [
-  { id: 1, username: "agent777",  name: "Agent User",   email: "agent@777games.com",  mobile: "99887XXXXX", users: 45, created: "01 Feb 2024", status: "active"  },
-  { id: 2, username: "agent002",  name: "South Agent",  email: "south@777games.com",  mobile: "77665XXXXX", users: 32, created: "10 Mar 2024", status: "active"  },
-  { id: 3, username: "agent003",  name: "North Agent",  email: "north@777games.com",  mobile: "88990XXXXX", users: 18, created: "20 Apr 2024", status: "blocked" },
-];
+import { masterAgents, createMasterAgent, setAgentStatus, masterTransferToAgent, masterDebitAgent } from "../../api/agent";
 
 const MasterAgents = () => {
-  const { user } = useAuth();
-  const [agents, setAgents] = useState(INIT);
-  const [search, setSearch] = useState("");
+  const [agents, setAgents]     = useState([]);
+  const [total, setTotal]       = useState(0);
+  const [search, setSearch]     = useState("");
+  const [page, setPage]         = useState(1);
+  const [loading, setLoading]   = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [form, setForm] = useState({ username: "", name: "", email: "", mobile: "", password: "" });
-  const [err, setErr] = useState("");
+  const [showChips, setShowChips] = useState(null); // agent object
+  const [chipsForm, setChipsForm] = useState({ amount: "", mode: "credit" });
+  const [form, setForm]         = useState({ firstName: "", username: "", email: "", phone: "", password: "" });
+  const [err, setErr]           = useState("");
+  const [chipsErr, setChipsErr] = useState("");
+
+  const PAGE_SIZE = 20;
+
+  const load = useCallback(() => {
+    setLoading(true);
+    masterAgents({ page, limit: PAGE_SIZE }).then(res => {
+      if (res?.success) { setAgents(res.data.agents); setTotal(res.data.total); }
+    }).finally(() => setLoading(false));
+  }, [page]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const toggle = async (a) => {
+    const next = a.status === "active" ? "blocked" : "active";
+    const res = await setAgentStatus(a._id, next);
+    if (res?.success) load();
+  };
+
+  const handleAdd = async () => {
+    if (!form.firstName || !form.username || !form.email || !form.password)
+      return setErr("First name, username, email and password are required.");
+    const res = await createMasterAgent(form);
+    if (!res?.success) return setErr(res?.message || "Failed to create agent.");
+    setShowModal(false);
+    setForm({ firstName: "", username: "", email: "", phone: "", password: "" });
+    setErr("");
+    load();
+  };
+
+  const handleChips = async () => {
+    const amount = Number(chipsForm.amount);
+    if (!amount || amount <= 0) return setChipsErr("Enter a valid amount.");
+    const fn = chipsForm.mode === "credit"
+      ? masterTransferToAgent({ agentId: showChips._id, amount })
+      : masterDebitAgent({ agentId: showChips._id, amount });
+    const res = await fn;
+    if (!res?.success) return setChipsErr(res?.message || "Operation failed.");
+    setShowChips(null);
+    setChipsForm({ amount: "", mode: "credit" });
+    setChipsErr("");
+    load();
+  };
 
   const filtered = agents.filter(a =>
     a.username.toLowerCase().includes(search.toLowerCase()) ||
-    a.name.toLowerCase().includes(search.toLowerCase())
+    `${a.firstName} ${a.lastName || ""}`.toLowerCase().includes(search.toLowerCase())
   );
 
-  const toggle = (id) => {
-    setAgents(agents.map(a => {
-      if (a.id !== id) return a;
-      const next = a.status === "active" ? "blocked" : "active";
-      addLog(user.username, "master", `${next === "blocked" ? "Blocked" : "Unblocked"} agent`, a.username);
-      return { ...a, status: next };
-    }));
-  };
-
-  const handleAdd = () => {
-    if (!form.username || !form.name || !form.password) return setErr("Username, name and password required.");
-    if (agents.find(a => a.username === form.username)) return setErr("Username already exists.");
-    const newAgent = { id: Date.now(), ...form, users: 0, created: new Date().toLocaleDateString("en-IN"), status: "active" };
-    setAgents([...agents, newAgent]);
-    addLog(user.username, "master", "Created agent", form.username);
-    setShowModal(false);
-    setForm({ username: "", name: "", email: "", mobile: "", password: "" });
-    setErr("");
-  };
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <MasterLayout pageTitle="Agent Management">
       <div className="p-summary-row">
-        <div className="p-sum-card"><p>Total Agents</p><h4>{agents.length}</h4></div>
+        <div className="p-sum-card"><p>Total Agents</p><h4>{total}</h4></div>
         <div className="p-sum-card"><p>Active</p><h4 style={{ color: "#4ade80" }}>{agents.filter(a => a.status === "active").length}</h4></div>
         <div className="p-sum-card"><p>Blocked</p><h4 style={{ color: "#f87171" }}>{agents.filter(a => a.status === "blocked").length}</h4></div>
-        <div className="p-sum-card"><p>Total Users</p><h4 style={{ color: "#4a9eff" }}>{agents.reduce((s, a) => s + a.users, 0)}</h4></div>
       </div>
 
       <div className="p-card">
@@ -63,37 +84,47 @@ const MasterAgents = () => {
         <div className="p-card-body" style={{ padding: 0 }}>
           <div className="p-table-wrap">
             <table className="p-table">
-              <thead><tr><th>#</th><th>Username</th><th>Name</th><th>Email</th><th>Mobile</th><th>Users</th><th>Created</th><th>Status</th><th>Actions</th></tr></thead>
+              <thead><tr><th>#</th><th>Username</th><th>Name</th><th>Email</th><th>Mobile</th><th>Created</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>
-                {filtered.length === 0
-                  ? <tr><td colSpan={9} className="p-nodata">No agents found.</td></tr>
-                  : filtered.map((a, i) => (
-                    <tr key={a.id}>
-                      <td>{i + 1}</td>
-                      <td style={{ color: "#2dd4bf", fontWeight: 600 }}>{a.username}</td>
-                      <td>{a.name}</td>
-                      <td style={{ fontSize: 11 }}>{a.email}</td>
-                      <td>{a.mobile}</td>
-                      <td style={{ color: "#4a9eff", fontWeight: 600 }}>{a.users}</td>
-                      <td>{a.created}</td>
-                      <td><span className={`p-badge ${a.status}`}>{a.status}</span></td>
-                      <td>
-                        <div className="p-action-btns">
-                          {a.status === "active"
-                            ? <button className="p-btn p-btn-block" onClick={() => toggle(a.id)}>Block</button>
-                            : <button className="p-btn p-btn-unblock" onClick={() => toggle(a.id)}>Unblock</button>
-                          }
-                        </div>
-                      </td>
-                    </tr>
-                  ))
+                {loading
+                  ? <tr><td colSpan={8} className="p-nodata">Loading…</td></tr>
+                  : filtered.length === 0
+                    ? <tr><td colSpan={8} className="p-nodata">No agents found.</td></tr>
+                    : filtered.map((a, i) => (
+                      <tr key={a._id}>
+                        <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
+                        <td style={{ color: "#2dd4bf", fontWeight: 600 }}>{a.username}</td>
+                        <td>{`${a.firstName} ${a.lastName || ""}`.trim()}</td>
+                        <td style={{ fontSize: 11 }}>{a.email}</td>
+                        <td>{a.phone || "—"}</td>
+                        <td>{new Date(a.createdAt).toLocaleDateString("en-IN")}</td>
+                        <td><span className={`p-badge ${a.status}`}>{a.status}</span></td>
+                        <td>
+                          <div className="p-action-btns">
+                            <button className="p-btn p-btn-primary" style={{ fontSize: 11 }} onClick={() => { setShowChips(a); setChipsErr(""); }}>Chips</button>
+                            {a.status === "active"
+                              ? <button className="p-btn p-btn-block"   onClick={() => toggle(a)}>Block</button>
+                              : <button className="p-btn p-btn-unblock" onClick={() => toggle(a)}>Unblock</button>
+                            }
+                          </div>
+                        </td>
+                      </tr>
+                    ))
                 }
               </tbody>
             </table>
+            {totalPages > 1 && (
+              <div className="p-pagination">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+                  <button key={p} className={page === p ? "active" : ""} onClick={() => setPage(p)}>{p}</button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
 
+      {/* Add Agent Modal */}
       {showModal && (
         <div className="p-modal-overlay">
           <div className="p-modal">
@@ -104,11 +135,11 @@ const MasterAgents = () => {
             <div className="p-modal-body">
               <div className="p-form-grid">
                 {[
-                  { label: "Username", key: "username" },
-                  { label: "Full Name", key: "name" },
-                  { label: "Email", key: "email" },
-                  { label: "Mobile", key: "mobile" },
-                  { label: "Password", key: "password", type: "password" },
+                  { label: "First Name", key: "firstName" },
+                  { label: "Username",   key: "username" },
+                  { label: "Email",      key: "email" },
+                  { label: "Mobile",     key: "phone" },
+                  { label: "Password",   key: "password", type: "password" },
                 ].map(f => (
                   <div className="p-form-group" key={f.key}>
                     <label>{f.label}</label>
@@ -120,6 +151,38 @@ const MasterAgents = () => {
               <div className="p-form-actions">
                 <button className="p-btn p-btn-primary" onClick={() => { setShowModal(false); setErr(""); }}>Cancel</button>
                 <button className="p-btn p-btn-success" onClick={handleAdd}>Create Agent</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Chips Modal */}
+      {showChips && (
+        <div className="p-modal-overlay">
+          <div className="p-modal">
+            <div className="p-modal-header">
+              <h3>Chips — {showChips.username}</h3>
+              <button className="p-modal-close" onClick={() => setShowChips(null)}><FaTimes /></button>
+            </div>
+            <div className="p-modal-body">
+              <div className="p-form-grid">
+                <div className="p-form-group">
+                  <label>Mode</label>
+                  <select value={chipsForm.mode} onChange={e => setChipsForm({ ...chipsForm, mode: e.target.value })}>
+                    <option value="credit">Credit (Transfer to Agent)</option>
+                    <option value="debit">Debit (Recover from Agent)</option>
+                  </select>
+                </div>
+                <div className="p-form-group">
+                  <label>Amount</label>
+                  <input type="number" min="1" value={chipsForm.amount} onChange={e => setChipsForm({ ...chipsForm, amount: e.target.value })} placeholder="Amount" />
+                </div>
+              </div>
+              {chipsErr && <p style={{ color: "#f87171", fontSize: 12, marginTop: 8 }}>{chipsErr}</p>}
+              <div className="p-form-actions">
+                <button className="p-btn p-btn-primary" onClick={() => setShowChips(null)}>Cancel</button>
+                <button className="p-btn p-btn-success" onClick={handleChips}>Confirm</button>
               </div>
             </div>
           </div>

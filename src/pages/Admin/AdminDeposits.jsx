@@ -1,50 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AdminLayout from "./AdminLayout";
-import { addLog } from "../../data/activityLog";
-import { useAuth } from "../../context/AuthContext";
+import { listDeposits, approveDeposit, rejectDeposit } from "../../api/wallet";
 
-const INIT = [
-  { id:1, user:"km****1851", amount:"₹2,000",  method:"UPI",  utr:"UTR123456001", date:"28 May, 11:02", proof:"receipt1.jpg", status:"pending"  },
-  { id:2, user:"ra****7734", amount:"₹5,000",  method:"IMPS", utr:"UTR123456002", date:"28 May, 10:44", proof:"receipt2.jpg", status:"approved" },
-  { id:3, user:"su****3312", amount:"₹1,000",  method:"UPI",  utr:"UTR123456003", date:"28 May, 10:21", proof:"receipt3.jpg", status:"pending"  },
-  { id:4, user:"vi****9901", amount:"₹500",    method:"UPI",  utr:"UTR123456004", date:"28 May, 09:55", proof:"receipt4.jpg", status:"rejected" },
-  { id:5, user:"mo****4421", amount:"₹10,000", method:"NEFT", utr:"UTR123456005", date:"28 May, 09:10", proof:"receipt5.jpg", status:"pending"  },
-  { id:6, user:"pr****6672", amount:"₹3,000",  method:"UPI",  utr:"UTR123456006", date:"27 May, 18:30", proof:"receipt6.jpg", status:"approved" },
-  { id:7, user:"an****2244", amount:"₹1,500",  method:"IMPS", utr:"UTR123456007", date:"27 May, 15:00", proof:"receipt7.jpg", status:"pending"  },
-];
-
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 20;
 
 const AdminDeposits = () => {
-  const { user } = useAuth();
-  const [rows, setRows] = useState(INIT);
+  const [rows, setRows]     = useState([]);
+  const [total, setTotal]   = useState(0);
   const [filter, setFilter] = useState("all");
   const [search, setSearch] = useState("");
-  const [page, setPage] = useState(1);
+  const [page, setPage]     = useState(1);
+  const [loading, setLoading] = useState(true);
 
-  const updateStatus = (id, status) => {
-    const row = rows.find(r => r.id === id);
-    addLog(user.username, "admin", `${status === "approved" ? "Approved" : "Rejected"} deposit`, row.user, row.amount);
-    setRows(rows.map(r => r.id === id ? { ...r, status } : r));
+  const load = useCallback(() => {
+    setLoading(true);
+    const params = { page, limit: PAGE_SIZE };
+    if (filter !== "all") params.status = filter.toUpperCase();
+    listDeposits(params).then((res) => {
+      if (res?.success) { setRows(res.data.deposits); setTotal(res.data.total); }
+    }).finally(() => setLoading(false));
+  }, [page, filter]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const doApprove = async (id) => {
+    const res = await approveDeposit(id);
+    if (res?.success) load();
+  };
+
+  const doReject = async (id) => {
+    const res = await rejectDeposit(id, "Rejected by admin");
+    if (res?.success) load();
   };
 
   const filtered = rows.filter(r => {
-    const matchF = filter === "all" || r.status === filter;
-    const matchS = r.user.toLowerCase().includes(search.toLowerCase()) || r.utr.toLowerCase().includes(search.toLowerCase());
-    return matchF && matchS;
+    const q = search.toLowerCase();
+    return (r.userId?.username ?? "").toLowerCase().includes(q) ||
+           (r.metadata?.utr ?? "").toLowerCase().includes(q);
   });
 
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
-  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
-  const pending = rows.filter(r => r.status === "pending").length;
+  const pending  = rows.filter(r => r.status === "PENDING").length;
+  const approved = rows.filter(r => r.status === "APPROVED").length;
+  const rejected = rows.filter(r => r.status === "REJECTED").length;
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <AdminLayout pageTitle="Deposit Requests" pendingDeposits={pending}>
       <div className="p-summary-row">
-        <div className="p-sum-card"><p>Total</p><h4>{rows.length}</h4></div>
+        <div className="p-sum-card"><p>Total</p><h4>{total}</h4></div>
         <div className="p-sum-card"><p>Pending</p><h4 style={{ color: "#fbbf24" }}>{pending}</h4></div>
-        <div className="p-sum-card"><p>Approved</p><h4 style={{ color: "#4ade80" }}>{rows.filter(r => r.status === "approved").length}</h4></div>
-        <div className="p-sum-card"><p>Rejected</p><h4 style={{ color: "#f87171" }}>{rows.filter(r => r.status === "rejected").length}</h4></div>
+        <div className="p-sum-card"><p>Approved</p><h4 style={{ color: "#4ade80" }}>{approved}</h4></div>
+        <div className="p-sum-card"><p>Rejected</p><h4 style={{ color: "#f87171" }}>{rejected}</h4></div>
       </div>
 
       <div className="p-card">
@@ -63,30 +69,31 @@ const AdminDeposits = () => {
         <div className="p-card-body" style={{ padding: 0 }}>
           <div className="p-table-wrap">
             <table className="p-table">
-              <thead><tr><th>#</th><th>User</th><th>Amount</th><th>Method</th><th>UTR</th><th>Date</th><th>Proof</th><th>Status</th><th>Actions</th></tr></thead>
+              <thead><tr><th>#</th><th>User</th><th>Amount</th><th>UTR</th><th>Method</th><th>Date</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody>
-                {paginated.length === 0
-                  ? <tr><td colSpan={9} className="p-nodata">No records found.</td></tr>
-                  : paginated.map((r, i) => (
-                    <tr key={r.id}>
-                      <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
-                      <td style={{ color: "#c0d0e0", fontWeight: 600 }}>{r.user}</td>
-                      <td style={{ color: "#4ade80", fontWeight: 600 }}>{r.amount}</td>
-                      <td>{r.method}</td>
-                      <td style={{ fontFamily: "monospace", fontSize: 11 }}>{r.utr}</td>
-                      <td>{r.date}</td>
-                      <td style={{ color: "#4a9eff", fontSize: 11, cursor: "pointer" }}>📄 {r.proof}</td>
-                      <td><span className={`p-badge ${r.status}`}>{r.status}</span></td>
-                      <td>
-                        {r.status === "pending" ? (
-                          <div className="p-action-btns">
-                            <button className="p-btn p-btn-approve" onClick={() => updateStatus(r.id, "approved")}>Approve</button>
-                            <button className="p-btn p-btn-reject"  onClick={() => updateStatus(r.id, "rejected")}>Reject</button>
-                          </div>
-                        ) : <span style={{ color: "#3a4a5a", fontSize: 11 }}>—</span>}
-                      </td>
-                    </tr>
-                  ))
+                {loading
+                  ? <tr><td colSpan={8} className="p-nodata">Loading…</td></tr>
+                  : filtered.length === 0
+                    ? <tr><td colSpan={8} className="p-nodata">No records found.</td></tr>
+                    : filtered.map((r, i) => (
+                      <tr key={r._id}>
+                        <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
+                        <td style={{ color: "#c0d0e0", fontWeight: 600 }}>{r.userId?.username ?? "—"}</td>
+                        <td style={{ color: "#4ade80", fontWeight: 600 }}>₹{r.amount?.toLocaleString("en-IN")}</td>
+                        <td style={{ fontFamily: "monospace", fontSize: 11 }}>{r.metadata?.utr || "—"}</td>
+                        <td>{r.metadata?.method || r.gateway || "manual"}</td>
+                        <td>{new Date(r.createdAt).toLocaleString("en-IN")}</td>
+                        <td><span className={`p-badge ${r.status?.toLowerCase()}`}>{r.status?.toLowerCase()}</span></td>
+                        <td>
+                          {r.status === "PENDING" ? (
+                            <div className="p-action-btns">
+                              <button className="p-btn p-btn-approve" onClick={() => doApprove(r._id)}>Approve</button>
+                              <button className="p-btn p-btn-reject"  onClick={() => doReject(r._id)}>Reject</button>
+                            </div>
+                          ) : <span style={{ color: "#3a4a5a", fontSize: 11 }}>—</span>}
+                        </td>
+                      </tr>
+                    ))
                 }
               </tbody>
             </table>

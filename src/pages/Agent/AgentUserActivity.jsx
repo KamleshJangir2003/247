@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AgentLayout from "./AgentLayout";
-import { getLogs } from "../../data/activityLog";
-import { INIT_USERS } from "../../data/usersData";
-import { useAuth } from "../../context/AuthContext";
+import { agentTransactions } from "../../api/agent";
 
 const PAGE_SIZE = 10;
 
 const AgentUserActivity = () => {
-  const { user } = useAuth();
-  const myUsernames = INIT_USERS.filter(u => u.agent === user?.username).map(u => u.username);
-  const [page, setPage] = useState(1);
+  const [rows, setRows]       = useState([]);
+  const [total, setTotal]     = useState(0);
+  const [page, setPage]       = useState(1);
+  const [loading, setLoading] = useState(true);
 
-  const logs = getLogs().filter(l => myUsernames.includes(l.target) || l.actor === user?.username);
-  const totalPages = Math.ceil(logs.length / PAGE_SIZE);
-  const paginated = logs.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const load = useCallback(() => {
+    setLoading(true);
+    agentTransactions({ page, limit: PAGE_SIZE }).then(r => {
+      if (r?.success) { setRows(r.data.transactions); setTotal(r.data.total); }
+    }).finally(() => setLoading(false));
+  }, [page]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
     <AgentLayout pageTitle="User Activity">
@@ -22,21 +28,25 @@ const AgentUserActivity = () => {
         <div className="p-card-body" style={{ padding: 0 }}>
           <div className="p-table-wrap">
             <table className="p-table">
-              <thead><tr><th>#</th><th>Actor</th><th>Role</th><th>Action</th><th>Target</th><th>Amount</th><th>Date</th></tr></thead>
+              <thead><tr><th>#</th><th>User</th><th>Type</th><th>Amount</th><th>Balance After</th><th>Status</th><th>Date</th></tr></thead>
               <tbody>
-                {paginated.length === 0
-                  ? <tr><td colSpan={7} className="p-nodata">No activity found.</td></tr>
-                  : paginated.map((l, i) => (
-                    <tr key={l.id}>
-                      <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
-                      <td style={{ color: "#c0d0e0", fontWeight: 600 }}>{l.actor}</td>
-                      <td><span className={`p-badge ${l.role}`}>{l.role}</span></td>
-                      <td>{l.action}</td>
-                      <td style={{ color: "#7a9ab8" }}>{l.target}</td>
-                      <td style={{ color: "#4ade80" }}>{l.amount}</td>
-                      <td style={{ color: "#4a6a8a", fontSize: 11 }}>{l.date}</td>
-                    </tr>
-                  ))
+                {loading
+                  ? <tr><td colSpan={7} className="p-nodata">Loading…</td></tr>
+                  : rows.length === 0
+                    ? <tr><td colSpan={7} className="p-nodata">No activity found.</td></tr>
+                    : rows.map((t, i) => (
+                      <tr key={t._id}>
+                        <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
+                        <td style={{ color: "#c0d0e0", fontWeight: 600 }}>{t.userId?.username || "—"}</td>
+                        <td><span className="p-badge">{t.type}</span></td>
+                        <td style={{ color: t.type?.includes("OUT") || t.type === "WITHDRAWAL" ? "#f87171" : "#4ade80", fontWeight: 600 }}>
+                          ₹{t.amount?.toLocaleString("en-IN")}
+                        </td>
+                        <td>₹{t.balanceAfter?.toLocaleString("en-IN")}</td>
+                        <td><span className={`p-badge ${t.status?.toLowerCase()}`}>{t.status}</span></td>
+                        <td style={{ fontSize: 11, color: "#4a6a8a" }}>{new Date(t.createdAt).toLocaleDateString("en-IN")}</td>
+                      </tr>
+                    ))
                 }
               </tbody>
             </table>

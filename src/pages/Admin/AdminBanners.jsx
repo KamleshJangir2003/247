@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import AdminLayout from "./AdminLayout";
 import { FaPlus, FaTimes, FaTrash } from "react-icons/fa";
-import { addLog } from "../../data/activityLog";
-import { useAuth } from "../../context/AuthContext";
 
 const INIT = [
   { id: 1, title: "Welcome Bonus", url: "/deposit",    position: "Home Top",    enabled: true  },
@@ -13,28 +11,21 @@ const INIT = [
 const POSITIONS = ["Home Top", "Home Middle", "Home Bottom", "Slot Page", "Casino Page", "Sidebar"];
 
 const AdminBanners = () => {
-  const { user } = useAuth();
   const [banners, setBanners] = useState(INIT);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ title: "", url: "", position: "Home Top", imageUrl: "" });
 
   const toggle = (id) => {
-    setBanners(banners.map(b => {
-      if (b.id !== id) return b;
-      addLog(user.username, "admin", `${b.enabled ? "Disabled" : "Enabled"} banner`, b.title);
-      return { ...b, enabled: !b.enabled };
-    }));
+    setBanners(banners.map(b => b.id !== id ? b : { ...b, enabled: !b.enabled }));
   };
 
-  const remove = (id, title) => {
+  const remove = (id) => {
     setBanners(banners.filter(b => b.id !== id));
-    addLog(user.username, "admin", "Deleted banner", title);
   };
 
   const handleAdd = () => {
     if (!form.title) return;
     setBanners([...banners, { id: Date.now(), ...form, enabled: true }]);
-    addLog(user.username, "admin", "Added banner", form.title);
     setShowModal(false);
     setForm({ title: "", url: "", position: "Home Top", imageUrl: "" });
   };
@@ -64,7 +55,7 @@ const AdminBanners = () => {
                         <span className="p-toggle-slider" />
                       </label>
                     </td>
-                    <td><button className="p-btn p-btn-delete" onClick={() => remove(b.id, b.title)}><FaTrash /></button></td>
+                    <td><button className="p-btn p-btn-delete" onClick={() => remove(b.id)}><FaTrash /></button></td>
                   </tr>
                 ))}
               </tbody>

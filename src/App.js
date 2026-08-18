@@ -35,6 +35,11 @@ import MasterDashboard from "./pages/Master/MasterDashboard";
 import MasterAdmins from "./pages/Master/MasterAdmins";
 import MasterAgents from "./pages/Master/MasterAgents";
 import MasterUsers from "./pages/Master/MasterUsers";
+import MasterDeposits from "./pages/Master/MasterDeposits";
+import MasterWithdrawals from "./pages/Master/MasterWithdrawals";
+import MasterTransactions from "./pages/Master/MasterTransactions";
+import MasterCommissions from "./pages/Master/MasterCommissions";
+import MasterReports from "./pages/Master/MasterReports";
 import MasterGames from "./pages/Master/MasterGames";
 import MasterCategories from "./pages/Master/MasterCategories";
 import MasterProviders from "./pages/Master/MasterProviders";
@@ -61,6 +66,10 @@ import AdminPermissions from "./pages/Admin/AdminPermissions";
 // Agent Panel
 import AgentDashboard from "./pages/Agent/AgentDashboard";
 import AgentUsers from "./pages/Agent/AgentUsers";
+import AgentDeposits from "./pages/Agent/AgentDeposits";
+import AgentWithdrawals from "./pages/Agent/AgentWithdrawals";
+import AgentTransactions from "./pages/Agent/AgentTransactions";
+import AgentCommissions from "./pages/Agent/AgentCommissions";
 import AgentUserDetails from "./pages/Agent/AgentUserDetails";
 import AgentUserActivity from "./pages/Agent/AgentUserActivity";
 import AgentReports from "./pages/Agent/AgentReports";
@@ -108,6 +117,11 @@ function App() {
         <Route path="/master/admins"       element={<RoleGuard roles={M}><MasterAdmins /></RoleGuard>} />
         <Route path="/master/agents"       element={<RoleGuard roles={M}><MasterAgents /></RoleGuard>} />
         <Route path="/master/users"        element={<RoleGuard roles={M}><MasterUsers /></RoleGuard>} />
+        <Route path="/master/deposits"     element={<RoleGuard roles={M}><MasterDeposits /></RoleGuard>} />
+        <Route path="/master/withdrawals"  element={<RoleGuard roles={M}><MasterWithdrawals /></RoleGuard>} />
+        <Route path="/master/transactions" element={<RoleGuard roles={M}><MasterTransactions /></RoleGuard>} />
+        <Route path="/master/commissions"  element={<RoleGuard roles={M}><MasterCommissions /></RoleGuard>} />
+        <Route path="/master/reports"      element={<RoleGuard roles={M}><MasterReports /></RoleGuard>} />
         <Route path="/master/games"        element={<RoleGuard roles={M}><MasterGames /></RoleGuard>} />
         <Route path="/master/categories"   element={<RoleGuard roles={M}><MasterCategories /></RoleGuard>} />
         <Route path="/master/providers"    element={<RoleGuard roles={M}><MasterProviders /></RoleGuard>} />
@@ -137,6 +151,10 @@ function App() {
         {/* Agent Panel */}
         <Route path="/agent/dashboard"     element={<RoleGuard roles={AG}><AgentDashboard /></RoleGuard>} />
         <Route path="/agent/users"         element={<RoleGuard roles={AG}><AgentUsers /></RoleGuard>} />
+        <Route path="/agent/deposits"      element={<RoleGuard roles={AG}><AgentDeposits /></RoleGuard>} />
+        <Route path="/agent/withdrawals"   element={<RoleGuard roles={AG}><AgentWithdrawals /></RoleGuard>} />
+        <Route path="/agent/transactions"  element={<RoleGuard roles={AG}><AgentTransactions /></RoleGuard>} />
+        <Route path="/agent/commissions"   element={<RoleGuard roles={AG}><AgentCommissions /></RoleGuard>} />
         <Route path="/agent/user-details"  element={<RoleGuard roles={AG}><AgentUserDetails /></RoleGuard>} />
         <Route path="/agent/user-activity" element={<RoleGuard roles={AG}><AgentUserActivity /></RoleGuard>} />
         <Route path="/agent/reports"       element={<RoleGuard roles={AG}><AgentReports /></RoleGuard>} />

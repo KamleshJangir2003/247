@@ -1,21 +1,15 @@
-import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useAuth as useAuthContext } from "../context/AuthContext";
 
+// Re-export context hook; keeps backward-compat for components using this hook
 const useAuth = () => {
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const userType   = localStorage.getItem("userType") || "";
-  const isDemo     = userType === "demo";
-  const isReal     = userType === "real";
-
-  const navigate = useNavigate();
-
-  const logout = useCallback(() => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userType");
-    navigate("/");
-  }, [navigate]);
-
-  return { isLoggedIn, isDemo, isReal, logout };
+  const { user, logout } = useAuthContext();
+  return {
+    isLoggedIn: !!user,
+    isDemo:     user?.username === "demo",
+    isReal:     !!user && user?.username !== "demo",
+    user,
+    logout,
+  };
 };
 
 export default useAuth;

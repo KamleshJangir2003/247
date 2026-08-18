@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import MasterLayout from "./MasterLayout";
 import { FaPlus, FaTimes, FaTrash } from "react-icons/fa";
-import { addLog } from "../../data/activityLog";
-import { useAuth } from "../../context/AuthContext";
 
 const INIT = [
   { id: 1, title: "Site Maintenance",  message: "Scheduled maintenance on 1st June 2-4 AM IST.", type: "warning", enabled: true,  date: "28 May 2024" },
@@ -13,28 +11,21 @@ const INIT = [
 const TYPES = ["info", "success", "warning", "danger"];
 
 const MasterAnnouncements = () => {
-  const { user } = useAuth();
   const [items, setItems] = useState(INIT);
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState({ title: "", message: "", type: "info" });
 
   const toggle = (id) => {
-    setItems(items.map(a => {
-      if (a.id !== id) return a;
-      addLog(user.username, user.role, `${a.enabled ? "Disabled" : "Enabled"} announcement`, a.title);
-      return { ...a, enabled: !a.enabled };
-    }));
+    setItems(items.map(a => a.id !== id ? a : { ...a, enabled: !a.enabled }));
   };
 
-  const remove = (id, title) => {
+  const remove = (id) => {
     setItems(items.filter(a => a.id !== id));
-    addLog(user.username, user.role, "Deleted announcement", title);
   };
 
   const handleAdd = () => {
     if (!form.title || !form.message) return;
     setItems([...items, { id: Date.now(), ...form, enabled: true, date: new Date().toLocaleDateString("en-IN") }]);
-    addLog(user.username, user.role, "Added announcement", form.title);
     setShowModal(false);
     setForm({ title: "", message: "", type: "info" });
   };
@@ -67,7 +58,7 @@ const MasterAnnouncements = () => {
                         <span className="p-toggle-slider" />
                       </label>
                     </td>
-                    <td><button className="p-btn p-btn-delete" onClick={() => remove(a.id, a.title)}><FaTrash /></button></td>
+                    <td><button className="p-btn p-btn-delete" onClick={() => remove(a.id)}><FaTrash /></button></td>
                   </tr>
                 ))}
               </tbody>
