@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import AccountSidebar from "../../components/AccountSidebar";
 import Footer from "../../components/Footer";
-import { me } from "../../api/auth";
 import { updateUser } from "../../api/users";
 import { useAuth } from "../../context/AuthContext";
 import "./Profile.css";
@@ -15,21 +14,19 @@ const Profile = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    me().then((res) => {
-      if (res?.success && res.data?.user) {
-        const u = res.data.user;
-        setUserId(u._id);
-        setForm({
-          name:   `${u.firstName} ${u.lastName || ""}`.trim(),
-          email:  u.email  || "",
-          mobile: u.phone  || "",
-          dob:    u.dob    || "",
-          city:   u.city   || "",
-          state:  u.state  || "",
-        });
-      }
-    }).finally(() => setLoading(false));
-  }, []);
+    if (authUser) {
+      setUserId(authUser.id);
+      setForm({
+        name:   authUser.name  || "",
+        email:  authUser.email || "",
+        mobile: authUser.mobile || "",
+        dob:    authUser.dob   || "",
+        city:   authUser.city  || "",
+        state:  authUser.state || "",
+      });
+    }
+    setLoading(false);
+  }, [authUser]);
 
   const handle = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 

@@ -5,7 +5,13 @@ import { FaUser, FaKey, FaSignInAlt, FaFacebookF, FaInstagram, FaTelegramPlane, 
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const Login = () => {
+const ROLE_LABELS = {
+  master: "MASTER LOGIN",
+  admin:  "ADMIN LOGIN",
+  agent:  "AGENT LOGIN",
+};
+
+const Login = ({ role }) => {
   const navigate = useNavigate();
   const { login, demoLogin } = useAuth();
   const [username, setUsername] = useState("");
@@ -19,8 +25,13 @@ const Login = () => {
     setError("");
     const result = await login(username, password);
     setLoading(false);
-    if (result.ok) navigate(result.redirect);
-    else setError(result.error);
+    if (result.ok) {
+      if (role && result.redirect.split("/")[1] !== role) {
+        setError(`Invalid credentials for ${role} login.`);
+      } else {
+        navigate(result.redirect);
+      }
+    } else setError(result.error);
   };
 
   const handleDemoLogin = async () => {
@@ -38,7 +49,7 @@ const Login = () => {
     <div className="auth-page">
       <img src={logo} alt="logo" className="logo" />
       <div className="auth-box">
-        <h2>LOGIN 📌</h2>
+        <h2>{ROLE_LABELS[role] || "LOGIN 📌"}</h2>
         <div className="input-box">
           <input
             type="text"
@@ -64,10 +75,12 @@ const Login = () => {
         <button className="btn" onClick={handleLogin} disabled={loading}>
           {loading ? "Please wait…" : <> Login <FaSignInAlt /> </>}
         </button>
-        <button className="btn btn-demo" onClick={handleDemoLogin} disabled={loading}>
-          Login with demo ID <FaSignInAlt />
-        </button>
-        <p className="register-text">Don't have an account? <Link to="/register"> Register here</Link></p>
+        {!role && (
+          <button className="btn btn-demo" onClick={handleDemoLogin} disabled={loading}>
+            Login with demo ID <FaSignInAlt />
+          </button>
+        )}
+        {!role && <p className="register-text">Don't have an account? <Link to="/register"> Register here</Link></p>}
         <p className="captcha">
           This site is protected by reCAPTCHA and the Google<br />
           <Link to="/privacy">Privacy Policy</Link> and <Link to="/terms"> Terms of Service</Link> apply.

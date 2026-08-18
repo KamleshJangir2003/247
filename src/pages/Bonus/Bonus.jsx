@@ -13,9 +13,7 @@ const Bonus = () => {
   const [msg, setMsg]           = useState(null);
 
   useEffect(() => {
-    listBonuses({ status: "active", limit: 50 }).then((res) => {
-      if (res?.success) setBonuses(res.data.bonuses);
-    }).finally(() => setLoading(false));
+    setLoading(false);
   }, []);
 
   const handleApply = async () => {
@@ -55,28 +53,25 @@ const Bonus = () => {
           <div className="bonus-header"><span className="b-dot"></span> Bonus &amp; Offers</div>
 
           {/* Redeem code input */}
-          <div style={{ display: "flex", gap: 10, marginBottom: 20, alignItems: "center" }}>
+          <div className="bonus-redeem-row">
             <input
               type="text"
+              className="bonus-redeem-input"
               placeholder="Enter bonus code"
               value={code}
               onChange={(e) => setCode(e.target.value.toUpperCase())}
-              style={{ padding: "8px 12px", borderRadius: 6, border: "1px solid #1a2a3a", background: "#0a0f1a", color: "#c0d0e0", fontSize: 13, width: 200 }}
             />
             <button
+              className="bonus-redeem-btn"
               onClick={handleApply}
               disabled={applying}
-              style={{ padding: "8px 18px", borderRadius: 6, background: "#1a6aff", color: "#fff", border: "none", cursor: "pointer", fontSize: 13 }}
             >
               {applying ? "Applying…" : "Apply Code"}
             </button>
           </div>
 
           {msg && (
-            <div style={{ marginBottom: 16, padding: "10px 14px", borderRadius: 6, fontSize: 13,
-              background: msg.type === "success" ? "#0a2a1a" : "#2a0a0a",
-              color: msg.type === "success" ? "#4ade80" : "#f87171",
-              border: `1px solid ${msg.type === "success" ? "#1a4a2a" : "#4a1a1a"}` }}>
+            <div className={`bonus-msg ${msg.type}`}>
               {msg.text}
             </div>
           )}

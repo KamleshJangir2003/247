@@ -64,6 +64,9 @@
   margin-left: auto;
 }
 
+/* ── MOBILE CATEGORY TABS (hidden on desktop) ── */
+.gpage-cat-tabs { display: none; }
+
 /* ── BODY ── */
 .gpage-body {
   display: flex;

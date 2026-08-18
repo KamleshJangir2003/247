@@ -313,6 +313,10 @@ tbody tr:hover { background: #f9f9f9; }
 
 .file-name { font-size: 11px; color: #00a651; display: block; margin-top: 4px; }
 
+.no-data { text-align: center; padding: 30px 16px; }
+.no-data img { width: 60px; max-width: 20vw; opacity: 0.5; }
+.no-data p { margin-top: 10px; color: #888; font-size: 13px; }
+
 /* RESPONSIVE */
 
 @media (max-width: 1000px) {

@@ -21,16 +21,10 @@ const hydrateUser = () => {
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(hydrateUser);
 
-  // On mount, if we have tokens but no user object, fetch /auth/me
+  // On mount, clear any stale tokens that have no matching user object
   useEffect(() => {
     if (!user && api.getAccessToken()) {
-      authApi.me().then((res) => {
-        if (res?.success && res.data?.user) {
-          const u = buildUser(res.data.user);
-          localStorage.setItem("authUser", JSON.stringify(u));
-          setUser(u);
-        }
-      }).catch(() => {});
+      api.clearTokens();
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -61,9 +55,10 @@ export const AuthProvider = ({ children }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const demoLogin = useCallback(async () => {
-    // Demo login uses the seeded demo credentials
-    return login("demo", process.env.REACT_APP_DEMO_PASSWORD || "demo123");
-  }, [login]);
+    const u = { id: "demo", username: "demo", email: "demo@demo.com", name: "Demo User", role: "user" };
+    persistUser(u);
+    return { ok: true, redirect: ROLE_HOME[u.role] || "/home" };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const logout = useCallback(async () => {
     try { await authApi.logout(); } catch { /* ignore */ }

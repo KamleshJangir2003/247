@@ -34,25 +34,29 @@ const request = async (path, options = {}, retry = true) => {
   const token = getAccessToken();
   if (token) headers["Authorization"] = `Bearer ${token}`;
 
-  const res = await fetch(`${BASE}${path}`, { ...options, headers });
+  try {
+    const res = await fetch(`${BASE}${path}`, { ...options, headers });
 
-  if (res.status === 401 && retry) {
-    try {
-      if (!refreshPromise) {
-        refreshPromise = refreshAccessToken().finally(() => { refreshPromise = null; });
+    if (res.status === 401 && retry) {
+      try {
+        if (!refreshPromise) {
+          refreshPromise = refreshAccessToken().finally(() => { refreshPromise = null; });
+        }
+        const newToken = await refreshPromise;
+        headers["Authorization"] = `Bearer ${newToken}`;
+        const retried = await fetch(`${BASE}${path}`, { ...options, headers });
+        return retried.json();
+      } catch {
+        clearTokens();
+        window.location.href = "/login";
+        return null;
       }
-      const newToken = await refreshPromise;
-      headers["Authorization"] = `Bearer ${newToken}`;
-      const retried = await fetch(`${BASE}${path}`, { ...options, headers });
-      return retried.json();
-    } catch {
-      clearTokens();
-      window.location.href = "/login";
-      return null;
     }
-  }
 
-  return res.json();
+    return res.json();
+  } catch {
+    return null;
+  }
 };
 
 const api = {

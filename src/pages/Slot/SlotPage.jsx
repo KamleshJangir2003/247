@@ -140,6 +140,12 @@ const SlotPage = () => {
         <span className="gpage-titlebar-count">{filtered.length} / {slotGames.length} Games</span>
       </div>
 
+      <div className="gpage-cat-tabs">
+        {CATS.map((cat) => (
+          <button key={cat} className={`gpage-cat-tab${activeCat === cat ? " active" : ""}`} onClick={() => setActiveCat(cat)}>{cat}</button>
+        ))}
+      </div>
+
       <div className="gpage-body">
         <aside className="gpage-sidebar">
           <div className="gpage-sidebar-title">Category</div>

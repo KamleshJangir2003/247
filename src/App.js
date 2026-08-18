@@ -88,6 +88,9 @@ function App() {
         {/* Public */}
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/master/login" element={<Login role="master" />} />
+        <Route path="/admin/login"  element={<Login role="admin" />} />
+        <Route path="/agent/login"  element={<Login role="agent" />} />
         <Route path="/register" element={<Register />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
@@ -146,7 +149,7 @@ function App() {
         <Route path="/admin/activity"     element={<RoleGuard roles={MA}><AdminActivity /></RoleGuard>} />
         <Route path="/admin/permissions"  element={<RoleGuard roles={MA}><AdminPermissions /></RoleGuard>} />
         <Route path="/admin"              element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="/admin-login"        element={<Navigate to="/login" replace />} />
+        <Route path="/admin-login" element={<Navigate to="/admin/login" replace />} />
 
         {/* Agent Panel */}
         <Route path="/agent/dashboard"     element={<RoleGuard roles={AG}><AgentDashboard /></RoleGuard>} />
