@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import MasterLayout from "./MasterLayout";
 import { FaPlus, FaTimes, FaEdit, FaTrash } from "react-icons/fa";
-import { listGames, createGame, updateGame, deleteGame, setGameStatus, listProviders } from "../../api/games";
+import { masterListGames, masterCreateGame, masterUpdateGame, masterDeleteGame, masterSetGameStatus, masterListProviders } from "../../api/games";
 
 const CATEGORIES = ["Lottery", "Sports", "Exchange", "Live Casino", "Slot", "Fantasy", "Crash"];
 const BADGES = ["", "HOT", "NEW", "LIVE"];
@@ -26,20 +26,20 @@ const MasterGames = () => {
     const p = { page, limit: PAGE_SIZE };
     if (catFilter) p.category = catFilter;
     if (search) p.search = search;
-    listGames(p).then(r => {
+    masterListGames(p).then(r => {
       if (r?.success) { setGames(r.data.games); setTotal(r.data.total); }
     }).finally(() => setLoading(false));
   }, [page, catFilter, search]);
 
   useEffect(() => { load(); }, [load]);
   useEffect(() => {
-    listProviders({ limit: 100 }).then(r => { if (r?.success) setProviders(r.data.providers); });
+    masterListProviders({ limit: 100 }).then(r => { if (r?.success) setProviders(r.data.providers); });
   }, []);
 
   const handleSave = async () => {
     if (!form.name || !form.category) return setErr("Name and category are required.");
     setSaving(true); setErr("");
-    const res = modal === "add" ? await createGame(form) : await updateGame(modal._id, form);
+    const res = modal === "add" ? await masterCreateGame(form) : await masterUpdateGame(modal._id, form);
     setSaving(false);
     if (!res?.success) return setErr(res?.message || "Save failed.");
     setModal(null); load();
@@ -47,13 +47,13 @@ const MasterGames = () => {
 
   const handleToggle = async (g) => {
     const next = g.status === "active" ? "inactive" : "active";
-    const res = await setGameStatus(g._id, next);
+    const res = await masterSetGameStatus(g._id, next);
     if (res?.success) load();
   };
 
   const handleDelete = async (g) => {
     if (!window.confirm(`Delete "${g.name}"?`)) return;
-    const res = await deleteGame(g._id);
+    const res = await masterDeleteGame(g._id);
     if (res?.success) load();
   };
 

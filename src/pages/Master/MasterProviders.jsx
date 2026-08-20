@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import MasterLayout from "./MasterLayout";
 import { FaPlus, FaTimes, FaEdit, FaTrash } from "react-icons/fa";
-import { listProviders, createProvider, updateProvider, deleteProvider } from "../../api/games";
+import { masterListProviders, masterCreateProvider, masterUpdateProvider, masterDeleteProvider } from "../../api/games";
 
 const CATEGORIES = ["Live Casino", "Slot", "Crash", "Sports", "Fantasy", "Lottery", "Exchange", "general"];
 const EMPTY = { name: "", category: "general", description: "" };
@@ -17,7 +17,7 @@ const MasterProviders = () => {
 
   const load = useCallback(() => {
     setLoading(true);
-    listProviders({ limit: 100 }).then(r => {
+    masterListProviders({ limit: 100 }).then(r => {
       if (r?.success) { setProviders(r.data.providers); setTotal(r.data.total); }
     }).finally(() => setLoading(false));
   }, []);
@@ -28,8 +28,8 @@ const MasterProviders = () => {
     if (!form.name) return setErr("Provider name is required.");
     setSaving(true); setErr("");
     const res = modal === "add"
-      ? await createProvider(form)
-      : await updateProvider(modal._id, form);
+      ? await masterCreateProvider(form)
+      : await masterUpdateProvider(modal._id, form);
     setSaving(false);
     if (!res?.success) return setErr(res?.message || "Save failed.");
     setModal(null); load();
@@ -37,7 +37,7 @@ const MasterProviders = () => {
 
   const handleDelete = async (p) => {
     if (!window.confirm(`Delete provider "${p.name}"?`)) return;
-    const res = await deleteProvider(p._id);
+    const res = await masterDeleteProvider(p._id);
     if (res?.success) load();
   };
 

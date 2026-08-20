@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import MasterLayout from "./MasterLayout";
 import { FaPlus, FaTimes, FaEdit, FaTrash } from "react-icons/fa";
-import { listCategories, createCategory, updateCategory, deleteCategory } from "../../api/games";
+import { masterListCategories, masterCreateCategory, masterUpdateCategory, masterDeleteCategory } from "../../api/games";
 
 const EMPTY = { name: "", icon: "", sortOrder: "" };
 
@@ -15,7 +15,7 @@ const MasterCategories = () => {
 
   const load = useCallback(() => {
     setLoading(true);
-    listCategories().then(r => {
+    masterListCategories().then(r => {
       if (r?.success) setCats(r.data.categories);
     }).finally(() => setLoading(false));
   }, []);
@@ -27,8 +27,8 @@ const MasterCategories = () => {
     setSaving(true); setErr("");
     const payload = { name: form.name, icon: form.icon || "", sortOrder: Number(form.sortOrder) || 0 };
     const res = modal === "add"
-      ? await createCategory(payload)
-      : await updateCategory(modal._id, payload);
+      ? await masterCreateCategory(payload)
+      : await masterUpdateCategory(modal._id, payload);
     setSaving(false);
     if (!res?.success) return setErr(res?.message || "Save failed.");
     setModal(null); load();
@@ -36,13 +36,13 @@ const MasterCategories = () => {
 
   const handleDelete = async (c) => {
     if (!window.confirm(`Delete category "${c.name}"?`)) return;
-    const res = await deleteCategory(c._id);
+    const res = await masterDeleteCategory(c._id);
     if (res?.success) load();
   };
 
   const handleToggle = async (c) => {
     const next = c.status === "active" ? "inactive" : "active";
-    const res = await updateCategory(c._id, { status: next });
+    const res = await masterUpdateCategory(c._id, { status: next });
     if (res?.success) load();
   };
 

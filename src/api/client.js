@@ -1,3 +1,5 @@
+import { clearSession } from "./session";
+
 const BASE = process.env.REACT_APP_API_URL || "http://localhost:5000/api/v1";
 
 const getAccessToken  = () => localStorage.getItem("accessToken");
@@ -47,7 +49,7 @@ const request = async (path, options = {}, retry = true) => {
         const retried = await fetch(`${BASE}${path}`, { ...options, headers });
         return retried.json();
       } catch {
-        clearTokens();
+        clearSession();
         window.location.href = "/login";
         return null;
       }

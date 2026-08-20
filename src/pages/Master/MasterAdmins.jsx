@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import MasterLayout from "./MasterLayout";
 import { FaPlus, FaTimes } from "react-icons/fa";
-import { adminListUsers, adminSetStatus, createAdmin } from "../../api/games";
+import { listAdmins, masterSetAdminStatus, createAdmin } from "../../api/games";
 
 const PAGE_SIZE = 20;
 
@@ -17,7 +17,7 @@ const MasterAdmins = () => {
 
   const load = useCallback(() => {
     setLoading(true);
-    adminListUsers({ role: "ADMIN", page, limit: PAGE_SIZE }).then(r => {
+    listAdmins({ page, limit: PAGE_SIZE }).then(r => {
       if (r?.success) { setAdmins(r.data.users); setTotal(r.data.total); }
     }).finally(() => setLoading(false));
   }, [page]);
@@ -26,7 +26,7 @@ const MasterAdmins = () => {
 
   const toggle = async (a) => {
     const next = a.status === "active" ? "blocked" : "active";
-    const res = await adminSetStatus(a._id, next);
+    const res = await masterSetAdminStatus(a._id, next);
     if (res?.success) load();
   };
 
