@@ -6,8 +6,8 @@ import { clearSession } from "../api/session";
 const AuthContext = createContext(null);
 
 export const ROLE_HOME = {
+  super_admin: "/super/dashboard",
   master: "/master/dashboard",
-  admin:  "/admin/dashboard",
   agent:  "/agent/dashboard",
   user:   "/home",
 };
@@ -38,6 +38,14 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const validate = async () => {
       const token = api.getAccessToken();
+
+      // Demo session has no token — restore user from localStorage directly
+      if (localStorage.getItem("isDemo") === "true") {
+        const stored = localStorage.getItem("authUser");
+        if (stored) setUser(JSON.parse(stored));
+        setReady(true);
+        return;
+      }
 
       if (!token) {
         // No token → wipe any leftover user data and proceed unauthenticated
@@ -88,6 +96,7 @@ export const AuthProvider = ({ children }) => {
     clearSession();
     const u = { id: "demo", username: "demo", email: "demo@demo.com", name: "Demo User", role: "user" };
     persistUser(u);
+    localStorage.setItem("isDemo", "true");
     setUser(u);
     return { ok: true, redirect: ROLE_HOME[u.role] || "/home" };
   }, []);

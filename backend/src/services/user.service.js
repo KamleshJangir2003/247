@@ -3,11 +3,11 @@ const Wallet = require("../models/Wallet");
 const AuditLog = require("../models/AuditLog");
 const { hash } = require("../utils/password");
 
-const ROLE_LEVEL = { SUPER_ADMIN: 5, ADMIN: 4, MASTER: 3, AGENT: 2, USER: 1 };
+const ROLE_LEVEL = { SUPER_ADMIN: 4, MASTER: 3, AGENT: 2, USER: 1 };
 
 // Build hierarchy filter so each role only sees its own subtree
 const buildHierarchyFilter = async (actor) => {
-  if (actor.role === "SUPER_ADMIN" || actor.role === "ADMIN") return {};
+  if (actor.role === "SUPER_ADMIN") return {};
   if (actor.role === "MASTER") {
     // Find all agents under this master
     const agents = await User.find({ parentId: actor._id, role: "AGENT" }).select("_id");
@@ -49,12 +49,23 @@ const getUser = async (actor, targetId) => {
   return user.toSafeObject();
 };
 
+// Allowed creation map: who can create which role
+const ALLOWED_CREATE = {
+  SUPER_ADMIN: ["MASTER", "AGENT", "USER"],
+  MASTER:      ["AGENT"],
+  AGENT:       ["USER"],
+  USER:        [],
+};
+
 const createUser = async (actor, data) => {
   const { firstName, lastName, username, email, phone, password, role, parentId } = data;
 
-  // Prevent creating a role equal or higher than actor
-  if ((ROLE_LEVEL[role] || 0) >= (ROLE_LEVEL[actor.role] || 0)) {
-    throw Object.assign(new Error("Cannot create user with equal or higher role"), { statusCode: 403 });
+  const allowed = ALLOWED_CREATE[actor.role] || [];
+  if (!allowed.includes(role)) {
+    throw Object.assign(
+      new Error(`${actor.role} cannot create role ${role}`),
+      { statusCode: 403 }
+    );
   }
 
   const exists = await User.findOne({ $or: [{ username }, { email }] });

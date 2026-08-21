@@ -38,16 +38,9 @@ const PERMISSIONS = [
   { name: "settings.manage",       group: "settings",     description: "Manage settings" },
 ];
 
-// Permissions assigned per role
+// Permissions assigned per role — 4 roles only
 const ROLE_PERMISSIONS = {
   SUPER_ADMIN: PERMISSIONS.map((p) => p.name), // all
-  ADMIN: [
-    "users.view", "users.create", "users.update", "users.block",
-    "games.view", "games.create", "games.update", "games.delete",
-    "deposits.view", "deposits.approve", "deposits.reject",
-    "withdrawals.view", "withdrawals.approve", "withdrawals.reject",
-    "transactions.view", "reports.view", "masters.manage", "agents.manage",
-  ],
   MASTER: [
     "users.view", "users.create", "users.update", "users.block",
     "deposits.view", "withdrawals.view", "transactions.view",
@@ -68,14 +61,6 @@ const seedUsers = [
     email: process.env.SEED_SUPER_ADMIN_EMAIL || "superadmin@777games.dev",
     password: process.env.SEED_SUPER_ADMIN_PASSWORD || "SuperAdmin@2024",
     role: "SUPER_ADMIN",
-  },
-  {
-    firstName: "Admin",
-    lastName: "User",
-    username: process.env.SEED_ADMIN_USERNAME || "admin777",
-    email: process.env.SEED_ADMIN_EMAIL || "admin@777games.dev",
-    password: process.env.SEED_ADMIN_PASSWORD || "Admin@2024",
-    role: "ADMIN",
   },
   {
     firstName: "Master",
@@ -128,9 +113,9 @@ const seed = async () => {
       { upsert: true, new: true }
     );
   }
-  logger.info("Seeded 5 roles");
+  logger.info("Seeded 4 roles: SUPER_ADMIN, MASTER, AGENT, USER");
 
-  // Build parentId chain: ADMIN → SUPER_ADMIN, MASTER → ADMIN, AGENT → MASTER, USER → AGENT
+  // Build parentId chain: MASTER → SUPER_ADMIN, AGENT → MASTER, USER → AGENT
   const createdUsers = {};
 
   for (const u of seedUsers) {
@@ -144,10 +129,9 @@ const seed = async () => {
     const passwordHash = await hash(u.password);
     const permNames = ROLE_PERMISSIONS[u.role] || [];
 
-    // Assign parentId based on hierarchy
+    // Assign parentId based on new hierarchy
     let parentId = null;
-    if (u.role === "ADMIN")  parentId = createdUsers["SUPER_ADMIN"]?._id || null;
-    if (u.role === "MASTER") parentId = createdUsers["ADMIN"]?._id || null;
+    if (u.role === "MASTER") parentId = createdUsers["SUPER_ADMIN"]?._id || null;
     if (u.role === "AGENT")  parentId = createdUsers["MASTER"]?._id || null;
     if (u.role === "USER")   parentId = createdUsers["AGENT"]?._id || null;
 

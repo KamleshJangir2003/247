@@ -6,9 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 const ROLE_LABELS = {
-  master: "MASTER LOGIN",
-  admin:  "ADMIN LOGIN",
-  agent:  "AGENT LOGIN",
+  super_admin: "SUPER ADMIN LOGIN",
+  master:      "MASTER LOGIN",
+  agent:       "AGENT LOGIN",
 };
 
 const Login = ({ role }) => {
@@ -19,6 +19,9 @@ const Login = ({ role }) => {
   const [error, setError]       = useState("");
   const [loading, setLoading]   = useState(false);
 
+  // Map role prop to expected redirect prefix
+  const ROLE_PREFIX = { super_admin: "/super", master: "/master", agent: "/agent", user: "/" };
+
   const handleLogin = async () => {
     if (!username || !password) return setError("Please enter username and password.");
     setLoading(true);
@@ -26,11 +29,15 @@ const Login = ({ role }) => {
     const result = await login(username, password);
     setLoading(false);
     if (result.ok) {
-      if (role && result.redirect.split("/")[1] !== role) {
-        setError(`Invalid credentials for ${role} login.`);
-      } else {
-        navigate(result.redirect);
+      // If this is a role-specific login page, verify the user's role matches
+      if (role) {
+        const expectedPrefix = ROLE_PREFIX[role];
+        if (expectedPrefix && !result.redirect.startsWith(expectedPrefix)) {
+          setError(`Invalid credentials for this login page.`);
+          return;
+        }
       }
+      navigate(result.redirect);
     } else setError(result.error);
   };
 

@@ -24,7 +24,7 @@ const listDeposits = async (actor, query) => {
   const { page = 1, limit = 20, status, userId } = query;
   const filter = {};
   // USER and AGENT always scoped to own deposits
-  if (actor.role === "USER" || actor.role === "AGENT") filter.userId = actor._id;
+  if (actor.role === "USER") filter.userId = actor._id;
   else if (userId) filter.userId = userId;
   if (status) filter.status = status;
 

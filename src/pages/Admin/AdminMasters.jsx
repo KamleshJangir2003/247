@@ -6,8 +6,8 @@ import { listUsers, createUser, setStatus } from "../../api/users";
 const PAGE_SIZE = 20;
 const EMPTY = { firstName: "", lastName: "", username: "", email: "", phone: "", password: "" };
 
-const AdminAgents = () => {
-  const [agents, setAgents]   = useState([]);
+const AdminMasters = () => {
+  const [masters, setMasters] = useState([]);
   const [total, setTotal]     = useState(0);
   const [search, setSearch]   = useState("");
   const [page, setPage]       = useState(1);
@@ -19,16 +19,16 @@ const AdminAgents = () => {
 
   const load = useCallback(() => {
     setLoading(true);
-    listUsers({ role: "AGENT", page, limit: PAGE_SIZE }).then(r => {
-      if (r?.success) { setAgents(r.data.users); setTotal(r.data.total); }
+    listUsers({ role: "MASTER", page, limit: PAGE_SIZE }).then(r => {
+      if (r?.success) { setMasters(r.data.users); setTotal(r.data.total); }
     }).finally(() => setLoading(false));
   }, [page]);
 
   useEffect(() => { load(); }, [load]);
 
-  const toggle = async (a) => {
-    const next = a.status === "active" ? "blocked" : "active";
-    const res = await setStatus(a._id, next);
+  const toggle = async (m) => {
+    const next = m.status === "active" ? "blocked" : "active";
+    const res = await setStatus(m._id, next);
     if (res?.success) load();
   };
 
@@ -36,35 +36,35 @@ const AdminAgents = () => {
     if (!form.firstName || !form.username || !form.email || !form.password)
       return setErr("First name, username, email and password are required.");
     setSaving(true); setErr("");
-    const res = await createUser({ ...form, role: "AGENT" });
+    const res = await createUser({ ...form, role: "MASTER" });
     setSaving(false);
-    if (!res?.success) return setErr(res?.message || "Failed to create agent.");
+    if (!res?.success) return setErr(res?.message || "Failed to create master.");
     setShowModal(false);
     setForm(EMPTY);
     load();
   };
 
-  const filtered = agents.filter(a =>
-    a.username.toLowerCase().includes(search.toLowerCase()) ||
-    `${a.firstName} ${a.lastName || ""}`.toLowerCase().includes(search.toLowerCase())
+  const filtered = masters.filter(m =>
+    m.username.toLowerCase().includes(search.toLowerCase()) ||
+    `${m.firstName} ${m.lastName || ""}`.toLowerCase().includes(search.toLowerCase())
   );
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 
   return (
-    <AdminLayout pageTitle="Agent Management">
+    <AdminLayout pageTitle="Master Management">
       <div className="p-summary-row">
-        <div className="p-sum-card"><p>Total Agents</p><h4>{total}</h4></div>
-        <div className="p-sum-card"><p>Active</p><h4 style={{ color: "#4ade80" }}>{agents.filter(a => a.status === "active").length}</h4></div>
-        <div className="p-sum-card"><p>Blocked</p><h4 style={{ color: "#f87171" }}>{agents.filter(a => a.status === "blocked").length}</h4></div>
+        <div className="p-sum-card"><p>Total Masters</p><h4>{total}</h4></div>
+        <div className="p-sum-card"><p>Active</p><h4 style={{ color: "#4ade80" }}>{masters.filter(m => m.status === "active").length}</h4></div>
+        <div className="p-sum-card"><p>Blocked</p><h4 style={{ color: "#f87171" }}>{masters.filter(m => m.status === "blocked").length}</h4></div>
       </div>
 
       <div className="p-card">
         <div className="p-card-header">
-          <h3>All Agents</h3>
+          <h3>All Masters</h3>
           <div className="p-search-bar">
-            <input placeholder="Search agent..." value={search} onChange={e => setSearch(e.target.value)} style={{ width: 200 }} />
-            <button className="p-btn-add" onClick={() => { setShowModal(true); setErr(""); setForm(EMPTY); }}><FaPlus /> Add Agent</button>
+            <input placeholder="Search master..." value={search} onChange={e => setSearch(e.target.value)} style={{ width: 200 }} />
+            <button className="p-btn-add" onClick={() => { setShowModal(true); setErr(""); setForm(EMPTY); }}><FaPlus /> Add Master</button>
           </div>
         </div>
         <div className="p-card-body" style={{ padding: 0 }}>
@@ -75,21 +75,21 @@ const AdminAgents = () => {
                 {loading
                   ? <tr><td colSpan={8} className="p-nodata">Loading…</td></tr>
                   : filtered.length === 0
-                    ? <tr><td colSpan={8} className="p-nodata">No agents found.</td></tr>
-                    : filtered.map((a, i) => (
-                      <tr key={a._id}>
+                    ? <tr><td colSpan={8} className="p-nodata">No masters found.</td></tr>
+                    : filtered.map((m, i) => (
+                      <tr key={m._id}>
                         <td>{(page - 1) * PAGE_SIZE + i + 1}</td>
-                        <td style={{ color: "#2dd4bf", fontWeight: 600 }}>{a.username}</td>
-                        <td>{`${a.firstName} ${a.lastName || ""}`.trim()}</td>
-                        <td style={{ fontSize: 11 }}>{a.email}</td>
-                        <td>{a.phone || "—"}</td>
-                        <td>{new Date(a.createdAt).toLocaleDateString("en-IN")}</td>
-                        <td><span className={`p-badge ${a.status}`}>{a.status}</span></td>
+                        <td style={{ color: "#c084fc", fontWeight: 600 }}>{m.username}</td>
+                        <td>{`${m.firstName} ${m.lastName || ""}`.trim()}</td>
+                        <td style={{ fontSize: 11 }}>{m.email}</td>
+                        <td>{m.phone || "—"}</td>
+                        <td>{new Date(m.createdAt).toLocaleDateString("en-IN")}</td>
+                        <td><span className={`p-badge ${m.status}`}>{m.status}</span></td>
                         <td>
                           <div className="p-action-btns">
-                            {a.status === "active"
-                              ? <button className="p-btn p-btn-block"   onClick={() => toggle(a)}>Block</button>
-                              : <button className="p-btn p-btn-unblock" onClick={() => toggle(a)}>Unblock</button>
+                            {m.status === "active"
+                              ? <button className="p-btn p-btn-block"   onClick={() => toggle(m)}>Block</button>
+                              : <button className="p-btn p-btn-unblock" onClick={() => toggle(m)}>Unblock</button>
                             }
                           </div>
                         </td>
@@ -113,7 +113,7 @@ const AdminAgents = () => {
         <div className="p-modal-overlay">
           <div className="p-modal">
             <div className="p-modal-header">
-              <h3>Add New Agent</h3>
+              <h3>Add New Master</h3>
               <button className="p-modal-close" onClick={() => { setShowModal(false); setErr(""); }}><FaTimes /></button>
             </div>
             <div className="p-modal-body">
@@ -135,7 +135,7 @@ const AdminAgents = () => {
               {err && <p style={{ color: "#f87171", fontSize: 12, marginTop: 8 }}>{err}</p>}
               <div className="p-form-actions">
                 <button className="p-btn p-btn-primary" onClick={() => { setShowModal(false); setErr(""); }}>Cancel</button>
-                <button className="p-btn p-btn-success" onClick={handleAdd} disabled={saving}>{saving ? "Creating…" : "Create Agent"}</button>
+                <button className="p-btn p-btn-success" onClick={handleAdd} disabled={saving}>{saving ? "Creating…" : "Create Master"}</button>
               </div>
             </div>
           </div>
@@ -145,4 +145,4 @@ const AdminAgents = () => {
   );
 };
 
-export default AdminAgents;
+export default AdminMasters;

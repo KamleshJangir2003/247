@@ -15,7 +15,7 @@ const AdminPermissions = () => (
     <div className="p-card">
       <div className="p-card-header">
         <h3>Admin Permission Matrix</h3>
-        <span style={{ fontSize: 11, color: "#4a6a8a" }}>Managed by Master. Contact master to change permissions.</span>
+        <span style={{ fontSize: 11, color: "#4a6a8a" }}>System-level permissions. Managed by Super Admin only.</span>
       </div>
       <div className="p-card-body" style={{ padding: 0 }}>
         <div className="p-table-wrap">
@@ -23,7 +23,7 @@ const AdminPermissions = () => (
             <thead>
               <tr>
                 <th style={{ width: "60%" }}>Permission</th>
-                <th style={{ textAlign: "center" }}><span className="p-badge admin">ADMIN</span></th>
+                <th style={{ textAlign: "center" }}><span className="p-badge super_admin">SUPER ADMIN</span></th>
               </tr>
             </thead>
             <tbody>

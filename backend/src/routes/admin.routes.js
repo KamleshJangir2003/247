@@ -4,12 +4,12 @@ const { authenticate } = require("../middleware/auth.middleware");
 const { authorize } = require("../middleware/role.middleware");
 
 router.use(authenticate);
-router.use(authorize("SUPER_ADMIN", "ADMIN"));
+router.use(authorize("SUPER_ADMIN"));
 
 router.get("/dashboard",  ctrl.dashboard);
 router.get("/audit-logs", ctrl.auditLogs);
 
-// User management (admin-level)
+// User management
 router.get("/users",              ctrl.listUsers);
 router.patch("/users/:id/status", ctrl.setUserStatus);
 

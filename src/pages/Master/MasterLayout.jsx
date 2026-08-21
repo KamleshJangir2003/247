@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
-  FaThLarge, FaUsers, FaUserTie, FaUserShield, FaGamepad,
-  FaLayerGroup, FaBuilding, FaImage, FaBullhorn, FaKey,
+  FaThLarge, FaUsers, FaUserTie, FaKey,
   FaHistory, FaCog, FaSignOutAlt, FaBars, FaCrown,
   FaMoneyBillWave, FaArrowCircleUp, FaExchangeAlt, FaPercentage, FaChartBar
 } from "react-icons/fa";
@@ -13,7 +12,6 @@ const NAV = [
   { section: "Main" },
   { icon: <FaThLarge />,        label: "Dashboard",    path: "/master/dashboard" },
   { section: "Management" },
-  { icon: <FaUserShield />,     label: "Admins",        path: "/master/admins" },
   { icon: <FaUserTie />,        label: "Agents",        path: "/master/agents" },
   { icon: <FaUsers />,          label: "Users",         path: "/master/users" },
   { section: "Finance" },
@@ -22,15 +20,7 @@ const NAV = [
   { icon: <FaExchangeAlt />,    label: "Transactions",  path: "/master/transactions" },
   { icon: <FaPercentage />,     label: "Commissions",   path: "/master/commissions" },
   { icon: <FaChartBar />,       label: "Reports",       path: "/master/reports" },
-  { section: "Games" },
-  { icon: <FaGamepad />,        label: "Games",         path: "/master/games" },
-  { icon: <FaLayerGroup />,     label: "Categories",    path: "/master/categories" },
-  { icon: <FaBuilding />,       label: "Providers",     path: "/master/providers" },
-  { section: "Content" },
-  { icon: <FaImage />,          label: "Banners",       path: "/master/banners" },
-  { icon: <FaBullhorn />,       label: "Announcements", path: "/master/announcements" },
-  { section: "System" },
-  { icon: <FaKey />,            label: "Permissions",   path: "/master/permissions" },
+  { section: "Account" },
   { icon: <FaHistory />,        label: "Activity Logs", path: "/master/activity" },
   { icon: <FaCog />,            label: "Settings",      path: "/master/settings" },
 ];

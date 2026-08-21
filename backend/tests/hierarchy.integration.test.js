@@ -367,6 +367,101 @@ describe("Wallet transaction and audit log creation on transfer", () => {
   });
 });
 
+// ─── Role hierarchy enforcement (ALLOWED_CREATE) ────────────────────────────
+
+describe("Role hierarchy — ALLOWED_CREATE enforcement", () => {
+  it("MASTER cannot directly create a USER (must go via AGENT)", async () => {
+    const masterTk = await token("MASTER");
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/users`)
+      .set("Authorization", `Bearer ${masterTk}`)
+      .send({ firstName: "U", username: `u_${ts}`, email: `u_${ts}@t.com`, password: "pass123", role: "USER" });
+    expect(res.status).toBe(403);
+  });
+
+  it("MASTER cannot create another MASTER", async () => {
+    const masterTk = await token("MASTER");
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/users`)
+      .set("Authorization", `Bearer ${masterTk}`)
+      .send({ firstName: "M", username: `m_${ts}`, email: `m_${ts}@t.com`, password: "pass123", role: "MASTER" });
+    expect(res.status).toBe(403);
+  });
+
+  it("AGENT cannot create a MASTER", async () => {
+    const agentTk = await token("AGENT");
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/users`)
+      .set("Authorization", `Bearer ${agentTk}`)
+      .send({ firstName: "M", username: `m_${ts}`, email: `m_${ts}@t.com`, password: "pass123", role: "MASTER" });
+    expect(res.status).toBe(403);
+  });
+
+  it("AGENT cannot create another AGENT", async () => {
+    const agentTk = await token("AGENT");
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/users`)
+      .set("Authorization", `Bearer ${agentTk}`)
+      .send({ firstName: "A", username: `a_${ts}`, email: `a_${ts}@t.com`, password: "pass123", role: "AGENT" });
+    expect(res.status).toBe(403);
+  });
+
+  it("AGENT can create a USER", async () => {
+    const agentTk = await token("AGENT");
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/users`)
+      .set("Authorization", `Bearer ${agentTk}`)
+      .send({ firstName: "U", username: `u_${ts}`, email: `u_${ts}@t.com`, password: "pass123", role: "USER" });
+    expect(res.status).toBe(201);
+  });
+
+  it("MASTER can create an AGENT via /users", async () => {
+    const masterTk = await token("MASTER");
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/users`)
+      .set("Authorization", `Bearer ${masterTk}`)
+      .send({ firstName: "A", username: `a_${ts}`, email: `a_${ts}@t.com`, password: "pass123", role: "AGENT" });
+    expect(res.status).toBe(201);
+  });
+});
+
+// ─── Public registration security ────────────────────────────────────────────
+
+describe("Public registration — role escalation prevention", () => {
+  it("always registers as USER regardless of role in body", async () => {
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/auth/register`)
+      .send({ firstName: "X", username: `x_${ts}`, email: `x_${ts}@t.com`, password: "pass123", role: "SUPER_ADMIN" });
+    expect(res.status).toBe(201);
+    expect(res.body.data.user.role).toBe("USER");
+  });
+
+  it("cannot register as MASTER via public endpoint", async () => {
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/auth/register`)
+      .send({ firstName: "X", username: `x2_${ts}`, email: `x2_${ts}@t.com`, password: "pass123", role: "MASTER" });
+    expect(res.status).toBe(201);
+    expect(res.body.data.user.role).toBe("USER");
+  });
+
+  it("cannot register as AGENT via public endpoint", async () => {
+    const ts = Date.now();
+    const res = await request(app)
+      .post(`${BASE}/auth/register`)
+      .send({ firstName: "X", username: `x3_${ts}`, email: `x3_${ts}@t.com`, password: "pass123", role: "AGENT" });
+    expect(res.status).toBe(201);
+    expect(res.body.data.user.role).toBe("USER");
+  });
+});
+
 // ─── Cross-role RBAC ──────────────────────────────────────────────────────────
 
 describe("Cross-role RBAC enforcement", () => {

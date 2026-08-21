@@ -1,7 +1,7 @@
 const { error } = require("../utils/response");
 
 // Role hierarchy levels
-const ROLE_LEVEL = { SUPER_ADMIN: 5, ADMIN: 4, MASTER: 3, AGENT: 2, USER: 1 };
+const ROLE_LEVEL = { SUPER_ADMIN: 4, MASTER: 3, AGENT: 2, USER: 1 };
 
 const authorize = (...roles) => (req, res, next) => {
   if (!req.user) return error(res, "Authentication required", 401);

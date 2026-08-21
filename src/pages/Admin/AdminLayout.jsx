@@ -3,29 +3,30 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 import {
   FaThLarge, FaUsers, FaUserTie, FaMoneyBillWave, FaArrowCircleUp,
   FaExchangeAlt, FaGamepad, FaLayerGroup, FaBuilding, FaImage,
-  FaHistory, FaKey, FaSignOutAlt, FaBars, FaShieldAlt
+  FaHistory, FaKey, FaSignOutAlt, FaBars, FaShieldAlt, FaCrown
 } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import "../../components/PanelShared.css";
 
 const NAV = [
   { section: "Main" },
-  { icon: <FaThLarge />,       label: "Dashboard",       path: "/admin/dashboard" },
+  { icon: <FaThLarge />,       label: "Dashboard",       path: "/super/dashboard" },
   { section: "Users" },
-  { icon: <FaUsers />,         label: "All Users",       path: "/admin/users" },
-  { icon: <FaUserTie />,       label: "Agents",          path: "/admin/agents" },
+  { icon: <FaUsers />,         label: "All Users",       path: "/super/users" },
+  { icon: <FaCrown />,         label: "Masters",         path: "/super/masters" },
+  { icon: <FaUserTie />,       label: "Agents",          path: "/super/agents" },
   { section: "Finance" },
-  { icon: <FaMoneyBillWave />, label: "Deposits",        path: "/admin/deposits",     badge: "deposits" },
-  { icon: <FaArrowCircleUp />, label: "Withdrawals",     path: "/admin/withdrawals",  badge: "withdrawals" },
-  { icon: <FaExchangeAlt />,   label: "Transactions",    path: "/admin/transactions" },
+  { icon: <FaMoneyBillWave />, label: "Deposits",        path: "/super/deposits",     badge: "deposits" },
+  { icon: <FaArrowCircleUp />, label: "Withdrawals",     path: "/super/withdrawals",  badge: "withdrawals" },
+  { icon: <FaExchangeAlt />,   label: "Transactions",    path: "/super/transactions" },
   { section: "Games" },
-  { icon: <FaGamepad />,       label: "Games",           path: "/admin/games" },
-  { icon: <FaLayerGroup />,    label: "Categories",      path: "/admin/categories" },
-  { icon: <FaBuilding />,      label: "Providers",       path: "/admin/providers" },
-  { icon: <FaImage />,         label: "Banners",         path: "/admin/banners" },
+  { icon: <FaGamepad />,       label: "Games",           path: "/super/games" },
+  { icon: <FaLayerGroup />,    label: "Categories",      path: "/super/categories" },
+  { icon: <FaBuilding />,      label: "Providers",       path: "/super/providers" },
+  { icon: <FaImage />,         label: "Banners",         path: "/super/banners" },
   { section: "System" },
-  { icon: <FaHistory />,       label: "Activity Logs",   path: "/admin/activity" },
-  { icon: <FaKey />,           label: "Permissions",     path: "/admin/permissions" },
+  { icon: <FaHistory />,       label: "Activity Logs",   path: "/super/activity" },
+  { icon: <FaKey />,           label: "Permissions",     path: "/super/permissions" },
 ];
 
 const AdminLayout = ({ children, pageTitle, pendingDeposits = 0, pendingWithdrawals = 0 }) => {
@@ -49,7 +50,7 @@ const AdminLayout = ({ children, pageTitle, pendingDeposits = 0, pendingWithdraw
           <div className="panel-brand-icon">🛡️</div>
           <div className="panel-brand-text">
             <h2>777GAMES</h2>
-            <p>Admin Panel</p>
+            <p>Super Admin Panel</p>
           </div>
         </div>
         <nav className="panel-nav">

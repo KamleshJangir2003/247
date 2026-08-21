@@ -39,7 +39,7 @@ const request = async (path, options = {}, retry = true) => {
   try {
     const res = await fetch(`${BASE}${path}`, { ...options, headers });
 
-    if (res.status === 401 && retry) {
+    if (res.status === 401 && retry && localStorage.getItem("isDemo") !== "true") {
       try {
         if (!refreshPromise) {
           refreshPromise = refreshAccessToken().finally(() => { refreshPromise = null; });
@@ -49,8 +49,10 @@ const request = async (path, options = {}, retry = true) => {
         const retried = await fetch(`${BASE}${path}`, { ...options, headers });
         return retried.json();
       } catch {
-        clearSession();
-        window.location.href = "/login";
+        if (localStorage.getItem("isDemo") !== "true") {
+          clearSession();
+          window.location.href = "/login";
+        }
         return null;
       }
     }

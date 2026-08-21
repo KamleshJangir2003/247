@@ -9,7 +9,9 @@ const register = async ({ firstName, lastName, username, email, phone, password,
   if (exists) throw Object.assign(new Error("Username or email already taken"), { statusCode: 409 });
 
   const passwordHash = await hash(password);
-  const user = await User.create({ firstName, lastName, username, email, phone, passwordHash, role: role || "USER", parentId: parentId || null });
+  // Public registration is always USER; elevated roles must be created by authorised staff
+  const assignedRole = "USER";
+  const user = await User.create({ firstName, lastName, username, email, phone, passwordHash, role: assignedRole, parentId: parentId || null });
 
   // Create wallet for all users
   await Wallet.create({ userId: user._id });

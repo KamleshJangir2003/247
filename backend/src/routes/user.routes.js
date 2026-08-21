@@ -6,7 +6,6 @@ const { validate } = require("../middleware/validation.middleware");
 const { createUserRules, updateUserRules } = require("../validators/user.validator");
 
 router.use(authenticate);
-// ADMIN and above bypass permission checks; lower roles need explicit permissions
 router.use(authorizeMinLevel("AGENT"));
 
 router.get("/",        ctrl.list);

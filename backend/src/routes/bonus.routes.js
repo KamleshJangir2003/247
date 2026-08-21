@@ -13,9 +13,9 @@ const applyRules = [
 router.get("/",    ctrl.list);
 router.get("/:id", ctrl.getOne);
 
-router.post("/",      authenticate, authorizeMinLevel("ADMIN"), ctrl.create);
-router.put("/:id",    authenticate, authorizeMinLevel("ADMIN"), ctrl.update);
-router.delete("/:id", authenticate, authorizeMinLevel("ADMIN"), ctrl.remove);
+router.post("/",      authenticate, authorizeMinLevel("SUPER_ADMIN"), ctrl.create);
+router.put("/:id",    authenticate, authorizeMinLevel("SUPER_ADMIN"), ctrl.update);
+router.delete("/:id", authenticate, authorizeMinLevel("SUPER_ADMIN"), ctrl.remove);
 
 // Any authenticated user can apply a bonus
 router.post("/apply", authenticate, applyRules, validate, ctrl.apply);

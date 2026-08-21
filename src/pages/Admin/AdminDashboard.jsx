@@ -45,7 +45,7 @@ const AdminDashboard = () => {
           <div className="p-card" style={{ marginTop: 0 }}>
             <div className="p-card-header">
               <h3>Recent Activity</h3>
-              <Link to="/admin/activity" className="p-view-all">View All →</Link>
+              <Link to="/super/activity" className="p-view-all">View All →</Link>
             </div>
             <div className="p-card-body" style={{ padding: 0 }}>
               <table className="p-mini-table">

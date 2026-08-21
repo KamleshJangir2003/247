@@ -5,6 +5,7 @@ const SESSION_KEYS = [
   "isLoggedIn",
   "userType",
   "adminLoggedIn",
+  "isDemo",
 ];
 
 export const clearSession = () => {

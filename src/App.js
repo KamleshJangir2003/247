@@ -32,7 +32,6 @@ import CrashPage from "./pages/Crash/CrashPage";
 
 // Master Panel
 import MasterDashboard from "./pages/Master/MasterDashboard";
-import MasterAdmins from "./pages/Master/MasterAdmins";
 import MasterAgents from "./pages/Master/MasterAgents";
 import MasterUsers from "./pages/Master/MasterUsers";
 import MasterDeposits from "./pages/Master/MasterDeposits";
@@ -40,19 +39,14 @@ import MasterWithdrawals from "./pages/Master/MasterWithdrawals";
 import MasterTransactions from "./pages/Master/MasterTransactions";
 import MasterCommissions from "./pages/Master/MasterCommissions";
 import MasterReports from "./pages/Master/MasterReports";
-import MasterGames from "./pages/Master/MasterGames";
-import MasterCategories from "./pages/Master/MasterCategories";
-import MasterProviders from "./pages/Master/MasterProviders";
-import MasterBanners from "./pages/Master/MasterBanners";
-import MasterAnnouncements from "./pages/Master/MasterAnnouncements";
-import MasterPermissions from "./pages/Master/MasterPermissions";
 import MasterActivity from "./pages/Master/MasterActivity";
 import MasterSettings from "./pages/Master/MasterSettings";
 
-// Admin Panel
+// Super Admin Panel (reuses Admin components — now SUPER_ADMIN only)
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminUsers from "./pages/Admin/AdminUsers";
 import AdminAgents from "./pages/Admin/AdminAgents";
+import AdminMasters from "./pages/Admin/AdminMasters";
 import AdminDeposits from "./pages/Admin/AdminDeposits";
 import AdminWithdrawals from "./pages/Admin/AdminWithdrawals";
 import AdminTransactions from "./pages/Admin/AdminTransactions";
@@ -75,10 +69,10 @@ import AgentUserActivity from "./pages/Agent/AgentUserActivity";
 import AgentReports from "./pages/Agent/AgentReports";
 import AgentProfile from "./pages/Agent/AgentProfile";
 
-const M = ["master"];
-const MA = ["master", "admin"];
+const SA = ["super_admin"];
+const M  = ["master"];
 const AG = ["agent"];
-const U = ["user"];
+const U  = ["user"];
 
 function App() {
   return (
@@ -88,8 +82,8 @@ function App() {
         {/* Public */}
         <Route path="/" element={<Login />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/super/login"  element={<Login role="super_admin" />} />
         <Route path="/master/login" element={<Login role="master" />} />
-        <Route path="/admin/login"  element={<Login role="admin" />} />
         <Route path="/agent/login"  element={<Login role="agent" />} />
         <Route path="/register" element={<Register />} />
         <Route path="/privacy" element={<Privacy />} />
@@ -117,7 +111,6 @@ function App() {
 
         {/* Master Panel */}
         <Route path="/master/dashboard"    element={<RoleGuard roles={M}><MasterDashboard /></RoleGuard>} />
-        <Route path="/master/admins"       element={<RoleGuard roles={M}><MasterAdmins /></RoleGuard>} />
         <Route path="/master/agents"       element={<RoleGuard roles={M}><MasterAgents /></RoleGuard>} />
         <Route path="/master/users"        element={<RoleGuard roles={M}><MasterUsers /></RoleGuard>} />
         <Route path="/master/deposits"     element={<RoleGuard roles={M}><MasterDeposits /></RoleGuard>} />
@@ -125,31 +118,43 @@ function App() {
         <Route path="/master/transactions" element={<RoleGuard roles={M}><MasterTransactions /></RoleGuard>} />
         <Route path="/master/commissions"  element={<RoleGuard roles={M}><MasterCommissions /></RoleGuard>} />
         <Route path="/master/reports"      element={<RoleGuard roles={M}><MasterReports /></RoleGuard>} />
-        <Route path="/master/games"        element={<RoleGuard roles={M}><MasterGames /></RoleGuard>} />
-        <Route path="/master/categories"   element={<RoleGuard roles={M}><MasterCategories /></RoleGuard>} />
-        <Route path="/master/providers"    element={<RoleGuard roles={M}><MasterProviders /></RoleGuard>} />
-        <Route path="/master/banners"      element={<RoleGuard roles={M}><MasterBanners /></RoleGuard>} />
-        <Route path="/master/announcements"element={<RoleGuard roles={M}><MasterAnnouncements /></RoleGuard>} />
-        <Route path="/master/permissions"  element={<RoleGuard roles={M}><MasterPermissions /></RoleGuard>} />
         <Route path="/master/activity"     element={<RoleGuard roles={M}><MasterActivity /></RoleGuard>} />
+        <Route path="/master/permissions"  element={<Navigate to="/master/dashboard" replace />} />
         <Route path="/master/settings"     element={<RoleGuard roles={M}><MasterSettings /></RoleGuard>} />
         <Route path="/master"              element={<Navigate to="/master/dashboard" replace />} />
 
-        {/* Admin Panel */}
-        <Route path="/admin/dashboard"    element={<RoleGuard roles={MA}><AdminDashboard /></RoleGuard>} />
-        <Route path="/admin/users"        element={<RoleGuard roles={MA}><AdminUsers /></RoleGuard>} />
-        <Route path="/admin/agents"       element={<RoleGuard roles={MA}><AdminAgents /></RoleGuard>} />
-        <Route path="/admin/deposits"     element={<RoleGuard roles={MA}><AdminDeposits /></RoleGuard>} />
-        <Route path="/admin/withdrawals"  element={<RoleGuard roles={MA}><AdminWithdrawals /></RoleGuard>} />
-        <Route path="/admin/transactions" element={<RoleGuard roles={MA}><AdminTransactions /></RoleGuard>} />
-        <Route path="/admin/games"        element={<RoleGuard roles={MA}><AdminGames /></RoleGuard>} />
-        <Route path="/admin/categories"   element={<RoleGuard roles={MA}><AdminCategories /></RoleGuard>} />
-        <Route path="/admin/providers"    element={<RoleGuard roles={MA}><AdminProviders /></RoleGuard>} />
-        <Route path="/admin/banners"      element={<RoleGuard roles={MA}><AdminBanners /></RoleGuard>} />
-        <Route path="/admin/activity"     element={<RoleGuard roles={MA}><AdminActivity /></RoleGuard>} />
-        <Route path="/admin/permissions"  element={<RoleGuard roles={MA}><AdminPermissions /></RoleGuard>} />
-        <Route path="/admin"              element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="/admin-login" element={<Navigate to="/admin/login" replace />} />
+        {/* Super Admin Panel */}
+        <Route path="/super/dashboard"    element={<RoleGuard roles={SA}><AdminDashboard /></RoleGuard>} />
+        <Route path="/super/users"        element={<RoleGuard roles={SA}><AdminUsers /></RoleGuard>} />
+        <Route path="/super/masters"       element={<RoleGuard roles={SA}><AdminMasters /></RoleGuard>} />
+        <Route path="/super/agents"        element={<RoleGuard roles={SA}><AdminAgents /></RoleGuard>} />
+        <Route path="/super/deposits"     element={<RoleGuard roles={SA}><AdminDeposits /></RoleGuard>} />
+        <Route path="/super/withdrawals"  element={<RoleGuard roles={SA}><AdminWithdrawals /></RoleGuard>} />
+        <Route path="/super/transactions" element={<RoleGuard roles={SA}><AdminTransactions /></RoleGuard>} />
+        <Route path="/super/games"        element={<RoleGuard roles={SA}><AdminGames /></RoleGuard>} />
+        <Route path="/super/categories"   element={<RoleGuard roles={SA}><AdminCategories /></RoleGuard>} />
+        <Route path="/super/providers"    element={<RoleGuard roles={SA}><AdminProviders /></RoleGuard>} />
+        <Route path="/super/banners"      element={<RoleGuard roles={SA}><AdminBanners /></RoleGuard>} />
+        <Route path="/super/activity"     element={<RoleGuard roles={SA}><AdminActivity /></RoleGuard>} />
+        <Route path="/super/permissions"  element={<RoleGuard roles={SA}><AdminPermissions /></RoleGuard>} />
+        <Route path="/super"              element={<Navigate to="/super/dashboard" replace />} />
+
+        {/* Legacy /admin/* → /super/* redirects */}
+        <Route path="/admin/dashboard"    element={<Navigate to="/super/dashboard" replace />} />
+        <Route path="/admin/users"        element={<Navigate to="/super/users" replace />} />
+        <Route path="/admin/agents"       element={<Navigate to="/super/agents" replace />} />
+        <Route path="/admin/deposits"     element={<Navigate to="/super/deposits" replace />} />
+        <Route path="/admin/withdrawals"  element={<Navigate to="/super/withdrawals" replace />} />
+        <Route path="/admin/transactions" element={<Navigate to="/super/transactions" replace />} />
+        <Route path="/admin/games"        element={<Navigate to="/super/games" replace />} />
+        <Route path="/admin/categories"   element={<Navigate to="/super/categories" replace />} />
+        <Route path="/admin/providers"    element={<Navigate to="/super/providers" replace />} />
+        <Route path="/admin/banners"      element={<Navigate to="/super/banners" replace />} />
+        <Route path="/admin/activity"     element={<Navigate to="/super/activity" replace />} />
+        <Route path="/admin/permissions"  element={<Navigate to="/super/permissions" replace />} />
+        <Route path="/admin/login"        element={<Navigate to="/super/login" replace />} />
+        <Route path="/admin-login"        element={<Navigate to="/super/login" replace />} />
+        <Route path="/admin"              element={<Navigate to="/super/dashboard" replace />} />
 
         {/* Agent Panel */}
         <Route path="/agent/dashboard"     element={<RoleGuard roles={AG}><AgentDashboard /></RoleGuard>} />
